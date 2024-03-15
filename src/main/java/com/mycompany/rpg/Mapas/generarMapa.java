@@ -189,6 +189,15 @@ public class generarMapa {
     public void setCasilla(String casillas, int fila, int columna) {
         this.casillas[fila][columna].setLogo(casillas);
     }
+    /**
+     * Metodo aun no probado para guardar enemigos generados y ocultarlos como pasto
+     * @param casillas
+     * @param fila
+     * @param columna 
+     */
+    public void setCasillaEnemigo(int fila, int columna) {
+        this.casillas[fila][columna] = new CasillaEnemigo(5, pasto); 
+    }
 
     public int getLargo() {
         return largo;

@@ -1,6 +1,7 @@
 package com.mycompany.rpg.Juego;
 
 import com.mycompany.rpg.Mapas.Casillas.CasillaCiudad;
+import com.mycompany.rpg.Mapas.Casillas.CasillaEnemigo;
 import com.mycompany.rpg.Mapas.Casillas.CasillaPasto;
 import com.mycompany.rpg.Mapas.Casillas.CasillaPosada;
 import com.mycompany.rpg.Mapas.Casillas.CasillaTienda;
@@ -31,6 +32,7 @@ public class Juego {
         mapa = new generarMapa();
         varios = new Varios();
         generarPersonajes();
+        mostrarEnemigos();
 
     }
 
@@ -53,15 +55,32 @@ public class Juego {
                 posEY = varios.numeroAleatorio(0, mapa.getLargo());
 
             } while (!(mapa.getCasilla(posEX, posEY) instanceof CasillaPasto));
-            mapa.setCasilla(logoEnemigo, posEX, posEY);
+            mapa.setCasillaEnemigo(posEX, posEY);
             contEnemigos++;
         } while (contEnemigos <= cantEnemigos);
         
         mapa.mostrarTablero();
     }
 
-    private void movimientos() {
-
+    private void mostrarEnemigos() {
+        int fila = mapa.getAncho();
+        int columna = mapa.getLargo();
+        
+        for (int i = 0; i < fila; i++) {
+            for (int j = 0; j < columna; j++) {
+                
+                if (mapa.getCasilla(i, j) instanceof CasillaEnemigo) {
+                    System.out.println("Hay un enemigo en [" + i +","+j+"]" );
+                }
+                
+            }
+            
+        }
+    }
+    
+    
+    private void movimientos(){
+        varios.instructionMov();
     }
 
 }

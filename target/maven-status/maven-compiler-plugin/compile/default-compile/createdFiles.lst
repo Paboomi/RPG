@@ -21,6 +21,7 @@ com/mycompany/rpg/Arma/ArmaCorta/Daga.class
 com/mycompany/rpg/Arma/ArmaDosManos/ArmaDosManos.class
 com/mycompany/rpg/Trabajo/Mago_Oscuro.class
 com/mycompany/rpg/Personaje/Enemigo_Neutro/Bestia_Attorix.class
+com/mycompany/rpg/Mapas/Casillas/CasillaEnemigo.class
 com/mycompany/rpg/Arma/Escudo/EscudoDragon.class
 com/mycompany/rpg/Main.class
 com/mycompany/rpg/Trabajo/Mago_Blanco.class
