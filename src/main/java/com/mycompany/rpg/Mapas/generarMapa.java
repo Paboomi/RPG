@@ -39,10 +39,11 @@ public class generarMapa {
     protected CasillaPasto[][] casillaPasto;
 
     //Constructor Mapa
-    public generarMapa(int largo, int ancho) {
+    public generarMapa() {
         varios = new Varios();
-        this.largo = largo;
-        this.ancho = ancho;
+        
+        this.largo = varios.sizeMap();;
+        this.ancho = largo;
         this.cantCiudades = varios.cantCiudades();
         this.cantPosada = 1;
         this.cantTienda = 1;
@@ -50,6 +51,7 @@ public class generarMapa {
         crearArreglos();
         almacenarCasillas();
         crearCasillas();
+
     }
 
     //Generamos la cantidad de casillas de cada tipo
@@ -107,57 +109,6 @@ public class generarMapa {
             }
         }
     }
-
-    /*
-    public void almacenarCiudad() {
-        int contador = 0;
-        int fila;
-        int columna;
-
-        do {
-            fila = varios.numeroAleatorio(0, largo);
-            columna = varios.numeroAleatorio(0, ancho);
-
-            if (casillas[fila][columna] == null) {
-                casillas[fila][columna] = casillaCiudad[contador];
-                contador++;
-            }
-        } while (contador != casillaCiudad.length);
-    }
-
-    public void almacenarTienda() {
-        int contador = 0;
-        int fila;
-        int columna;
-
-        do {
-            fila = varios.numeroAleatorio(0, largo);
-            columna = varios.numeroAleatorio(0, ancho);
-
-            if (casillas[fila][columna] == null) {
-                casillas[fila][columna] = casillaTienda[contador];
-                contador++;
-            }
-        } while (contador != casillaTienda.length);
-    }
-
-    public void almacenarPosada() {
-        int contador = 0;
-        int fila;
-        int columna;
-
-        do {
-            fila = varios.numeroAleatorio(0, largo);
-            columna = varios.numeroAleatorio(0, ancho);
-
-            if (casillas[fila][columna] == null) {
-                casillas[fila][columna] = casillaPosada[contador];
-                contador++;
-            }
-        } while (contador != casillaPosada.length);
-    }
-
-     */
     public void crearCasillas() {
         crearCiudad();
         crearPosada();
@@ -165,22 +116,6 @@ public class generarMapa {
         crearPasto();
     }
 
-    /*
-    private void crearCiudad() {
-        for (int i = 0; i < cantCiudades; i++) {
-            casillaCiudad[i] = new CasillaCiudad(1, ciudad);
-
-        }
-    }
-
-    private void crearTienda() {
-        casillaTienda[0] = new CasillaTienda(2, tienda);
-    }
-
-    private void crearPosada() {
-        casillaPosada[0] = new CasillaPosada(3, posada);
-    }
-     */
     private void crearCiudad() {
         for (int i = 0; i < cantCiudades; i++) {
             int fila, columna;

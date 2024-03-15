@@ -7,6 +7,7 @@ com/mycompany/rpg/Personaje/Caballeros_Oscuridad.class
 com/mycompany/rpg/Arma/ArmaDosManos/Lanza.class
 com/mycompany/rpg/Mapas/Casillas/CasillaPasto.class
 com/mycompany/rpg/Trabajo/Trabajo.class
+com/mycompany/rpg/Juego/Juego.class
 com/mycompany/rpg/Magias/MagiaOscura/Fuego.class
 com/mycompany/rpg/Personaje/Aliado.class
 com/mycompany/rpg/Arma/Baculo/Statera.class
