@@ -1,6 +1,11 @@
 package com.mycompany.rpg;
 
 import com.mycompany.rpg.Mapas.generarMapa;
+import com.mycompany.rpg.Personaje.Aliado;
+import com.mycompany.rpg.Personaje.Jugador;
+import com.mycompany.rpg.Trabajo.Mago_Blanco;
+import com.mycompany.rpg.Trabajo.Mago_Oscuro;
+import com.mycompany.rpg.Trabajo.Ninja;
 import java.util.Random;
 
 /**
@@ -76,6 +81,50 @@ public class Varios {
         System.out.println(BRIGHT_GREEN+"Arriba - W");
         System.out.println("Abajo - S");
         System.out.println("Derecha - D");
-        System.out.println("Izquierda - A"+RESET);
+        System.out.println("Izquierda - A");
+        System.out.println("Presione Q para salir"+RESET);
+    }
+    
+
+    
+    public void pintarRojo(String cadena){
+        System.out.println(RED+cadena+RESET);
+    }
+    public void pintarVerde(String cadena){
+        System.out.println(GREEN+cadena+RESET);
+    }
+    public void pintarAmarillo(String cadena){
+        System.out.println(YELLOW+cadena+RESET);
+    }
+ 
+    public void pintarBlanco(String cadena){
+        System.out.println(WHITE+cadena+RESET);
+    }
+    public void pintarAzul(String cadena){
+        System.out.println(BLUE+cadena+RESET);
+    }
+    public void pintarCyan(String cadena){
+        System.out.println(CYAN+cadena+RESET);
+    }
+    public void pintarPurpura(String cadena){
+        System.out.println(PURPLE+cadena+RESET);
+    }
+    public void pintarRojoBrillante(String cadena){
+        System.out.println(BRIGHT_RED+cadena+RESET);
+    }
+    public void pintarVerdeBrillante(String cadena){
+        System.out.println(BRIGHT_GREEN+cadena+RESET);
+    }
+    public void pintarCyanBrillante(String cadena){
+        System.out.println(BRIGHT_CYAN+cadena+RESET);
+    }
+    public void pintarAmarilloBrillante(String cadena){
+        System.out.println(BRIGHT_YELLOW+cadena+RESET);
+    }
+    public void pintarMagentaBrillante(String cadena){
+        System.out.println(BRIGHT_MAGENTA+cadena+RESET);
+    }
+    public void pintarAzulBrillante(String cadena){
+        System.out.println(BRIGHT_BLUE+cadena+RESET);
     }
 }

@@ -1,5 +1,6 @@
 package com.mycompany.rpg.Juego;
 
+import com.mycompany.rpg.Mapas.Casillas.Casilla;
 import com.mycompany.rpg.Mapas.Casillas.CasillaCiudad;
 import com.mycompany.rpg.Mapas.Casillas.CasillaEnemigo;
 import com.mycompany.rpg.Mapas.Casillas.CasillaPasto;
@@ -7,6 +8,7 @@ import com.mycompany.rpg.Mapas.Casillas.CasillaPosada;
 import com.mycompany.rpg.Mapas.Casillas.CasillaTienda;
 import com.mycompany.rpg.Mapas.generarMapa;
 import com.mycompany.rpg.Varios;
+import java.util.Scanner;
 
 /**
  *
@@ -16,35 +18,41 @@ public class Juego {
 
     generarMapa mapa;
     Varios varios;
+    Scanner sc = new Scanner(System.in);
+
+    //Logos objetos
     String ciudad = new String("\uD83C\uDFF0");
     String tienda = new String("\uD83C\uDFEA");
     String posada = new String("\uD83C\uDFE5");
     String pasto = new String("\uD83C\uDF42");
     String logoJugador = new String("\uD83D\uDC66");
     String logoEnemigo = new String("\uD83D\uDC7E");
+    //Variables para generar personajes
     private int cantEnemigos;
     private int posX;
     private int posY;
     private int posEX;
     private int posEY;
 
+    //Constructor 
     public Juego() {
         mapa = new generarMapa();
         varios = new Varios();
         generarPersonajes();
-        mostrarEnemigos();
 
+        movimientos();
     }
 
     private void generarPersonajes() {
         int contEnemigos = 0;
-        
+
         //Generamos al jugador en una posicion aleatoria
         do {
             posX = varios.numeroAleatorio(0, mapa.getAncho());
             posY = varios.numeroAleatorio(0, mapa.getLargo());
 
-        } while ((mapa.getCasilla(posX, posY) instanceof CasillaCiudad) || (mapa.getCasilla(posX, posY) instanceof CasillaPosada) || (mapa.getCasilla(posX, posY) instanceof CasillaTienda));
+        } while ((mapa.getCasilla(posX, posY) instanceof CasillaCiudad) || (mapa.getCasilla(posX, posY) instanceof CasillaPosada) || (mapa.getCasilla(posX, posY) instanceof CasillaTienda) || (mapa.getCasilla(posX, posY) instanceof CasillaEnemigo));
+        //Guardamos la posicion del jugador en el tablero y mostramos su logo
         mapa.setCasilla(logoJugador, posX, posY);
 
         //Generamos enemigos aleatorios dependiendo el tamaño del mapa
@@ -54,33 +62,205 @@ public class Juego {
                 posEX = varios.numeroAleatorio(0, mapa.getAncho());
                 posEY = varios.numeroAleatorio(0, mapa.getLargo());
 
-            } while (!(mapa.getCasilla(posEX, posEY) instanceof CasillaPasto));
+            } while (!(mapa.getCasilla(posEX, posEY) instanceof CasillaPasto) || (mapa.getCasilla(posEX, posEY).getLogo().equals(logoJugador)));
+            //Guardamos los enemigos en las casillas del tablero y los escondemos
             mapa.setCasillaEnemigo(posEX, posEY);
             contEnemigos++;
         } while (contEnemigos <= cantEnemigos);
-        
+
         mapa.mostrarTablero();
     }
 
-    private void mostrarEnemigos() {
-        int fila = mapa.getAncho();
-        int columna = mapa.getLargo();
-        
-        for (int i = 0; i < fila; i++) {
-            for (int j = 0; j < columna; j++) {
-                
-                if (mapa.getCasilla(i, j) instanceof CasillaEnemigo) {
-                    System.out.println("Hay un enemigo en [" + i +","+j+"]" );
-                }
-                
-            }
-            
-        }
-    }
-    
-    
-    private void movimientos(){
+
+    private void movimientos() {
         varios.instructionMov();
+        char op;
+        boolean salir = false;
+        int tempX = posX;
+        int tempY = posY;
+
+        do {
+            System.out.println("Ingrese la direccion en la que desea moverse");
+            op = sc.nextLine().charAt(0);
+
+            switch (op) {
+                //Movimiento hacia arriba
+                case 'w':
+                    tempX = tempX - 1;
+
+                    // Comprobamos si el movimiento está fuera del mapa
+                    if (tempX < 0) {
+                        varios.pintarRojoBrillante("No puede seguir avanzando fuera del mapa");
+                        tempX = tempX + 1; // Retrocedemos el movimiento
+                    } else {
+                        // Comprobamos qué tipo de casilla hay en la nueva posición
+                        Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
+                        if (casillaNueva instanceof CasillaTienda) {
+                            System.out.println("Aqui deberia ir la tienda");
+                            // Puedes agregar lógica específica para la tienda aquí
+                        } else if (casillaNueva instanceof CasillaPasto) {
+                            // Puedes agregar lógica específica para el pasto aquí
+                        } else if (casillaNueva instanceof CasillaPosada) {
+                            System.out.println("Aqui deberia ir la posada");
+                            // Puedes agregar lógica específica para la posada aquí
+                        } else if (casillaNueva instanceof CasillaCiudad) {
+                            System.out.println("Aqui deberian tirarse riata");
+                            // Puedes agregar lógica específica para la ciudad aquí
+                        } else if (casillaNueva instanceof CasillaEnemigo) {
+                            System.out.println("Aqui deberian tirarse riata");
+                            // Puedes agregar lógica específica para el enemigo aquí
+                        }
+
+                        // Actualizamos la posición del jugador en el mapa
+                        mapa.setCasilla(logoJugador, tempX, tempY);
+                        logOriginal();
+                        mapa.mostrarTablero();
+                    }
+
+                    // Actualizamos las coordenadas del jugador
+                    posX = tempX;
+                    posY = tempY;
+                    break;
+
+                //Movimiento hacia abajo
+                case 's':
+                    tempX = tempX + 1;
+
+                    // Comprobamos si el movimiento está fuera del mapa
+                    if (tempX > mapa.getAncho()) {
+                        varios.pintarRojoBrillante("No puede seguir avanzando fuera del mapa");
+                        tempX = tempX - 1; // Retrocedemos el movimiento
+                    } else {
+                        // Comprobamos qué tipo de casilla hay en la nueva posición
+                        Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
+                        if (casillaNueva instanceof CasillaTienda) {
+                            System.out.println("Aqui deberia ir la tienda");
+                            // Puedes agregar lógica específica para la tienda aquí
+                        } else if (casillaNueva instanceof CasillaPasto) {
+                            // Puedes agregar lógica específica para el pasto aquí
+                        } else if (casillaNueva instanceof CasillaPosada) {
+                            System.out.println("Aqui deberia ir la posada");
+                            // Puedes agregar lógica específica para la posada aquí
+                        } else if (casillaNueva instanceof CasillaCiudad) {
+                            System.out.println("Aqui deberian tirarse riata");
+                            // Puedes agregar lógica específica para la ciudad aquí
+                        } else if (casillaNueva instanceof CasillaEnemigo) {
+                            System.out.println("Aqui deberian tirarse riata");
+                            // Puedes agregar lógica específica para el enemigo aquí
+                        }
+
+                        // Actualizamos la posición del jugador en el mapa
+                        mapa.setCasilla(logoJugador, tempX, tempY);
+                        logOriginal();
+                        mapa.mostrarTablero();
+                    }
+
+                    // Actualizamos las coordenadas del jugador
+                    posX = tempX;
+                    posY = tempY;
+                    break;
+
+                //Movimiento hacia la izquierda
+                case 'a':
+                    tempY = tempY - 1;
+                    // Comprobamos si el movimiento está fuera del mapa
+                    if (tempX < 0) {
+                        varios.pintarRojoBrillante("No puede seguir avanzando fuera del mapa");
+                        tempY = tempY + 1; // Retrocedemos el movimiento
+                    } else {
+                        // Comprobamos qué tipo de casilla hay en la nueva posición
+                        Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
+                        if (casillaNueva instanceof CasillaTienda) {
+                            System.out.println("Aqui deberia ir la tienda");
+                            // Puedes agregar lógica específica para la tienda aquí
+                        } else if (casillaNueva instanceof CasillaPasto) {
+                            // Puedes agregar lógica específica para el pasto aquí
+                        } else if (casillaNueva instanceof CasillaPosada) {
+                            System.out.println("Aqui deberia ir la posada");
+                            // Puedes agregar lógica específica para la posada aquí
+                        } else if (casillaNueva instanceof CasillaCiudad) {
+                            System.out.println("Aqui deberian tirarse riata");
+                            // Puedes agregar lógica específica para la ciudad aquí
+                        } else if (casillaNueva instanceof CasillaEnemigo) {
+                            System.out.println("Aqui deberian tirarse riata");
+                            // Puedes agregar lógica específica para el enemigo aquí
+                        }
+
+                        // Actualizamos la posición del jugador en el mapa
+                        mapa.setCasilla(logoJugador, tempX, tempY);
+                        logOriginal();
+                        mapa.mostrarTablero();
+                    }
+
+                    // Actualizamos las coordenadas del jugador
+                    posX = tempX;
+                    posY = tempY;
+                    break;
+                case 'd':
+                    tempY = tempY + 1;
+                    // Comprobamos si el movimiento está fuera del mapa
+                    if (tempX < 0) {
+                        varios.pintarRojoBrillante("No puede seguir avanzando fuera del mapa");
+                        tempY = tempY - 1; // Retrocedemos el movimiento
+                    } else {
+                        // Comprobamos qué tipo de casilla hay en la nueva posición
+                        Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
+                        if (casillaNueva instanceof CasillaTienda) {
+                            System.out.println("Aqui deberia ir la tienda");
+                            // Puedes agregar lógica específica para la tienda aquí
+                        } else if (casillaNueva instanceof CasillaPasto) {
+                            // Puedes agregar lógica específica para el pasto aquí
+                        } else if (casillaNueva instanceof CasillaPosada) {
+                            System.out.println("Aqui deberia ir la posada");
+                            // Puedes agregar lógica específica para la posada aquí
+                        } else if (casillaNueva instanceof CasillaCiudad) {
+                            System.out.println("Aqui deberian tirarse riata");
+                            // Puedes agregar lógica específica para la ciudad aquí
+                        } else if (casillaNueva instanceof CasillaEnemigo) {
+                            System.out.println("Aqui deberian tirarse riata");
+                            // Puedes agregar lógica específica para el enemigo aquí
+                        }
+
+                        // Actualizamos la posición del jugador en el mapa
+                        mapa.setCasilla(logoJugador, tempX, tempY);
+                        logOriginal();
+                        mapa.mostrarTablero();
+                    }
+
+                    // Actualizamos las coordenadas del jugador
+                    posX = tempX;
+                    posY = tempY;
+                    break;
+
+                case 'q':
+                    salir = true;
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        } while (salir == false);
+
+    }
+
+    private void logOriginal() {
+        int x = posX;
+        int y = posY;
+
+        if (mapa.getCasilla(x, y) instanceof CasillaPasto) {
+            mapa.setCasilla(pasto, posX, posY);
+        }
+        if (mapa.getCasilla(x, y) instanceof CasillaTienda) {
+            mapa.setCasilla(tienda, posX, posY);
+        }
+        if (mapa.getCasilla(x, y) instanceof CasillaPosada) {
+            mapa.setCasilla(posada, posX, posY);
+        }
+        if (mapa.getCasilla(x, y) instanceof CasillaCiudad) {
+            mapa.setCasilla(ciudad, posX, posY);
+        }
+        if (mapa.getCasilla(x, y) instanceof CasillaEnemigo) {
+            mapa.setCasilla(pasto, x, y);
+        }
     }
 
 }

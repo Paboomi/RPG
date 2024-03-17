@@ -4,7 +4,7 @@ package com.mycompany.rpg.Trabajo;
  *
  * @author saien
  */
-public class Mago_Oscuro {
+public class Mago_Oscuro extends Trabajo{
 
     boolean subioNivel = false;
 
@@ -14,6 +14,10 @@ public class Mago_Oscuro {
 
     public boolean EstaActivo() {
         return (subioNivel) ? true : false;
+    }
+    
+    public int cantArmas(){
+        return 1;
     }
 
 }
