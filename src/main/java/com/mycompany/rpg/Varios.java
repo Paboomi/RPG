@@ -74,6 +74,10 @@ public class Varios {
 
     }
     
+    public int numEnemigos(){
+        return rand.nextInt(4);
+    }
+    
     public void instructionMov(){
         System.out.println(BRIGHT_YELLOW+"Instrucciones para realizar movimientos:");
         System.out.println("Se movera una casilla a la vez al momento de ingresar la dirección y presionar enter");

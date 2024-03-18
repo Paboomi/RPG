@@ -7,6 +7,8 @@ import com.mycompany.rpg.Mapas.Casillas.CasillaPasto;
 import com.mycompany.rpg.Mapas.Casillas.CasillaPosada;
 import com.mycompany.rpg.Mapas.Casillas.CasillaTienda;
 import com.mycompany.rpg.Mapas.generarMapa;
+import com.mycompany.rpg.Personaje.Enemigo;
+import com.mycompany.rpg.Personaje.Jugador;
 import com.mycompany.rpg.Varios;
 import java.util.Scanner;
 
@@ -19,6 +21,9 @@ public class Juego {
     generarMapa mapa;
     Varios varios;
     Scanner sc = new Scanner(System.in);
+    //Agregados para batalla
+    Jugador jugador;
+    //CasillaEnemigo enemigo;
 
     //Logos objetos
     String ciudad = new String("\uD83C\uDFF0");
@@ -36,10 +41,13 @@ public class Juego {
 
     //Constructor 
     public Juego() {
+        //instanciamos las clases
         mapa = new generarMapa();
         varios = new Varios();
+        jugador = new Jugador();
+        //enemigo = new CasillaEnemigo();
+        //Llamamos a las funcionalidades
         generarPersonajes();
-
         movimientos();
     }
 
@@ -70,7 +78,6 @@ public class Juego {
 
         mapa.mostrarTablero();
     }
-
 
     private void movimientos() {
         varios.instructionMov();
@@ -108,6 +115,9 @@ public class Juego {
                             // Puedes agregar lógica específica para la ciudad aquí
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
+                            //mandamos a los caballeros luz a la batalla
+                            CasillaEnemigo enemigo = new CasillaEnemigo();
+                            enemigo.enviarPersonajesBatalla(jugador.getAliado());
                             // Puedes agregar lógica específica para el enemigo aquí
                         }
 
@@ -146,6 +156,9 @@ public class Juego {
                             // Puedes agregar lógica específica para la ciudad aquí
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
+                            //mandamos a los caballeros luz a la batalla
+                            CasillaEnemigo enemigo = new CasillaEnemigo();
+                            enemigo.enviarPersonajesBatalla(jugador.getAliado());
                             // Puedes agregar lógica específica para el enemigo aquí
                         }
 
@@ -183,6 +196,9 @@ public class Juego {
                             // Puedes agregar lógica específica para la ciudad aquí
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
+                            //mandamos a los caballeros luz a la batalla
+                            CasillaEnemigo enemigo = new CasillaEnemigo();
+                            enemigo.enviarPersonajesBatalla(jugador.getAliado());
                             // Puedes agregar lógica específica para el enemigo aquí
                         }
 
@@ -218,6 +234,9 @@ public class Juego {
                             // Puedes agregar lógica específica para la ciudad aquí
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
+                            //mandamos a los caballeros luz a la batalla
+                            CasillaEnemigo enemigo = new CasillaEnemigo();
+                            enemigo.enviarPersonajesBatalla(jugador.getAliado());
                             // Puedes agregar lógica específica para el enemigo aquí
                         }
 

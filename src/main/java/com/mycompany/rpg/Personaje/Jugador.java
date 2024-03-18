@@ -51,4 +51,12 @@ public class Jugador extends Personaje {
 
     }
 
+    public Aliado[] getAliado() {
+        return aliado;
+    }
+
+    public void setAliado(Aliado[] aliado) {
+        this.aliado = aliado;
+    }
+
 }

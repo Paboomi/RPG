@@ -40,6 +40,8 @@ public class Aliado extends Personaje {
                 System.out.println(nombre + " tiene el trabajo de Ninja");
             } else if (trabajo[i] instanceof Guerrero) {
                 System.out.println(nombre + " tiene el trabajo de Guerrero");
+            }else if (trabajo[i] instanceof Mago_Oscuro){
+                System.out.println(nombre + " tiene el trabajo de Mago Oscuro");
             }
 
         }
