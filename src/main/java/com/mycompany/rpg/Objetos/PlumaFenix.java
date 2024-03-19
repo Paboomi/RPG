@@ -4,7 +4,22 @@ package com.mycompany.rpg.Objetos;
  *
  * @author saien
  */
-public class PlumaFenix {
+public class PlumaFenix extends Objeto{
 
     private int recuperarPV;
+    private String nombre;
+    
+    public PlumaFenix(){
+        nombre="Pluma Fenix";
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
 }

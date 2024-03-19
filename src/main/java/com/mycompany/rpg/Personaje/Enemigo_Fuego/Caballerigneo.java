@@ -1,21 +1,22 @@
-
 package com.mycompany.rpg.Personaje.Enemigo_Fuego;
 
 /**
  *
  * @author saien
  */
-public class Caballerigneo extends Enemigo_Fuego{
-    
+public class Caballerigneo extends Enemigo_Fuego {
+
 //El ataque fisico de Caballerigneo es mayor que su ataque magico 
-   
-        
-        //Constructor
-    public Caballerigneo(int nivel){
+    private String nombre;
+
+    //Constructor
+    public Caballerigneo(int nivel) {
         super(nivel);
+        nombre = "Caballerigneo";
+        generarEstadisticas();
     }
-    
-    private void generarEstadisticas(){
+
+    private void generarEstadisticas() {
         switch (this.nivel) {
             case 10:
                 this.fuerza = 25;
@@ -56,9 +57,8 @@ public class Caballerigneo extends Enemigo_Fuego{
                 throw new AssertionError();
         }
     }
-    
-    //Getters y Setters locales
 
+    //Getters y Setters locales
     public int getFuerza() {
         return fuerza;
     }
@@ -106,20 +106,25 @@ public class Caballerigneo extends Enemigo_Fuego{
     public void setPV(int PV) {
         this.PV = PV;
     }
-    
-    
+
     /**
-     * 
-     * 
+     *
+     *
      * SEPARADOR
-     * 
-     * 
-     * 
-     * 
+     *
+     *
+     *
+     *
      */
-    
-    
     //Getters y Setters globales
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     @Override
     public void setId(int id) {
         super.setId(id);
@@ -137,7 +142,5 @@ public class Caballerigneo extends Enemigo_Fuego{
     public void setNivel(int nivel) {
         this.nivel = nivel;
     }
-    
-    
-    
+
 }

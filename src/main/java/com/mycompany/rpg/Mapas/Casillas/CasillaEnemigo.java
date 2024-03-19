@@ -41,10 +41,6 @@ public class CasillaEnemigo extends Casilla {
     //Creamos una instancia de batalla y enviamos a los caballeros luz y los enemigos
     public void enviarPersonajesBatalla(Aliado[] aliados) {
         Batalla batalla = new Batalla(aliados, enemigos);
-        for (int i = 0; i < enemigos.length; i++) {
-            System.out.println(enemigos[i].getNivel());
-            
-        }
 
     }
 

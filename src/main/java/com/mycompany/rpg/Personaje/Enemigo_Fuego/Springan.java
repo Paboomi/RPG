@@ -8,53 +8,64 @@ package com.mycompany.rpg.Personaje.Enemigo_Fuego;
 public class Springan extends Enemigo_Fuego {
 
     //Es el que mas ataque fisico tiene
+    private String nombre;
 
     public Springan(int nivel) {
         super(nivel);
+        nombre = "Springan";
+        generarEstadisticas();
     }
-     private void generarEstadisticas(){
+
+    private void generarEstadisticas() {
         switch (this.nivel) {
             case 10:
-                this.fuerza = 25;
-                this.defensa = 20;
-                this.concentracion = 15;
+                this.fuerza = 35;
+                this.defensa = 15;
+                this.concentracion = 10;
                 this.espiritu = 5;
                 this.PV = 100;
                 break;
             case 20:
-                this.fuerza = 30;
-                this.defensa = 25;
-                this.concentracion = 20;
+                this.fuerza = 40;
+                this.defensa = 20;
+                this.concentracion = 15;
                 this.espiritu = 10;
                 this.PV = 110;
                 break;
             case 30:
-                this.fuerza = 35;
-                this.defensa = 30;
-                this.concentracion = 25;
+                this.fuerza = 45;
+                this.defensa = 25;
+                this.concentracion = 20;
                 this.espiritu = 15;
                 this.PV = 120;
                 break;
             case 40:
-                this.fuerza = 45;
-                this.defensa = 40;
+                this.fuerza = 50;
+                this.defensa = 30;
                 this.concentracion = 25;
-                this.espiritu = 25;
+                this.espiritu = 20;
                 this.PV = 135;
                 break;
             case 50:
-                this.fuerza = 55;
-                this.defensa = 45;
+                this.fuerza = 60;
+                this.defensa = 35;
                 this.concentracion = 30;
-                this.espiritu = 35;
+                this.espiritu = 25;
                 this.PV = 150;
                 break;
             default:
                 throw new AssertionError();
         }
     }
-    
+
     //GETTERS Y SETTERS LOCALES
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public int getFuerza() {
         return fuerza;
@@ -103,9 +114,7 @@ public class Springan extends Enemigo_Fuego {
     public void setPV(int PV) {
         this.PV = PV;
     }
-    
-    
-    
+
     //GETTERS Y SETTERS GLOBALES
     @Override
     public void setId(int id) {

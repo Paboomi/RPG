@@ -14,6 +14,7 @@ public class Personaje {
     protected int velocidad;
     protected int experiencia;
     protected int PV;
+    protected String nombre;
     
     
     public Personaje(int nivel){

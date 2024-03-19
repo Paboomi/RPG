@@ -5,7 +5,7 @@ package com.mycompany.rpg.Trabajo;
  * @author saien
  */
 public class Trabajo {
-
+private String nombre;
     public void Menu() {
 
     }
@@ -36,6 +36,14 @@ public class Trabajo {
     
     private int AumentarEspiritu(){
         return 0;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
 }

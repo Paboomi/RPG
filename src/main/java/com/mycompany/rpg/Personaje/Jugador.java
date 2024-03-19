@@ -13,15 +13,19 @@ public class Jugador extends Personaje {
 
     Varios varios = new Varios();
     Objeto[] inventario;
-    Aliado aliado[] = new Aliado[3];
+    Aliado aliado[] = new Aliado[4];
     Trabajo trabajos[];
     Arma armas[];
     int experiencia;
     int oro;
-    private String nombre = "Vaan";
+    private int numElementos;
 
     public Jugador() {
         crearAliados();
+        inventario = new Objeto[12];
+        numElementos=0;
+        crearInventario();
+        this.oro = 1000;
 
     }
 
@@ -44,12 +48,63 @@ public class Jugador extends Personaje {
         Aliado aliado1 = new Aliado("Celes", new Mago_Blanco());
         Aliado aliado2 = new Aliado("Locke", new Ninja());
         Aliado aliado3 = new Aliado("Rydia", new Mago_Oscuro());
+        Aliado aliado4 = new Aliado("Vaan", new Guerrero());
 
         almacenarAliados(aliado1, 0);
         almacenarAliados(aliado2, 1);
         almacenarAliados(aliado3, 2);
+        almacenarAliados(aliado4, 3);
 
     }
+    
+    public void agregarObjeto(Objeto objeto, int cantidad){
+        for (int i = 0; i < cantidad; i++) {
+            //Verificamos que el inventario esta lleno
+            if (numElementos == inventario.length) {
+                //si asi es lo ampliamos
+                ampliarInventario();
+            }
+            //agregamos el nuevo objeto al inventario
+            inventario[numElementos] = objeto;
+            numElementos++;
+            
+        }
+    }
+    
+    private void ampliarInventario(){
+        //doblamos el inventario
+        Objeto[] nuevoInventario = new Objeto[inventario.length * 2];
+        
+        //pasamos los elementos al nuevo inventario
+        for (int i = 0; i < inventario.length; i++) {
+            nuevoInventario[i] = inventario[i];
+            
+        }
+        //asignamos el nuevo inventario al original
+        inventario = nuevoInventario;
+        
+        
+    }
+    
+    public void crearInventario(){
+        agregarObjeto(new Pocion(), 8);
+        agregarObjeto(new TiendaAcampar(), 2);
+        agregarObjeto(new PlumaFenix(), 2);
+    }
+    
+    public void mostrarInventario(){
+        System.out.println("Inventario");
+        for (int i = 0; i < inventario.length; i++) {
+            if (inventario[i] == null) {
+                break;
+            }else{
+                System.out.println((i+1) + ". " + inventario[i].getNombre());
+            }
+            
+        }
+    }
+    
+    
 
     public Aliado[] getAliado() {
         return aliado;
@@ -59,4 +114,20 @@ public class Jugador extends Personaje {
         this.aliado = aliado;
     }
 
+    public Objeto[] getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(Objeto[] inventario) {
+        this.inventario = inventario;
+    }
+
+    public int getOro() {
+        return oro;
+    }
+
+    public void setOro(int oro) {
+        this.oro = oro;
+    }
+    
 }
