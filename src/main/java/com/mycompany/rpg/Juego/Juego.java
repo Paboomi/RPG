@@ -137,7 +137,7 @@ public class Juego {
                     tempX = tempX + 1;
 
                     // Comprobamos si el movimiento está fuera del mapa
-                    if (tempX > mapa.getAncho()) {
+                    if (tempX >= mapa.getAncho()) {
                         varios.pintarRojoBrillante("No puede seguir avanzando fuera del mapa");
                         tempX = tempX - 1; // Retrocedemos el movimiento
                     } else {
@@ -177,7 +177,7 @@ public class Juego {
                 case 'a':
                     tempY = tempY - 1;
                     // Comprobamos si el movimiento está fuera del mapa
-                    if (tempX < 0) {
+                    if (tempY < 0) {
                         varios.pintarRojoBrillante("No puede seguir avanzando fuera del mapa");
                         tempY = tempY + 1; // Retrocedemos el movimiento
                     } else {
@@ -215,7 +215,7 @@ public class Juego {
                 case 'd':
                     tempY = tempY + 1;
                     // Comprobamos si el movimiento está fuera del mapa
-                    if (tempX < 0) {
+                    if (tempY >= mapa.getLargo()) {
                         varios.pintarRojoBrillante("No puede seguir avanzando fuera del mapa");
                         tempY = tempY - 1; // Retrocedemos el movimiento
                     } else {

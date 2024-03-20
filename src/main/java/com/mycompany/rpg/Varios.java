@@ -73,62 +73,88 @@ public class Varios {
         return size[num];
 
     }
-    
-    public int numEnemigos(){
-        return rand.nextInt(4);
+
+    public int numEnemigos() {
+        return rand.nextInt(3)+1;
     }
-    
-    public void instructionMov(){
-        System.out.println(BRIGHT_YELLOW+"Instrucciones para realizar movimientos:");
+
+    public void instructionMov() {
+        System.out.println(BRIGHT_YELLOW + "Instrucciones para realizar movimientos:");
         System.out.println("Se movera una casilla a la vez al momento de ingresar la dirección y presionar enter");
-        System.out.println("\n\nDirecciones disponibles:"+RESET);
-        System.out.println(BRIGHT_GREEN+"Arriba - W");
+        System.out.println("\n\nDirecciones disponibles:" + RESET);
+        System.out.println(BRIGHT_GREEN + "Arriba - W");
         System.out.println("Abajo - S");
         System.out.println("Derecha - D");
         System.out.println("Izquierda - A");
-        System.out.println("Presione Q para salir"+RESET);
+        System.out.println("Presione Q para salir" + RESET);
     }
-    
 
-    
-    public void pintarRojo(String cadena){
-        System.out.println(RED+cadena+RESET);
+    public void menuMago() {
+        System.out.println(BRIGHT_GREEN + "Elija una accion para realizar");
+        System.out.println("1.- Atacar con Baculo");
+        System.out.println("2.- Usar Objeto");
+        System.out.println("3.- Usar Magia");
+        System.out.println("4.- Usar Habilidad especial");
+        System.out.println("5.- Saltar Turno" + RESET);
     }
-    public void pintarVerde(String cadena){
-        System.out.println(GREEN+cadena+RESET);
+
+    public void menuAliado() {
+        System.out.println(BRIGHT_GREEN + "Elija una accion para realizar");
+        System.out.println("1.- Atacar");
+        System.out.println("2.- Usar Objeto");
+        System.out.println("3.- Saltar turno" + RESET);
+
     }
-    public void pintarAmarillo(String cadena){
-        System.out.println(YELLOW+cadena+RESET);
+
+    public void pintarRojo(String cadena) {
+        System.out.println(RED + cadena + RESET);
     }
- 
-    public void pintarBlanco(String cadena){
-        System.out.println(WHITE+cadena+RESET);
+
+    public void pintarVerde(String cadena) {
+        System.out.println(GREEN + cadena + RESET);
     }
-    public void pintarAzul(String cadena){
-        System.out.println(BLUE+cadena+RESET);
+
+    public void pintarAmarillo(String cadena) {
+        System.out.println(YELLOW + cadena + RESET);
     }
-    public void pintarCyan(String cadena){
-        System.out.println(CYAN+cadena+RESET);
+
+    public void pintarBlanco(String cadena) {
+        System.out.println(WHITE + cadena + RESET);
     }
-    public void pintarPurpura(String cadena){
-        System.out.println(PURPLE+cadena+RESET);
+
+    public void pintarAzul(String cadena) {
+        System.out.println(BLUE + cadena + RESET);
     }
-    public void pintarRojoBrillante(String cadena){
-        System.out.println(BRIGHT_RED+cadena+RESET);
+
+    public void pintarCyan(String cadena) {
+        System.out.println(CYAN + cadena + RESET);
     }
-    public void pintarVerdeBrillante(String cadena){
-        System.out.println(BRIGHT_GREEN+cadena+RESET);
+
+    public void pintarPurpura(String cadena) {
+        System.out.println(PURPLE + cadena + RESET);
     }
-    public void pintarCyanBrillante(String cadena){
-        System.out.println(BRIGHT_CYAN+cadena+RESET);
+
+    public void pintarRojoBrillante(String cadena) {
+        System.out.println(BRIGHT_RED + cadena + RESET);
     }
-    public void pintarAmarilloBrillante(String cadena){
-        System.out.println(BRIGHT_YELLOW+cadena+RESET);
+
+    public void pintarVerdeBrillante(String cadena) {
+        System.out.println(BRIGHT_GREEN + cadena + RESET);
     }
-    public void pintarMagentaBrillante(String cadena){
-        System.out.println(BRIGHT_MAGENTA+cadena+RESET);
+
+    public void pintarCyanBrillante(String cadena) {
+        System.out.println(BRIGHT_CYAN + cadena + RESET);
     }
-    public void pintarAzulBrillante(String cadena){
-        System.out.println(BRIGHT_BLUE+cadena+RESET);
+
+    public void pintarAmarilloBrillante(String cadena) {
+        System.out.println(BRIGHT_YELLOW + cadena + RESET);
+    }
+
+    public void pintarMagentaBrillante(String cadena) {
+        System.out.println(BRIGHT_MAGENTA + cadena + RESET);
+    }
+
+    public void pintarAzulBrillante(String cadena) {
+        System.out.println(BRIGHT_BLUE + cadena + RESET);
     }
 }

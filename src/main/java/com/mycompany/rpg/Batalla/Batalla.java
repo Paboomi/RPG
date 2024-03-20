@@ -3,7 +3,13 @@ package com.mycompany.rpg.Batalla;
 import com.mycompany.rpg.Personaje.Aliado;
 import com.mycompany.rpg.Personaje.Enemigo;
 import com.mycompany.rpg.Personaje.Personaje;
+import com.mycompany.rpg.Trabajo.Mago_Blanco;
+import com.mycompany.rpg.Trabajo.Mago_Oscuro;
+import com.mycompany.rpg.Trabajo.Mago_Rojo;
+import com.mycompany.rpg.Trabajo.Trabajo;
+import com.mycompany.rpg.Varios;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -11,19 +17,22 @@ import java.util.Random;
  */
 public class Batalla {
 
+    Scanner sc = new Scanner(System.in);
     Random rand = new Random();
+    Varios varios = new Varios();
     Aliado aliados[];
     Enemigo enemigos[];
-     Aliado aliadoEnTurno;
-    
+    Aliado aliadoEnTurno;
+    Enemigo enemigoEnTurno;
+
     private int indiceEnemigoEnTurno;
     private int indiceAliadoEnTurno;
 
     public Batalla(Aliado[] aliado, Enemigo[] enemigo) {
         this.aliados = aliado;
         this.enemigos = enemigo;
-        indiceAliadoEnTurno=0;
-        indiceEnemigoEnTurno=0;
+        indiceAliadoEnTurno = 0;
+        indiceEnemigoEnTurno = 0;
         ordenarAliados();
         ordenarEnemigos();
         IniciarPelea();
@@ -41,17 +50,27 @@ public class Batalla {
         System.out.println("La batalla empezara");
 
         if (turnoInicial) {
-            turnoJugador++;
-            System.out.println("El equipo aliado inicia");
-            imprimirAliadoEnTurno();
-            
-            cambiarTurnoAliados();
+            System.out.println("El equipo aliado inicia\n");
+            do {
+
+                //imprimirAliadoEnTurno();
+                imprimirAliadoEnTurno();
+                accionesAliado();
+                cambiarTurnoAliados();
+                turnoJugador++;
+            } while (turnoJugador < 3);
 
         } else {
-            turnoEnemigo++;
-            System.out.println("El equipo enemigo inicia");
-            imprimirEnemigoEnTurno();
-            cambiarTurnoEnemigos();
+            System.out.println("El equipo enemigo inicia\n");
+            do {
+
+                //imprimirAliadoEnTurno();
+                imprimirEnemigoEnTurno();
+                accionesEnemigo();
+                cambiarTurnoEnemigos();
+                turnoEnemigo++;
+            } while (turnoEnemigo < 3);
+
         }
 
     }
@@ -96,6 +115,7 @@ public class Batalla {
             indiceAliadoEnTurno = 0;
         }
     }
+
     private void cambiarTurnoEnemigos() {
         if (indiceEnemigoEnTurno < enemigos.length - 1) {
             indiceEnemigoEnTurno++;
@@ -103,22 +123,71 @@ public class Batalla {
             indiceEnemigoEnTurno = 0;
         }
     }
-    
+
     private void imprimirAliadoEnTurno() {
-        aliadoEnTurno = aliados[indiceAliadoEnTurno];
-        
-        System.out.println("Jugador en turno: " + aliadoEnTurno.getNombre());
+
+        System.out.println("Jugador en turno: " + obtenerAliadoEnTurno().getNombre());
 
     }
+
     private void imprimirEnemigoEnTurno() {
-        Enemigo enemigoEnTurno = enemigos[indiceEnemigoEnTurno];
-        
-        System.out.println("Jugador en turno: " + enemigoEnTurno.getNombre());
-        
+
+        System.out.println("Jugador en turno: " + obtenerEnemigoEnTurno().getNombre());
+
     }
-    
-    
+
+    public void accionesAliado() {
+
+        System.out.println(obtenerAliadoEnTurno().getNombre() + " pelea");
+    }
+
+    public void accionesEnemigo() {
+
+        System.out.println(obtenerEnemigoEnTurno().getNombre() + " pelea");
+    }
+
+    public void AtacarAliado() {
+        int op;
+        Trabajo[] trabajos = obtenerAliadoEnTurno().getTrabajo();
+        System.out.println("Seleccione el trabajo que quiere usar");
+        for (int i = 0; i < trabajos.length; i++) {
+            if (trabajos[i] == null) {
+                System.out.println("Sin trabajo asignado");
+            }
+            System.out.println((i + 1) + ".- " + obtenerAliadoEnTurno().getTrabajo()[i]);
+
+        }
+        op = Integer.valueOf(sc.nextLine());
+        if (op < 1 || op > trabajos.length || trabajos[op - 1] == null) {
+            System.out.println("Opción inválida. Seleccione nuevamente.");
+            return; // Permite que el usuario seleccione nuevamente
+        }
+        Trabajo trabajoSeleccionado = trabajos[op - 1];
+        if ((trabajoSeleccionado instanceof Mago_Blanco) || (trabajoSeleccionado instanceof Mago_Rojo) || (trabajoSeleccionado instanceof Mago_Oscuro)) {
+            varios.menuMago();
+            op = Integer.valueOf(sc.nextLine());
+            switch (op) {
+                case 1:
+                    //Si quiere atacar con baculo
+                    int fuerzAliado = obtenerAliadoEnTurno().getFuerza();
+                    int defensaEnemigo = obtenerEnemigoEnTurno().getDefensa();
+
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        }
+
+    }
+
     //GETTERS Y SETTERS
+    private Aliado obtenerAliadoEnTurno() {
+        return aliados[indiceAliadoEnTurno];
+    }
+
+    private Enemigo obtenerEnemigoEnTurno() {
+        return enemigos[indiceEnemigoEnTurno];
+    }
 
     public Aliado[] getAliados() {
         return aliados;

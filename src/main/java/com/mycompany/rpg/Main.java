@@ -26,7 +26,7 @@ public class Main {
 
         /*Jugador jugador = new Jugador();
         jugador.verTrabajosAliados();*/
-        //Juego juego = new Juego();
+        Juego juego = new Juego();
 //        Batalla batalla = new Batalla();
 //        
 //        System.out.println(batalla.getAliados());
@@ -38,17 +38,17 @@ public class Main {
 //        System.out.println(springan.getNombre());
 //
 //        
-        Jugador jugador = new Jugador();
+//        Jugador jugador = new Jugador();
+////        jugador.mostrarInventario();
+////        System.out.println(jugador.getOro());
+////        System.out.println("\n\n\n\n\n\n");
+//        jugador.agregarObjeto(new PocionMayor(), 3);
 //        jugador.mostrarInventario();
-//        System.out.println(jugador.getOro());
-//        System.out.println("\n\n\n\n\n\n");
-        jugador.agregarObjeto(new PocionMayor(), 3);
-        jugador.mostrarInventario();
-        Aliado aliado = new Aliado("Vaan",new Mago_Rojo());
-        aliado.agregarTrabajo(new Paladin());
-        aliado.mostrarTrabajos();
-        aliado.cambiarTrabajo(new Guerrero(), 1);
-        aliado.mostrarTrabajos();
+//        Aliado aliado = new Aliado("Vaan",new Mago_Rojo());
+//        aliado.agregarTrabajo(new Paladin());
+//        aliado.mostrarTrabajos();
+//        aliado.cambiarTrabajo(new Guerrero(), 1);
+//        aliado.mostrarTrabajos();
 
     }
 }

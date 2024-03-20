@@ -43,6 +43,10 @@ public class Aliado extends Personaje {
             this.trabajo[posTrabajo] = trabajoNuevo;
         }
     }
+    
+    public void generarEstadisticas(){
+        //nivel = 
+    }
 
     public void mostrarTrabajos() {
         for (int i = 0; i < trabajo.length; i++) {
@@ -56,10 +60,8 @@ public class Aliado extends Personaje {
                 System.out.println(nombre + " tiene el trabajo de Mago Oscuro");
             } else if (trabajo[i] instanceof Mago_Rojo) {
                 System.out.println(nombre + " tiene el trabajo de Mago Rojo");
-
             } else if (trabajo[i] instanceof Paladin) {
                 System.out.println(nombre + " tiene el trabajo de Paladin");
-
             }
 
         }
