@@ -117,7 +117,7 @@ public class Juego {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
                             CasillaEnemigo enemigo = new CasillaEnemigo();
-                            enemigo.enviarPersonajesBatalla(jugador.getAliado());
+                            enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
                             // Puedes agregar lógica específica para el enemigo aquí
                         }
 
@@ -158,7 +158,7 @@ public class Juego {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
                             CasillaEnemigo enemigo = new CasillaEnemigo();
-                            enemigo.enviarPersonajesBatalla(jugador.getAliado());
+                            enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
                             // Puedes agregar lógica específica para el enemigo aquí
                         }
 
@@ -198,7 +198,7 @@ public class Juego {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
                             CasillaEnemigo enemigo = new CasillaEnemigo();
-                            enemigo.enviarPersonajesBatalla(jugador.getAliado());
+                            enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
                             // Puedes agregar lógica específica para el enemigo aquí
                         }
 
@@ -236,7 +236,7 @@ public class Juego {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
                             CasillaEnemigo enemigo = new CasillaEnemigo();
-                            enemigo.enviarPersonajesBatalla(jugador.getAliado());
+                            enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
                             // Puedes agregar lógica específica para el enemigo aquí
                         }
 

@@ -5,38 +5,46 @@ package com.mycompany.rpg.Trabajo;
  * @author saien
  */
 public class Trabajo {
-private String nombre;
+protected String nombre;
     public void Menu() {
 
     }
 
-    private int AumentarFuerza() {
+    public double AumentarFuerza() {
         return 0;
     }
 
-    private int DisminuirFuerza() {
+    public double DisminuirFuerza() {
         return 0;
     }
 
-    private int AumentarDefensa() {
+    public double AumentarDefensa() {
         return 0;
     }
 
-    private int DisminuirDefensa() {
+    public double DisminuirDefensa() {
         return 0;
     }
 
-    private int AumentarPV() {
+    public double AumentarPV() {
         return 0;
     }
 
-    private int AumentarConcentracion() {
+    public double AumentarConcentracion() {
         return 0;
     }
     
-    private int AumentarEspiritu(){
+    public double AumentarEspiritu(){
         return 0;
     }
+    public double AumentarVelocidad(){
+        return 0;
+    }
+    public double DisminuirVelocidad(){
+        return 0;
+    }
+    
+    
 
     public String getNombre() {
         return nombre;

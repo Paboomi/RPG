@@ -1,6 +1,7 @@
 package com.mycompany.rpg.Mapas.Casillas;
 
 import com.mycompany.rpg.Batalla.Batalla;
+import com.mycompany.rpg.Objetos.Objeto;
 import com.mycompany.rpg.Personaje.Aliado;
 import com.mycompany.rpg.Personaje.Enemigo;
 import com.mycompany.rpg.Personaje.Enemigo_Fuego.Caballerigneo;
@@ -38,9 +39,9 @@ public class CasillaEnemigo extends Casilla {
 
     }
 
-    //Creamos una instancia de batalla y enviamos a los caballeros luz y los enemigos
-    public void enviarPersonajesBatalla(Aliado[] aliados) {
-        Batalla batalla = new Batalla(aliados, enemigos);
+    //Creamos una instancia de batalla y enviamos a los caballeros luz, los enemigos y el inventario
+    public void enviarPersonajesBatalla(Aliado[] aliados, Objeto[] objetos) {
+        Batalla batalla = new Batalla(aliados, enemigos, objetos);
 
     }
 

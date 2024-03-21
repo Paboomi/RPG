@@ -1,16 +1,65 @@
 package com.mycompany.rpg.Trabajo;
 
+import com.mycompany.rpg.Arma.Arma;
+
 /**
  *
  * @author saien
  */
 public class Guerrero extends Trabajo {
+    
+    Arma[] inventarioArmas;
     boolean subioNivel =false;
     private String nombre;
+    private int numElementos;
+    
     public Guerrero(){
         this.nombre = "Guerrero";
+        this.numElementos =0;
     }
     
+    public void agregarArma(Arma arma, int cantidad){
+        for (int i = 0; i < cantidad; i++) {
+            //Verificamos que el inventario esta lleno
+            if (numElementos == inventarioArmas.length) {
+                //si asi es lo ampliamos
+                ampliarInventarioArmas();
+            }
+            //agregamos el nuevo objeto al inventario
+            inventarioArmas[numElementos] = arma;
+            numElementos++;
+            
+        }
+    }
+    
+    private void ampliarInventarioArmas(){
+        //doblamos el inventario
+        Arma[] nuevoInventario = new Arma[inventarioArmas.length * 2];
+        
+        //pasamos los elementos al nuevo inventario
+        for (int i = 0; i < inventarioArmas.length; i++) {
+            nuevoInventario[i] = inventarioArmas[i];
+            
+        }
+        //asignamos el nuevo inventario al original
+        inventarioArmas = nuevoInventario;
+        
+        
+    }
+
+//Metodos para aumentar estadisitcas a la hora de equipar el trabajo
+   @Override
+    public double AumentarFuerza(){
+       return 0.25;
+   }
+    @Override
+    public double DisminuirVelocidad(){
+        return 0.15;
+    }
+    
+
+
+//GETTERS Y SETTERS
     public void setsubioNivel(boolean subionivel){
         this.subioNivel = subionivel;
     }

@@ -15,7 +15,6 @@ public class Jugador extends Personaje {
     Objeto[] inventario;
     Aliado aliado[] = new Aliado[4];
     Trabajo trabajos[];
-    Arma armas[];
     int experiencia;
     int oro;
     private int numElementos;
@@ -28,7 +27,7 @@ public class Jugador extends Personaje {
         this.oro = 1000;
 
     }
-
+    //Almacenamos a los aliados
     public void almacenarAliados(Aliado aliados, int posAliado) {
         if (posAliado >= 0 && posAliado < this.aliado.length) {
             this.aliado[posAliado] = aliados;
@@ -43,7 +42,7 @@ public class Jugador extends Personaje {
 
         }
     }
-
+    //creamos a los aliados
     public void crearAliados() {
         Aliado aliado1 = new Aliado("Celes", new Mago_Blanco());
         Aliado aliado2 = new Aliado("Locke", new Ninja());
@@ -56,7 +55,7 @@ public class Jugador extends Personaje {
         almacenarAliados(aliado4, 3);
 
     }
-    
+    //Metodo para agregar objetos al inventario
     public void agregarObjeto(Objeto objeto, int cantidad){
         for (int i = 0; i < cantidad; i++) {
             //Verificamos que el inventario esta lleno
@@ -70,7 +69,7 @@ public class Jugador extends Personaje {
             
         }
     }
-    
+    //Metodo para ampliar capacidad del inventario
     private void ampliarInventario(){
         //doblamos el inventario
         Objeto[] nuevoInventario = new Objeto[inventario.length * 2];

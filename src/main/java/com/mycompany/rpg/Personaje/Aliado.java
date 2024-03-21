@@ -2,6 +2,7 @@ package com.mycompany.rpg.Personaje;
 
 import com.mycompany.rpg.Trabajo.*;
 import com.mycompany.rpg.Arma.*;
+import com.mycompany.rpg.Magias.Magia;
 
 /**
  *
@@ -12,16 +13,36 @@ public class Aliado extends Personaje {
     private String nombre;
     private Trabajo[] trabajo;
     Arma armas[];
+    Magia[] inventarioMagias;
+    private int numElementos;
+    private int FuerzaTemp;
+    private int DefensaTemp;
+    private int VelocidadTemp;
+    private int PVTemp;
 
     public Aliado(String nom, Trabajo trabajoInicial) {
         this.nombre = nom;
         this.trabajo = new Trabajo[2];
         this.trabajo[0] = trabajoInicial;
+        this.inventarioMagias = new Magia[1];
+        this.numElementos = 0;
+        iniciarEstadisticas();
 
     }
 
     public Aliado() {
         //Constructor para otras acciones
+    }
+
+    public void iniciarEstadisticas() {
+        this.PV = 100;
+        this.fuerza = 65;
+        this.defensa = 60;
+        this.concentracion = 35;
+        this.espiritu = 25;
+        this.velocidad = 5;
+        this.nivel = 10;
+        this.experiencia = 0;
     }
 
     public void agregarTrabajo(Trabajo trabaJonuevo) {
@@ -43,8 +64,8 @@ public class Aliado extends Personaje {
             this.trabajo[posTrabajo] = trabajoNuevo;
         }
     }
-    
-    public void generarEstadisticas(){
+
+    public void generarEstadisticas() {
         //nivel = 
     }
 
@@ -66,12 +87,80 @@ public class Aliado extends Personaje {
 
         }
     }
+
+    public void agregarObjeto(Magia magia, int cantidad) {
+        for (int i = 0; i < cantidad; i++) {
+            //Verificamos que el inventario esta lleno
+            if (numElementos == inventarioMagias.length) {
+                //si asi es lo ampliamos
+                ampliarInventario();
+            }
+            //agregamos el nuevo objeto al inventario
+            inventarioMagias[numElementos] = magia;
+            numElementos++;
+
+        }
+    }
+
+    private void ampliarInventario() {
+        //doblamos el inventario
+        Magia[] nuevoInventario = new Magia[inventarioMagias.length * 2];
+
+        //pasamos los elementos al nuevo inventario
+        for (int i = 0; i < inventarioMagias.length; i++) {
+            nuevoInventario[i] = inventarioMagias[i];
+
+        }
+        //asignamos el nuevo inventario al original
+        inventarioMagias = nuevoInventario;
+
+    }
+
+    public void cambiarEstadisticasTemporal(Trabajo trabajo) {
+        //Obtenemos los porcentajes que cambian las estadisticas
+        double aumentoTempFuerza = trabajo.AumentarFuerza();
+        double aumentoTempDefensa = trabajo.AumentarDefensa();
+        double aumentoTempVelocidad = trabajo.AumentarVelocidad();
+        double disminuirTempFuerza = trabajo.DisminuirFuerza();
+        double disminuirTempDefensa = trabajo.DisminuirDefensa();
+        double aumentoTempPV = trabajo.AumentarPV();
+        double disminuirTempVelocidad = trabajo.DisminuirVelocidad();
+        
+
+        //Verificamos que tipo de trabajo es para aumentar las estadisticas
+        if (trabajo instanceof Mago_Blanco) {
+            // Calcular los nuevos valores de los atributos según los porcentajes
+            FuerzaTemp = (int) (fuerza * (1 - disminuirTempFuerza));
+            DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
+        } else if (trabajo instanceof Mago_Oscuro) {
+            // Calcular los nuevos valores de los atributos según los porcentajes
+            FuerzaTemp = (int) (fuerza * (1 - disminuirTempFuerza));
+            DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
+        } else if (trabajo instanceof Mago_Rojo) {
+            // Calcular los nuevos valores de los atributos según los porcentajes
+            FuerzaTemp = (int) (fuerza * (1 - disminuirTempDefensa));
+        } else if (trabajo instanceof Guerrero) {
+            // Calcular los nuevos valores de los atributos según los porcentajes
+            FuerzaTemp = (int) (fuerza * (1 + aumentoTempFuerza));
+            VelocidadTemp = (int) (velocidad * (1 - disminuirTempVelocidad));
+        } else if (trabajo instanceof Ninja) {
+            // Calcular los nuevos valores de los atributos según los porcentajes
+            VelocidadTemp = (int) (velocidad * (1 + aumentoTempVelocidad));
+            DefensaTemp = (int) (defensa * (1 - disminuirTempDefensa));
+        }else if (trabajo instanceof Paladin){
+            // Calcular los nuevos valores de los atributos según los porcentajes
+            DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
+            PVTemp = (int) (PV * (1 + aumentoTempPV));
+        }
+    }
 //GETTERS Y SETTERS
 
+    @Override
     public String getNombre() {
         return nombre;
     }
 
+    @Override
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -92,12 +181,116 @@ public class Aliado extends Personaje {
         this.trabajo = trabajos;
     }
 
+    @Override
     public int getVelocidad() {
         return velocidad;
     }
 
+    @Override
     public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
+    }
+
+    @Override
+    public int getNivel() {
+        return nivel;
+    }
+
+    @Override
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    @Override
+    public int getFuerza() {
+        return fuerza;
+    }
+
+    @Override
+    public void setFuerza(int fuerza) {
+        this.fuerza = fuerza;
+    }
+
+    @Override
+    public int getDefensa() {
+        return defensa;
+    }
+
+    @Override
+    public void setDefensa(int defensa) {
+        this.defensa = defensa;
+    }
+
+    @Override
+    public int getConcentracion() {
+        return concentracion;
+    }
+
+    @Override
+    public void setConcentracion(int concentracion) {
+        this.concentracion = concentracion;
+    }
+
+    @Override
+    public int getEspiritu() {
+        return espiritu;
+    }
+
+    @Override
+    public void setEspiritu(int espiritu) {
+        this.espiritu = espiritu;
+    }
+
+    @Override
+    public int getExperiencia() {
+        return experiencia;
+    }
+
+    @Override
+    public void setExperiencia(int experiencia) {
+        this.experiencia = experiencia;
+    }
+
+    @Override
+    public int getPV() {
+        return PV;
+    }
+
+    @Override
+    public void setPV(int PV) {
+        this.PV = PV;
+    }
+
+    public int getFuerzaTemp() {
+        return FuerzaTemp;
+    }
+
+    public void setFuerzaTemp(int FuerzaTemp) {
+        this.FuerzaTemp = FuerzaTemp;
+    }
+
+    public int getDefensaTemp() {
+        return DefensaTemp;
+    }
+
+    public void setDefensaTemp(int DefensaTemp) {
+        this.DefensaTemp = DefensaTemp;
+    }
+
+    public int getVelocidadTemp() {
+        return VelocidadTemp;
+    }
+
+    public void setVelocidadTemp(int VelocidadTemp) {
+        this.VelocidadTemp = VelocidadTemp;
+    }
+
+    public int getPVTemp() {
+        return PVTemp;
+    }
+
+    public void setPVTemp(int PVTemp) {
+        this.PVTemp = PVTemp;
     }
 
 }

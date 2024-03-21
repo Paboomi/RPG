@@ -58,6 +58,7 @@ com/mycompany/rpg/Objetos/Pocion.class
 com/mycompany/rpg/Personaje/Enemigo.class
 com/mycompany/rpg/Personaje/Enemigo_Neutro/Garoozis.class
 com/mycompany/rpg/Arma/ArmaDosManos/Alabarda.class
+com/mycompany/rpg/Magias/MagiaBlanca/Divinidad.class
 com/mycompany/rpg/Personaje/Enemigo_Hielo/Zerofyne.class
 com/mycompany/rpg/Magias/Magia.class
 com/mycompany/rpg/Arma/Baculo/Vivificantem.class

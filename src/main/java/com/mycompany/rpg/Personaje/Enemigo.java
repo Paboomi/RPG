@@ -1,4 +1,3 @@
-
 package com.mycompany.rpg.Personaje;
 
 /**
@@ -35,6 +34,14 @@ public class Enemigo extends Personaje {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public int getPV() {
+        return PV;
+    }
+
+    public void setPV(int PV) {
+        this.PV = PV;
     }
 
  
