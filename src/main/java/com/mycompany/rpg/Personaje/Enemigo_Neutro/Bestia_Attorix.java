@@ -19,30 +19,35 @@ public class Bestia_Attorix extends Enemigo_Neutro {
                 this.fuerza = 10;
                 this.defensa = 10;
                 this.espiritu = 5;
+                this.velocidad = 10;
                 this.PV = 100;
                 break;
             case 20:
                 this.fuerza = 10;
                 this.defensa = 15;
                 this.espiritu = 10;
+                this.velocidad = 10;
                 this.PV = 110;
                 break;
             case 30:
                 this.fuerza = 15;
                 this.defensa = 15;
                 this.espiritu = 10;
+                this.velocidad = 15;
                 this.PV = 120;
                 break;
             case 40:
                 this.fuerza = 20;
                 this.defensa = 20;
                 this.espiritu = 15;
+                this.velocidad = 15;
                 this.PV = 125;
                 break;
             case 50:
                 this.fuerza = 20;
                 this.defensa = 25;
                 this.espiritu = 20;
+                this.velocidad = 20;
                 this.PV = 130;
                 break;
             default:

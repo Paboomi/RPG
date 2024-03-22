@@ -19,6 +19,8 @@ public class Aliado extends Personaje {
     private int DefensaTemp;
     private int VelocidadTemp;
     private int PVTemp;
+    private int PVOriginal;
+    private int VelocidadOriginal;
 
     public Aliado(String nom, Trabajo trabajoInicial) {
         this.nombre = nom;
@@ -26,6 +28,7 @@ public class Aliado extends Personaje {
         this.trabajo[0] = trabajoInicial;
         this.inventarioMagias = new Magia[1];
         this.numElementos = 0;
+        iniciarTemporales();
         iniciarEstadisticas();
 
     }
@@ -40,9 +43,18 @@ public class Aliado extends Personaje {
         this.defensa = 60;
         this.concentracion = 35;
         this.espiritu = 25;
-        this.velocidad = 5;
+        this.velocidad = 15;
         this.nivel = 10;
         this.experiencia = 0;
+    }
+
+    private void iniciarTemporales() {
+        FuerzaTemp=0;
+        DefensaTemp=0;
+        VelocidadTemp=0;
+        PVTemp=0;
+        PVOriginal=0;
+        VelocidadOriginal=0;
     }
 
     public void agregarTrabajo(Trabajo trabaJonuevo) {
@@ -117,6 +129,7 @@ public class Aliado extends Personaje {
     }
 
     public void cambiarEstadisticasTemporal(Trabajo trabajo) {
+
         //Obtenemos los porcentajes que cambian las estadisticas
         double aumentoTempFuerza = trabajo.AumentarFuerza();
         double aumentoTempDefensa = trabajo.AumentarDefensa();
@@ -125,7 +138,6 @@ public class Aliado extends Personaje {
         double disminuirTempDefensa = trabajo.DisminuirDefensa();
         double aumentoTempPV = trabajo.AumentarPV();
         double disminuirTempVelocidad = trabajo.DisminuirVelocidad();
-        
 
         //Verificamos que tipo de trabajo es para aumentar las estadisticas
         if (trabajo instanceof Mago_Blanco) {
@@ -147,7 +159,7 @@ public class Aliado extends Personaje {
             // Calcular los nuevos valores de los atributos según los porcentajes
             VelocidadTemp = (int) (velocidad * (1 + aumentoTempVelocidad));
             DefensaTemp = (int) (defensa * (1 - disminuirTempDefensa));
-        }else if (trabajo instanceof Paladin){
+        } else if (trabajo instanceof Paladin) {
             // Calcular los nuevos valores de los atributos según los porcentajes
             DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
             PVTemp = (int) (PV * (1 + aumentoTempPV));
@@ -291,6 +303,22 @@ public class Aliado extends Personaje {
 
     public void setPVTemp(int PVTemp) {
         this.PVTemp = PVTemp;
+    }
+
+    public int getPVOriginal() {
+        return PVOriginal;
+    }
+
+    public void setPVOriginal(int PVOriginal) {
+        this.PVOriginal = PVOriginal;
+    }
+
+    public int getVelocidadOriginal() {
+        return VelocidadOriginal;
+    }
+
+    public void setVelocidadOriginal(int VelocidadOriginal) {
+        this.VelocidadOriginal = VelocidadOriginal;
     }
 
 }

@@ -19,30 +19,35 @@ public class Lancero_Negro extends Enemigo_Neutro {
                 this.fuerza = 10;
                 this.defensa = 15;
                 this.espiritu = 10;
+                this.velocidad = 5;
                 this.PV = 100;
                 break;
             case 20:
                 this.fuerza = 15;
                 this.defensa = 15;
                 this.espiritu = 15;
+                this.velocidad = 10;
                 this.PV = 100;
                 break;
             case 30:
                 this.fuerza = 20;
                 this.defensa = 20;
                 this.espiritu = 15;
+                this.velocidad = 15;
                 this.PV = 120;
                 break;
             case 40:
                 this.fuerza = 25;
                 this.defensa = 25;
                 this.espiritu = 20;
+                this.velocidad = 20;
                 this.PV = 135;
                 break;
             case 50:
                 this.fuerza = 30;
                 this.defensa = 30;
                 this.espiritu = 25;
+                this.velocidad = 25;
                 this.PV = 140;
                 break;
             default:

@@ -38,11 +38,11 @@ public class Varios {
     public Varios() {
 
     }
-
+//metodo para generar numeros aleatorios 
     public int numeroAleatorio(int min, int max) {
         return rand.nextInt(max - min) + min;
     }
-
+//metodo para generar cantidad de enemigos segun el tamaño del mapa
     public int cantEnemigos(int numero) {
         int op = numero;
 
@@ -57,15 +57,15 @@ public class Varios {
                 return 40;
 
             default:
-                throw new IllegalArgumentException("Tamaño de mapa no válido: " + op);
+                return 0;
 
         }
     }
-
+//metodo para generar ciudades
     public int cantCiudades() {
         return rand.nextInt(3) + 3;
     }
-
+//metodo para generar tamaños de mapas
     public int sizeMap() {
         int[] size = {7, 10, 12};
         int num = rand.nextInt(size.length);
@@ -73,7 +73,7 @@ public class Varios {
         return size[num];
 
     }
-
+//metodo para generar enemigos
     public int numEnemigos() {
         return rand.nextInt(3)+1;
     }
@@ -88,7 +88,7 @@ public class Varios {
         System.out.println("Izquierda - A");
         System.out.println("Presione Q para salir" + RESET);
     }
-
+    
     public void menuMago() {
         System.out.println(BRIGHT_GREEN + "Elija una accion para realizar");
         System.out.println("1.- Atacar con Baculo");
@@ -105,6 +105,24 @@ public class Varios {
         System.out.println("3.- Saltar turno" + RESET);
 
     }
+    //metodo para modificar velocidad de aliados
+    public int puntosVelocidad(){
+        return rand.nextInt(5)+1;
+    }
+    //Metodo para Pluma de fenix 
+    public int PlumaFenix(){
+        return rand.nextInt(11)+10;
+    }
+    //Metodo para Pocion 
+    public int Pocion(){
+        return rand.nextInt(3)*10+10;
+    }
+    //Metodo para Pocion Mayor 
+    public int PocionMayor(){
+        return rand.nextInt(4)*10+30;
+    }
+    
+    //Metodos para colorear String
 
     public void pintarRojo(String cadena) {
         System.out.println(RED + cadena + RESET);

@@ -23,6 +23,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.defensa = 10;
                 this.concentracion = 15;
                 this.espiritu = 10;
+                this.velocidad = 5;
                 this.PV = 100;
                 break;
             case 20:
@@ -30,6 +31,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.defensa = 15;
                 this.concentracion = 15;
                 this.espiritu = 15;
+                this.velocidad = 10;
                 this.PV = 110;
                 break;
             case 30:
@@ -37,6 +39,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.defensa = 15;
                 this.concentracion = 20;
                 this.espiritu = 15;
+                this.velocidad = 15;
                 this.PV = 110;
                 break;
             case 40:
@@ -44,6 +47,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.defensa = 20;
                 this.concentracion = 20;
                 this.espiritu = 20;
+                this.velocidad = 20;
                 this.PV = 125;
                 break;
             case 50:
@@ -51,6 +55,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.defensa = 30;
                 this.concentracion = 25;
                 this.espiritu = 25;
+                this.velocidad = 25;
                 this.PV = 130;
                 break;
             default:

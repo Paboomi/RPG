@@ -67,5 +67,8 @@ public class Main {
 //        System.out.println(aliado.getExperiencia());
 //        System.out.println(aliado.getNivel());
 //        System.out.println(aliado.getPVTemp());
+
+//        Varios varios = new Varios();
+//        varios.pintarCyanBrillante((3 + 1) + ".- " + aliado.getNombre());
     }
 }

@@ -1,6 +1,11 @@
 package com.mycompany.rpg.Batalla;
 
+import com.mycompany.rpg.Magias.MagiaBlanca.Coraza;
+import com.mycompany.rpg.Objetos.Freno;
 import com.mycompany.rpg.Objetos.Objeto;
+import com.mycompany.rpg.Objetos.PlumaFenix;
+import com.mycompany.rpg.Objetos.Pocion;
+import com.mycompany.rpg.Objetos.PocionMayor;
 import com.mycompany.rpg.Personaje.Aliado;
 import com.mycompany.rpg.Personaje.Enemigo;
 import com.mycompany.rpg.Personaje.Personaje;
@@ -29,15 +34,21 @@ public class Batalla {
 
     private int indiceEnemigoEnTurno;
     private int indiceAliadoEnTurno;
+    private int PvOriginal;
+    private int VelocidadOriginal;
 
+    //Constructor
     public Batalla(Aliado[] aliado, Enemigo[] enemigo, Objeto[] objeto) {
         this.aliados = aliado;
         this.enemigos = enemigo;
         this.objetos = objeto;
         indiceAliadoEnTurno = 0;
         indiceEnemigoEnTurno = 0;
+        PvOriginal = 0;
+        VelocidadOriginal = 0;
         ordenarAliados();
         ordenarEnemigos();
+        obtenerAtributosIniciales();
         IniciarPelea();
     }
 
@@ -45,6 +56,7 @@ public class Batalla {
 
     }
 
+    //Iniciamos la pelea
     public void IniciarPelea() {
         int turnoJugador = 0;
         int turnoEnemigo = 0;
@@ -105,7 +117,7 @@ public class Batalla {
     public void ordenarAliados() {
         for (int i = 0; i < aliados.length - 1; i++) {
             for (int j = 0; j < aliados.length - i - 1; j++) {
-                if (aliados[j].getVelocidad() < aliados[j + 1].getVelocidad()) {
+                if (aliados[j].getVelocidadTemp() < aliados[j + 1].getVelocidadTemp()) {
                     // Intercambia los elementos si el anterior tiene menos velocidad que el siguiente
                     Aliado temp = aliados[j];
                     aliados[j] = aliados[j + 1];
@@ -173,15 +185,30 @@ public class Batalla {
         System.out.println(obtenerEnemigoEnTurno().getNombre() + " pelea");
     }
 
+    public void obtenerAtributosIniciales() {
+        for (Aliado aliado : aliados) {
+            aliado.setPVOriginal(aliado.getPVTemp());
+            aliado.setVelocidadOriginal(aliado.getVelocidadTemp());
+        }
+    }
+//Metodo para que los aliados ataquen
+
     public void AtacarAliado() {
+        
         int op;
         int fuerzAliado = 0;
+        int velocidadAliado = 0;
         int defensaEnemigo = 0;
         int finalDamage = 0;
+        int pvRevivir = 0;
+        int nuevoPV = 0;
+        int seleccionarAliado;
+        //Obtenemos los trabajos que tiene el aliado en su inventario
         Trabajo[] trabajos = obtenerAliadoEnTurno().getTrabajo();
         System.out.println("Seleccione el trabajo que quiere usar");
+        //Mostramos los trabajos
         for (int i = 0; i < trabajos.length; i++) {
-            if (trabajos[i] == null) {
+            if (trabajos[i] == null) { //Verificamos si tiene alguna posicion cavia en el array
                 System.out.println((i + 1) + ".- Sin trabajo asignado");
             } else {
                 //System.out.println((i + 1) + ".- " + obtenerAliadoEnTurno().getTrabajo()[i]);
@@ -190,6 +217,7 @@ public class Batalla {
             }
         }
         op = Integer.valueOf(sc.nextLine());
+        //Verificamos que la opcion seleccionada este dentro de los limites del array y que exista
         if (op < 1 || op > trabajos.length || trabajos[op - 1] == null) {
             System.out.println("Opción inválida. Seleccione nuevamente.");
             return; // Permite que el usuario seleccione nuevamente
@@ -207,10 +235,11 @@ public class Batalla {
                     //Si quiere atacar con baculo
                     fuerzAliado = (int) (obtenerAliadoEnTurno().getFuerzaTemp());
                     defensaEnemigo = obtenerEnemigoEnTurno().getDefensa();
+                    //Verificamos que la fuerza del Caballero de luz sea menor que la defensa del enemigo
                     if (fuerzAliado < defensaEnemigo) {
                         System.out.println(obtenerAliadoEnTurno().getNombre() + " no ha ocasionado daño");
                     } else {
-
+                        //Comparamos la fuerza del Caballero de la luz con la defensa del enemigo
                         finalDamage = fuerzAliado - defensaEnemigo;
                         System.out.println("El " + obtenerAliadoEnTurno().getNombre() + " ha hecho: " + finalDamage + " puntos de daño");
                         int nuevoPVenemigo = obtenerEnemigoEnTurno().getPV() - finalDamage;
@@ -222,7 +251,8 @@ public class Batalla {
                 case 2:
                     //Si quiere usar Objetos
                     Objeto objetoSeleccionado;
-                    System.out.println("Seleccione el objeto que desea utilizar");
+                    varios.pintarVerdeBrillante("Seleccione el objeto que desea utilizar");
+                    //System.out.println("Seleccione el objeto que desea utilizar");
                     for (int i = 0; i < objetos.length; i++) {
                         if (objetos[i] == null) {
                             break; //Salimos del ciclo si encuentra una casilla sin objetos
@@ -237,10 +267,84 @@ public class Batalla {
                     } else {
 
                         objetoSeleccionado = objetos[op - 1];
+                        //Vemos que tipo de objeto ha seleccionado
+                        if (objetoSeleccionado instanceof Freno) {
+                            //Calculamos la nueva velocidad
+                            velocidadAliado = obtenerAliadoEnTurno().getVelocidadTemp() - varios.puntosVelocidad();
+                            obtenerAliadoEnTurno().setVelocidadTemp(velocidadAliado);
+                            ordenarAliados();//Volvemos a ordenar el arreglo
+                            //Para la pluma del fenix
+                        } else if (objetoSeleccionado instanceof PlumaFenix) {
+                            //Recorremos el arreglo de aliados
+                            for (int i = 0; i < aliados.length; i++) {
+                                if (aliados[i].getPVTemp() <= 0) {
+                                    varios.pintarAmarillo("Seleccione un Caballero de la Luz para revivir:");
+                                    //Mostramos los aliados exhaustos
+                                    varios.pintarCyanBrillante((i + 1) + ".- " + aliados[i].getNombre());
+                                    seleccionarAliado = Integer.valueOf(sc.nextLine()); // guardamos la posicion del aliado seleccionado
+                                    if ((seleccionarAliado - 1) >= 1 && (seleccionarAliado - 1) <= aliados.length) {
+                                        pvRevivir = varios.PlumaFenix();
+                                        //aumentamos el PV del aliado seleccionado
+                                        aliados[seleccionarAliado - 1].setPVTemp(pvRevivir);
+                                        //System.out.println("Se ha revivido a " + aliados[seleccionarAliadoExhausto-1].getNombre() + " con " + pvRevivir + " de PV");
+                                        varios.pintarVerdeBrillante("Se ha revivido a " + aliados[seleccionarAliado - 1].getNombre() + " con " + pvRevivir + " de PV");
+                                    }
+                                }
+
+                            }
+                            //Para la Pocion
+                        } else if (objetoSeleccionado instanceof Pocion) {
+                            //Recorremos el arreglo de aliados
+                            for (int i = 0; i < aliados.length; i++) {
+                                //Mostramos los puntos de vida de los aliados
+                                varios.pintarAmarillo("Seleccione un Caballero de la Luz para recuperar vida:");
+                                //Mostramos los aliados
+                                varios.pintarCyanBrillante((i + 1) + ".- " + aliados[i].getNombre() + " puntos de vida: " + aliados[i].getPVTemp());
+                            }
+                            seleccionarAliado = Integer.valueOf(sc.nextLine()); // guardamos la posicion del aliado seleccionado
+                            //Verificamos que el Caballero seleccionado este dentro del rango del array
+                            if ((seleccionarAliado - 1) >= 1 && (seleccionarAliado - 1) <= aliados.length) {
+                                nuevoPV = varios.Pocion();
+                                //aumentamos el PV del aliado seleccionado
+                                aliados[seleccionarAliado - 1].setPVTemp(nuevoPV);
+                                //Verificamos si los PV recuperados son mayores que los originales
+                                if (aliados[seleccionarAliado - 1].getPVOriginal() < aliados[seleccionarAliado - 1].getPVTemp()) {
+                                    //Devolvemos el valor original de los PV 
+                                    aliados[seleccionarAliado - 1].setPVTemp(aliados[seleccionarAliado - 1].getPVOriginal());
+                                    //Mostramos informacion de la accion
+                                    varios.pintarVerdeBrillante("\nSe ha recuperado a " + aliados[seleccionarAliado - 1].getNombre() + " con " + aliados[seleccionarAliado - 1].getPVTemp() + " de PV");
+                                } else {
+                                    //Mostramos informacion de la accion
+                                    varios.pintarVerdeBrillante("\nSe ha recuperado a " + aliados[seleccionarAliado - 1].getNombre() + " con " + aliados[seleccionarAliado - 1].getPVTemp() + " de PV");
+                                }
+                            }
+                            //Para la Pocion Mayor
+                        } else if (objetoSeleccionado instanceof PocionMayor) {
+                            //Recorremos el arreglo de aliados
+                            for (int i = 0; i < aliados.length; i++) {
+                                //Mostramos los puntos de vida de los aliados
+                                varios.pintarAmarillo("Seleccione un Caballero de la Luz para recuperar vida:");
+                                //Mostramos los aliados
+                                varios.pintarCyanBrillante((i + 1) + ".- " + aliados[i].getPVTemp());
+                            }
+                            seleccionarAliado = Integer.valueOf(sc.nextLine()); // guardamos la posicion del aliado seleccionado
+                            if ((seleccionarAliado - 1) >= 1 && (seleccionarAliado - 1) <= aliados.length) { //verificamos que la opcion ste dentro del rango del array
+                                nuevoPV = varios.PocionMayor();
+                                //aumentamos el PV del aliado seleccionado
+                                aliados[seleccionarAliado - 1].setPVTemp(nuevoPV);
+                                if (aliados[seleccionarAliado - 1].getPVOriginal() < aliados[seleccionarAliado - 1].getPVTemp()) {
+                                    //Devolvemos el valor original de los PV 
+                                    aliados[seleccionarAliado - 1].setPVTemp(aliados[seleccionarAliado - 1].getPVOriginal());
+                                    varios.pintarVerdeBrillante("\nSe ha recuperado a " + aliados[seleccionarAliado - 1].getNombre() + " con " + aliados[seleccionarAliado - 1].getPVOriginal() + " de PV");
+                                }
+                                else{
+                                    //Mostramos informacion sobre la accion realizada
+                                    varios.pintarVerdeBrillante("\nSe ha recuperado a " + aliados[seleccionarAliado - 1].getNombre() + " con " + aliados[seleccionarAliado - 1].getPVTemp() + " de PV");
+                                }
+                            }
+
+                        }
                     }
-//                    if (objetoSeleccionado instanceof MagiaBlanca) {
-//                        
-//                    }
                     break;
                 case 3:
                     //Si quiere usar magias

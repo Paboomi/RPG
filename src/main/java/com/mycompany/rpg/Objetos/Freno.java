@@ -4,7 +4,7 @@ package com.mycompany.rpg.Objetos;
  *
  * @author saien
  */
-public class Freno {
+public class Freno extends Objeto{
     private int disminuirVelocidad;
     private String nombre;
     
