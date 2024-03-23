@@ -6,7 +6,7 @@ package com.mycompany.rpg.Objetos;
  */
 public class Freno extends Objeto{
     private int disminuirVelocidad;
-    private String nombre;
+   
     
     public Freno(){
         nombre="Freno";

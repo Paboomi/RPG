@@ -6,7 +6,7 @@ package com.mycompany.rpg.Objetos;
  */
 public class PocionMayor extends Objeto{
     private int recuperarPV;
-    private String nombre;
+   
     
     public PocionMayor(){
         nombre="Pocion Mayor";

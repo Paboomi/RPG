@@ -42,6 +42,7 @@ com/mycompany/rpg/Arma/ArmaCorta/ArmaCorta.class
 com/mycompany/rpg/Magias/MagiaOscura/Rayo.class
 com/mycompany/rpg/Personaje/Enemigo_Hielo/Reina_Hielo.class
 com/mycompany/rpg/Mapas/Casillas/CasillaTienda.class
+com/mycompany/rpg/Objetos/Velocidad.class
 com/mycompany/rpg/Arma/ArmaUnaMano/ArmaUnaMano.class
 com/mycompany/rpg/Magias/MagiaBlanca/Revivir.class
 com/mycompany/rpg/Objetos/PlumaFenix.class

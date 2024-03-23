@@ -7,7 +7,6 @@ package com.mycompany.rpg.Objetos;
 public class TiendaAcampar extends Objeto{
     private int recuperarPV;
     private int recuperarPuntosMagia;
-    private String nombre;
     
     public TiendaAcampar(){
         nombre="Tienda de campaña";

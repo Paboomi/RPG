@@ -15,10 +15,14 @@ public class Aliado extends Personaje {
     Arma armas[];
     Magia[] inventarioMagias;
     private int numElementos;
+    //Variables temporales al utilizar un trabajo
     private int FuerzaTemp;
+    private int concentracionTemp;
+    private int espirituTemp;
     private int DefensaTemp;
     private int VelocidadTemp;
     private int PVTemp;
+    //Variables al utilizar los Objetos en la clase batalla
     private int PVOriginal;
     private int VelocidadOriginal;
 
@@ -28,8 +32,9 @@ public class Aliado extends Personaje {
         this.trabajo[0] = trabajoInicial;
         this.inventarioMagias = new Magia[1];
         this.numElementos = 0;
-        iniciarTemporales();
         iniciarEstadisticas();
+        iniciarTemporales();
+        cambiarEstadisticasTemporal(trabajoInicial);
 
     }
 
@@ -49,12 +54,14 @@ public class Aliado extends Personaje {
     }
 
     private void iniciarTemporales() {
-        FuerzaTemp=0;
-        DefensaTemp=0;
-        VelocidadTemp=0;
-        PVTemp=0;
-        PVOriginal=0;
-        VelocidadOriginal=0;
+        FuerzaTemp = this.fuerza;
+        DefensaTemp = this.defensa;
+        VelocidadTemp = this.velocidad;
+        PVTemp = this.PV;
+        concentracionTemp =this.concentracion;
+        espirituTemp = this.espiritu;
+        PVOriginal = 0;
+        VelocidadOriginal = 0;
     }
 
     public void agregarTrabajo(Trabajo trabaJonuevo) {
@@ -77,28 +84,6 @@ public class Aliado extends Personaje {
         }
     }
 
-    public void generarEstadisticas() {
-        //nivel = 
-    }
-
-    public void mostrarTrabajos() {
-        for (int i = 0; i < trabajo.length; i++) {
-            if (trabajo[i] instanceof Mago_Blanco) {
-                System.out.println(nombre + " tiene el trabajo de Mago Blanco");
-            } else if (trabajo[i] instanceof Ninja) {
-                System.out.println(nombre + " tiene el trabajo de Ninja");
-            } else if (trabajo[i] instanceof Guerrero) {
-                System.out.println(nombre + " tiene el trabajo de Guerrero");
-            } else if (trabajo[i] instanceof Mago_Oscuro) {
-                System.out.println(nombre + " tiene el trabajo de Mago Oscuro");
-            } else if (trabajo[i] instanceof Mago_Rojo) {
-                System.out.println(nombre + " tiene el trabajo de Mago Rojo");
-            } else if (trabajo[i] instanceof Paladin) {
-                System.out.println(nombre + " tiene el trabajo de Paladin");
-            }
-
-        }
-    }
 
     public void agregarObjeto(Magia magia, int cantidad) {
         for (int i = 0; i < cantidad; i++) {
@@ -129,41 +114,47 @@ public class Aliado extends Personaje {
     }
 
     public void cambiarEstadisticasTemporal(Trabajo trabajo) {
+        for (int i = 0; i < this.trabajo.length; i++) {
+            if (this.trabajo[i] == null) {
 
-        //Obtenemos los porcentajes que cambian las estadisticas
-        double aumentoTempFuerza = trabajo.AumentarFuerza();
-        double aumentoTempDefensa = trabajo.AumentarDefensa();
-        double aumentoTempVelocidad = trabajo.AumentarVelocidad();
-        double disminuirTempFuerza = trabajo.DisminuirFuerza();
-        double disminuirTempDefensa = trabajo.DisminuirDefensa();
-        double aumentoTempPV = trabajo.AumentarPV();
-        double disminuirTempVelocidad = trabajo.DisminuirVelocidad();
+            } else {
+                //Obtenemos los porcentajes que cambian las estadisticas
+                double aumentoTempFuerza = trabajo.AumentarFuerza();
+                double aumentoTempDefensa = trabajo.AumentarDefensa();
+                double aumentoTempVelocidad = trabajo.AumentarVelocidad();
+                double disminuirTempFuerza = trabajo.DisminuirFuerza();
+                double disminuirTempDefensa = trabajo.DisminuirDefensa();
+                double aumentoTempPV = trabajo.AumentarPV();
+                double disminuirTempVelocidad = trabajo.DisminuirVelocidad();
 
-        //Verificamos que tipo de trabajo es para aumentar las estadisticas
-        if (trabajo instanceof Mago_Blanco) {
-            // Calcular los nuevos valores de los atributos según los porcentajes
-            FuerzaTemp = (int) (fuerza * (1 - disminuirTempFuerza));
-            DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
-        } else if (trabajo instanceof Mago_Oscuro) {
-            // Calcular los nuevos valores de los atributos según los porcentajes
-            FuerzaTemp = (int) (fuerza * (1 - disminuirTempFuerza));
-            DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
-        } else if (trabajo instanceof Mago_Rojo) {
-            // Calcular los nuevos valores de los atributos según los porcentajes
-            FuerzaTemp = (int) (fuerza * (1 - disminuirTempDefensa));
-        } else if (trabajo instanceof Guerrero) {
-            // Calcular los nuevos valores de los atributos según los porcentajes
-            FuerzaTemp = (int) (fuerza * (1 + aumentoTempFuerza));
-            VelocidadTemp = (int) (velocidad * (1 - disminuirTempVelocidad));
-        } else if (trabajo instanceof Ninja) {
-            // Calcular los nuevos valores de los atributos según los porcentajes
-            VelocidadTemp = (int) (velocidad * (1 + aumentoTempVelocidad));
-            DefensaTemp = (int) (defensa * (1 - disminuirTempDefensa));
-        } else if (trabajo instanceof Paladin) {
-            // Calcular los nuevos valores de los atributos según los porcentajes
-            DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
-            PVTemp = (int) (PV * (1 + aumentoTempPV));
+                //Verificamos que tipo de trabajo es para aumentar las estadisticas
+                if (trabajo instanceof Mago_Blanco) {
+                    // Calcular los nuevos valores de los atributos según los porcentajes
+                    FuerzaTemp = (int) (fuerza * (1 - disminuirTempFuerza));
+                    DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
+                } else if (trabajo instanceof Mago_Oscuro) {
+                    // Calcular los nuevos valores de los atributos según los porcentajes
+                    FuerzaTemp = (int) (fuerza * (1 - disminuirTempFuerza));
+                    DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
+                } else if (trabajo instanceof Mago_Rojo) {
+                    // Calcular los nuevos valores de los atributos según los porcentajes
+                    FuerzaTemp = (int) (fuerza * (1 - disminuirTempDefensa));
+                } else if (trabajo instanceof Guerrero) {
+                    // Calcular los nuevos valores de los atributos según los porcentajes
+                    FuerzaTemp = (int) (fuerza * (1 + aumentoTempFuerza));
+                    VelocidadTemp = (int) (velocidad * (1 - disminuirTempVelocidad));
+                } else if (trabajo instanceof Ninja) {
+                    // Calcular los nuevos valores de los atributos según los porcentajes
+                    VelocidadTemp = (int) (velocidad * (1 + aumentoTempVelocidad));
+                    DefensaTemp = (int) (defensa * (1 - disminuirTempDefensa));
+                } else if (trabajo instanceof Paladin) {
+                    // Calcular los nuevos valores de los atributos según los porcentajes
+                    DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
+                    PVTemp = (int) (PV * (1 + aumentoTempPV));
+                }
+            }
         }
+
     }
 //GETTERS Y SETTERS
 

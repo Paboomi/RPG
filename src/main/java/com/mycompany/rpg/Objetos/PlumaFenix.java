@@ -7,7 +7,6 @@ package com.mycompany.rpg.Objetos;
 public class PlumaFenix extends Objeto{
 
     private int recuperarPV;
-    private String nombre;
     
     public PlumaFenix(){
         nombre="Pluma Fenix";

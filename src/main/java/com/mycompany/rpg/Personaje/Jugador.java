@@ -18,14 +18,21 @@ public class Jugador extends Personaje {
     int experiencia;
     int oro;
     private int numElementos;
+     private static Jugador jugador;
 
-    public Jugador() {
+    private Jugador() {
         crearAliados();
         inventario = new Objeto[12];
         numElementos=0;
         crearInventario();
         this.oro = 1000;
 
+    }
+        public static Jugador getInstance() {
+        if (jugador == null) {
+            jugador = new Jugador();
+        }
+        return jugador;
     }
     //Almacenamos a los aliados
     public void almacenarAliados(Aliado aliados, int posAliado) {
@@ -36,12 +43,6 @@ public class Jugador extends Personaje {
         }
     }
 
-    public void verTrabajosAliados() {
-        for (int i = 0; i < aliado.length; i++) {
-            aliado[i].mostrarTrabajos();
-
-        }
-    }
     //creamos a los aliados
     public void crearAliados() {
         Aliado aliado1 = new Aliado("Celes", new Mago_Blanco());
@@ -91,16 +92,52 @@ public class Jugador extends Personaje {
         agregarObjeto(new PlumaFenix(), 2);
     }
     
-    public void mostrarInventario(){
+    
+     public void mostrarInventario() {
+        int cantPocion = 0;
+        int cantPocionMayor = 0;
+        int cantPlumaFenix = 0;
+        int cantTiendaAcampar = 0;
         System.out.println("Inventario");
         for (int i = 0; i < inventario.length; i++) {
             if (inventario[i] == null) {
                 break;
-            }else{
-                System.out.println((i+1) + ". " + inventario[i].getNombre());
+            } else if (inventario[i] instanceof Pocion) {
+                cantPocion++;
+            } else if (inventario[i] instanceof PlumaFenix) {
+                cantPlumaFenix++;
+            } else if (inventario[i] instanceof TiendaAcampar) {
+                cantTiendaAcampar++;
+            }else if (inventario[i] instanceof PocionMayor){
+                cantPocionMayor++;
             }
-            
         }
+        System.out.println("\n\nCantidad de Objetos en el inventario");
+        System.out.println("Pocion: " + cantPocion);
+        System.out.println("Pocion Mayor: " + cantPocionMayor);
+        System.out.println("Pluma Fenix: " + cantPlumaFenix);
+        System.out.println("Tienda Acampar: " + cantTiendaAcampar);
+    }
+public void usarObjeto(Objeto objeto) {
+        // Busca el objeto en el inventario
+        for (int i = 0; i < inventario.length; i++) {
+            if (inventario[i] != null && inventario[i] == objeto) {
+                // Verifica si hay suficientes objetos en el inventario
+                if (numElementos > 0) {
+                    // Elimina el objeto del inventario
+                    for (int j = i; j < numElementos - 1; j++) {
+                        inventario[j] = inventario[j + 1];//Movemos la posicion actual a una posicion adelante dejando el elemento usado al final
+                    }
+                    inventario[numElementos - 1] = null; // Elimina la última referencia que es el elemento usado
+                    numElementos--;
+                    return; // Termina el método después de usar el objeto
+                } else {
+                    System.out.println("No tienes suficientes " + objeto.getNombre() + " en el inventario.");
+                    return;
+                }
+            }
+        }
+        System.out.println("No tienes " + objeto.getNombre() + " en el inventario.");
     }
     
     

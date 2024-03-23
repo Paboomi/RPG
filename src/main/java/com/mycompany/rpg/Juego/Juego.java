@@ -44,7 +44,7 @@ public class Juego {
         //instanciamos las clases
         mapa = new generarMapa();
         varios = new Varios();
-        jugador = new Jugador();
+        jugador = Jugador.getInstance();
         //enemigo = new CasillaEnemigo();
         //Llamamos a las funcionalidades
         generarPersonajes();

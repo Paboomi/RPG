@@ -5,8 +5,8 @@ package com.mycompany.rpg.Objetos;
  * @author saien
  */
 public class Objeto {
-    private int cantidad;
-    private String nombre;
+    protected int cantidad;
+    protected String nombre;
     
     public int recuperarPV(){
         return 0;
