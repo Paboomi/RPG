@@ -5,34 +5,43 @@ package com.mycompany.rpg.Arma;
  * @author saien
  */
 public class Arma {
-    
-    
-    private int AumentarFuerza() {
+
+    protected String nombre;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int AumentarFuerza() {
         return 0;
     }
 
-    private int DisminuirFuerza() {
+    public int DisminuirFuerza() {
         return 0;
     }
 
-    private int AumentarDefensa() {
-        return 0;
-    }
-    private int AumentarVelocidad() {
+    public int AumentarDefensa() {
         return 0;
     }
 
-    private int DisminuirVelocidad() {
+    public int AumentarVelocidad() {
         return 0;
     }
 
-    private int AumentarPV() {
+    public int DisminuirVelocidad() {
         return 0;
     }
 
-    private int AumentarConcentracion() {
+    public int AumentarPV() {
         return 0;
     }
 
-    
+    public int AumentarConcentracion() {
+        return 0;
+    }
+
 }

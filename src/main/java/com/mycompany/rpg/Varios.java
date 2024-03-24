@@ -97,7 +97,7 @@ public class Varios {
 
     public void menuMago() {
         System.out.println(BRIGHT_GREEN + "Elija una accion para realizar");
-        System.out.println("1.- Atacar con Baculo");
+        System.out.println("1.- Atacar");
         System.out.println("2.- Usar Objeto");
         System.out.println("3.- Usar Magia");
         System.out.println("4.- Usar Habilidad especial");

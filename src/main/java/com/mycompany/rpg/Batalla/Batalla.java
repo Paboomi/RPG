@@ -1,5 +1,6 @@
 package com.mycompany.rpg.Batalla;
 
+import com.mycompany.rpg.Arma.Arma;
 import com.mycompany.rpg.Magias.MagiaBlanca.Coraza;
 import com.mycompany.rpg.Objetos.Freno;
 import com.mycompany.rpg.Objetos.Objeto;
@@ -35,11 +36,11 @@ public class Batalla {
     Enemigo enemigoEnTurno;
     Objeto[] objetos;
     Jugador jugador;
+    Trabajo trabajoSeleccionado;
+    Trabajo[] trabajos;
 
     private int indiceEnemigoEnTurno;
     private int indiceAliadoEnTurno;
-    //private int PvOriginal;
-    //private int VelocidadOriginal;
     private int op;
     private int fuerzAliado = 0;
     private int velocidadAliado = 0;
@@ -58,8 +59,6 @@ public class Batalla {
         this.objetos = objeto;
         indiceAliadoEnTurno = 0;
         indiceEnemigoEnTurno = 0;
-        //PvOriginal = 0;
-        //VelocidadOriginal = 0;
         ordenarAliados();
         ordenarEnemigos();
         IniciarPelea();
@@ -75,8 +74,9 @@ public class Batalla {
         int turnoEnemigo = 0;
         boolean turnoInicial = rand.nextBoolean();
 
-        varios.pintarBlanco(limpiarPantalla + "\n\n\nLa batalla empezara");
-
+        varios.pintarBlanco(limpiarPantalla + "\n\n\nLa batalla empezara pronto");
+        SeleccionarTrabajoInicio();
+        ordenarAliados();
         if (turnoInicial) {
             varios.pintarBlanco("\n\nLoas Caballeros de Luz inician");
             do {
@@ -86,12 +86,10 @@ public class Batalla {
                     varios.pintarRojoBrillante(obtenerAliadoEnTurno().getNombre() + " esta exhausto");
                     cambiarTurnoAliados();
                 }
+                imprimirEnemigoEnTurno();
                 imprimirAliadoEnTurno();
                 mostrarEstadisticas();
-                accionesAliado();
-                AtacarAliado();
                 cambiarTurnoAliados();
-                cambiarTurnoEnemigos();
                 turnoJugador++;
             } while (turnoJugador < 3);
 
@@ -103,14 +101,89 @@ public class Batalla {
                 if (obtenerEnemigoEnTurno().getPV() <= 0) {
                     cambiarTurnoEnemigos();
                 }
+                imprimirAliadoEnTurno();
                 imprimirEnemigoEnTurno();
                 mostrarEstadisticas();
-                accionesEnemigo();
-                AtacarAliado();
-                cambiarTurnoEnemigos();
                 cambiarTurnoAliados();
                 turnoEnemigo++;
             } while (turnoEnemigo < 3);
+
+        }
+
+    }
+
+    private void SeleccionarTrabajoInicio() {
+        for (int i = 0; i < aliados.length; i++) {
+            trabajos = aliados[i].getTrabajo();
+            varios.pintarAmarilloBrillante("\n\nSeleccione un trabajo para " + aliados[i].getNombre());
+            for (int j = 0; j < trabajos.length; j++) {
+                //Verificamos si tiene alguna posicion vacia en el array
+                if (trabajos[j] == null) {
+                    varios.pintarRojoBrillante((j + 1) + ".- Sin trabajo asignado");
+                } else {
+
+                    varios.pintarVerdeBrillante((j + 1) + ".- " + trabajos[j].getNombre());
+
+                }
+
+            }
+            op = Integer.parseInt(sc.nextLine());
+            op--;
+            //Verificamos que la opcion seleccionada este dentro de los limites del array y que exista
+            if (op < 0 || op > trabajos.length || trabajos[op] == null) {
+                varios.pintarRojoBrillante("Opción inválida. Seleccione nuevamente.");
+                continue; // Permite que el usuario seleccione nuevamente
+            }
+            //Asignamos el trabajo seleccionado a nuestra variable de tipo Trabajo
+            trabajoSeleccionado = trabajos[op];
+            //CAMBIAMOS LAS ESTADISTICAS DEL ALIADO SEGUN EL TRABAJO ELEGIDO PARA LA PELEA
+            aliados[i].cambiarEstadisticasTemporalTrabajo(trabajoSeleccionado);
+
+            /*----------------------------------------------------------------------------------*/
+            //Le pedimos al Caballero que seleccione el arma que usara
+            varios.pintarAmarilloBrillante("\nSeleccione el arma a utilizar");
+            Arma armas[] = trabajoSeleccionado.getInventarioArmas();
+            Arma armaSeleccionada;
+            varios.pintarAmarilloBrillante("Seleccione un báculo");
+            for (int k = 0; k < armas.length; k++) {
+                if (armas[k] == null) {
+                    varios.pintarRojoBrillante((k + 1) + ".- No hay armas asignadas");
+                } else {
+                    varios.pintarCyanBrillante((k + 1) + ".- " + armas[i].getNombre());
+                }
+
+            }
+
+            int opArma = Integer.parseInt(sc.nextLine());
+            opArma--;
+            if (opArma >= 0 && opArma <= armas.length) {
+                armaSeleccionada = armas[opArma];
+                aliados[i].cambiarEstadisticasTemporalArma(armaSeleccionada);
+            }
+            //Obtenemos los atributos del Caballero para usar los objetos
+            obtenerAtributosIniciales(aliados[i]);
+
+        }
+    }
+
+    private void SeleccionarArmaInicio(Trabajo trabajo) {
+        Arma armas[] = trabajo.getInventarioArmas();
+        Arma armaSeleccionada;
+        varios.pintarAmarilloBrillante("Seleccione un báculo");
+        for (int i = 0; i < armas.length; i++) {
+            if (armas[i] == null) {
+                varios.pintarRojoBrillante((i + 1) + ".- No hay armas asignadas");
+            } else {
+                varios.pintarCyanBrillante((i + 1) + ".- " + armas[i].getNombre());
+            }
+
+        }
+
+        int opArma = Integer.parseInt(sc.nextLine());
+        opArma--;
+        if (opArma >= 0 && opArma <= armas.length) {
+            armaSeleccionada = armas[opArma];
+            obtenerAliadoEnTurno().cambiarEstadisticasTemporalArma(armaSeleccionada);
 
         }
 
@@ -181,39 +254,13 @@ public class Batalla {
     }
 
 //Obtenemos los valores de los atributos originales de los Caballeros Luz
-    public void obtenerAtributosIniciales() {
-        obtenerAliadoEnTurno().setPVOriginal(obtenerAliadoEnTurno().getPVTemp());
-        obtenerAliadoEnTurno().setVelocidadOriginal(obtenerAliadoEnTurno().getVelocidadTemp());
+    public void obtenerAtributosIniciales(Aliado aliado) {
+        aliado.setPVOriginal(obtenerAliadoEnTurno().getPVTemp());
+        aliado.setVelocidadOriginal(obtenerAliadoEnTurno().getVelocidadTemp());
     }
 
     //Metodo para que los aliados ataquen
     public void AtacarAliado() {
-
-        //Obtenemos los trabajos que tiene el aliado en su inventario
-        Trabajo[] trabajos = obtenerAliadoEnTurno().getTrabajo();
-        varios.pintarAmarilloBrillante("Seleccione el trabajo que quiere usar");
-        //Mostramos los trabajos
-        for (int i = 0; i < trabajos.length; i++) {
-            if (trabajos[i] == null) { //Verificamos si tiene alguna posicion cavia en el array
-                varios.pintarRojoBrillante((i + 1) + ".- Sin trabajo asignado");
-            } else {
-
-                varios.pintarVerdeBrillante((i + 1) + ".- " + trabajos[i].getNombre());
-
-            }
-        }
-        op = Integer.parseInt(sc.nextLine());
-        //Verificamos que la opcion seleccionada este dentro de los limites del array y que exista
-        if (op < 1 || op > trabajos.length || trabajos[op - 1] == null) {
-            varios.pintarRojoBrillante("Opción inválida. Seleccione nuevamente.");
-            return; // Permite que el usuario seleccione nuevamente
-        }
-        //Asignamos el trabajo seleccionado a nuestra variable de tipo Trabajo
-        Trabajo trabajoSeleccionado = trabajos[(op - 1)];
-        //CAMBIAMOS LAS ESTADISTICAS DEL ALIADO SEGUN EL TRABAJO ELEGIDO PARA LA PELEA
-        obtenerAliadoEnTurno().cambiarEstadisticasTemporal(trabajoSeleccionado);
-        //Obtenemos los atributos del Caballero para usar los objetos
-        obtenerAtributosIniciales();
         //Verificamos si el trabajo seleccionado es un mago
         if ((trabajoSeleccionado instanceof Mago_Blanco) || (trabajoSeleccionado instanceof Mago_Rojo) || (trabajoSeleccionado instanceof Mago_Oscuro)) {
             //Mostramos las opciones para el mago
@@ -221,20 +268,8 @@ public class Batalla {
             op = Integer.parseInt(sc.nextLine());
             switch (op) {
                 case 1:
-                    //Si quiere atacar con baculo
-                    fuerzAliado = (int) (obtenerAliadoEnTurno().getFuerzaTemp());
-                    defensaEnemigo = obtenerEnemigoEnTurno().getDefensa();
-                    //Verificamos que la fuerza del Caballero de luz sea menor que la defensa del enemigo
-                    if (fuerzAliado < defensaEnemigo) {
-                        varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " no ha ocasionado daño");
-                    } else {
-                        //Comparamos la fuerza del Caballero de la luz con la defensa del enemigo
-                        finalDamage = fuerzAliado - defensaEnemigo;
-                        varios.pintarVerdeBrillante("El " + obtenerAliadoEnTurno().getNombre() + " ha hecho: " + finalDamage + " puntos de daño");
-                        int nuevoPVenemigo = obtenerEnemigoEnTurno().getPV() - finalDamage;
-                        obtenerEnemigoEnTurno().setPV(nuevoPVenemigo);
-                        mostrarEstadisticas();
-                    }
+                    //Mostrar los baculos disponibles en el inventario del Mago de ese Caballero
+                    //usarBaculo(trabajoSeleccionado);
 
                     break;
                 case 2:
@@ -251,6 +286,16 @@ public class Batalla {
 
                     break;
                 default:
+                    varios.pintarRojoBrillante("Opcion invalida");
+            }
+        } else {
+            varios.menuAliado();
+            op = Integer.parseInt(sc.nextLine());
+            switch (op) {
+                case 1:
+
+                    break;
+                default:
                     throw new AssertionError();
             }
         }
@@ -259,6 +304,7 @@ public class Batalla {
 //Metodo para usar los objetos del inventario del Jugador
 
     public void UsarObjetos() {
+        seleccionarAliado = 0;
         Objeto objetoSeleccionado;
         boolean objetoEncontrado = true;
         do {
@@ -270,12 +316,12 @@ public class Batalla {
                     for (int i = 0; i < objetos.length; i++) {
                         if (objetos[i] instanceof Pocion) {
                             objetoSeleccionado = objetos[i];
-                            SeleccionarAliadoParaRecuperarVida(aliados);
-                            if (seleccionarAliado == 0) {
+                            //SeleccionarAliadoParaRecuperarVida(aliados);
+                            usarPocion(seleccionarAliado);
+                            if (seleccionarAliado == -1) {
                                 varios.pintarCyanBrillante("No se ha utilizado el objeto");
                                 return;
                             } else {
-                                usarPocion(objetoSeleccionado, seleccionarAliado);
                                 jugador.usarObjeto(objetoSeleccionado);
                                 return;
                             }
@@ -288,39 +334,22 @@ public class Batalla {
                     for (int i = 0; i < objetos.length; i++) {
                         if (objetos[i] instanceof PlumaFenix) {
                             objetoSeleccionado = objetos[i];
-                            SeleccionarAliadoParaRecuperarVida(aliados);
-                            if (seleccionarAliado == 0) {
+                            usarPlumaFenix(seleccionarAliado);
+                            //SeleccionarAliadoParaRecuperarVida(aliados);
+                            if (seleccionarAliado == -1) {
                                 varios.pintarCyanBrillante("No se ha utilizado el objeto");
                                 return;
                             } else {
-                                usarPocion(objetoSeleccionado, seleccionarAliado);
                                 jugador.usarObjeto(objetoSeleccionado);
                                 return;
                             }
-                            varios.pintarAmarillo("Seleccione un Caballero de la Luz para recuperar vida:");
-                            //Recorremos el arreglo de aliados
-                            for (int j = 0; j < aliados.length; j++) {
-                                //Mostramos los aliados
-                                varios.pintarCyanBrillante((j + 1) + ".- " + aliados[j].getNombre() + " puntos de vida: " + aliados[j].getPVTemp());
-                            }
-                            seleccionarAliado = Integer.parseInt(sc.nextLine());
-                            objetoSeleccionado = objetos[i];
-                            //Obtenemos el PV recuperado
-                            pvRevivir = varios.Pocion();
-                            //Modificamos el PV del aliado
-                            aliados[seleccionarAliado - 1].setPVTemp(pvRevivir);
-                            //Mostramos informacion sobre el aliado revivido
-                            varios.pintarCyanBrillante(aliados[seleccionarAliado - 1].getNombre() + " ha revivido con" + pvRevivir + " puntos de vida");
-                            //Restamos el objeto del inventario del Jugador
-                            jugador.usarObjeto(objetoSeleccionado);
-                            return;
-                        } else {
-                            varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
-                            objetoEncontrado = false;
                         }
                     }
+                    varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
+                    objetoEncontrado = false;
 
                     break;
+
                 case 3:
                     for (int i = 0; i < objetos.length; i++) {
                         if (objetos[i] instanceof TiendaAcampar) {
@@ -332,101 +361,72 @@ public class Batalla {
                             //Restamos el objeto del inventario del Jugador
                             jugador.usarObjeto(objetoSeleccionado);
                             return;
-                        } else {
-                            varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
-                            objetoEncontrado = false;
                         }
                     }
+                    varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
+                    objetoEncontrado = false;
                     break;
                 case 4:
                     for (int i = 0; i < objetos.length; i++) {
                         if (objetos[i] instanceof Freno) {
-                            varios.pintarAmarillo("Seleccione un Caballero de la Luz para disminuir velocidad:");
-                            //Recorremos el arreglo de aliados
-                            for (int j = 0; j < aliados.length; j++) {
-
-                                //Mostramos la velocidad de los aliados
-                                varios.pintarCyanBrillante((j + 1) + ".- " + aliados[j].getNombre() + " velocidad: " + aliados[j].getVelocidadTemp());
-                            }
-                            seleccionarAliado = Integer.parseInt(sc.nextLine());
                             objetoSeleccionado = objetos[i];
-                            //Restamos la velocidad del Caballero Luz con el valor del metod Freno
-                            velocidadAliado = aliados[seleccionarAliado - 1].getVelocidadTemp() - varios.Freno();
-                            //Modificamos la velocidad del Caballero
-                            aliados[seleccionarAliado - 1].setVelocidadTemp(velocidadAliado);
-                            //Mostramos informacion sobre la velocidad modificada
-                            varios.pintarCyanBrillante("Velocidad de " + aliados[seleccionarAliado - 1].getNombre() + " ha : " + aliados[seleccionarAliado - 1].getVelocidadTemp());
-                            //Volvemos a reordenar los Caballeros Luz por su velocidad
-                            ordenarAliados();
-                            //Restamos el objeto del inventario del Jugador
-                            jugador.usarObjeto(objetoSeleccionado);
-                            return;
-                        } else {
-                            varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
-                            objetoEncontrado = false;
+                            usarPlumaFenix(seleccionarAliado);
+                            //SeleccionarAliadoParaRecuperarVida(aliados);
+                            if (seleccionarAliado == -1) {
+                                varios.pintarCyanBrillante("No se ha utilizado el objeto");
+                                return;
+                            } else {
+                                //Volvemos a reordenar los Caballeros Luz por su velocidad
+                                ordenarAliados();
+                                //Restamos el objeto del inventario del Jugador
+                                jugador.usarObjeto(objetoSeleccionado);
+                                return;
+                            }
+
                         }
                     }
+                    varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
+                    objetoEncontrado = false;
                     break;
                 case 5:
                     for (int i = 0; i < objetos.length; i++) {
                         if (objetos[i] instanceof PocionMayor) {
                             varios.pintarAmarillo("Seleccione un Caballero de la Luz para recuperar vida:");
-
-                            //Recorremos el arreglo de aliados
-                            for (int j = 0; j < aliados.length; j++) {
-                                //Mostramos los puntos de vida de los aliados
-                                varios.pintarCyanBrillante((j + 1) + ".- " + aliados[j].getNombre() + " puntos de vida: " + aliados[j].getPVTemp());
-                            }
-                            seleccionarAliado = Integer.parseInt(sc.nextLine());
                             objetoSeleccionado = objetos[i];
-                            //Obtenemos el PV recuperado
-                            nuevoPV = varios.PocionMayor();
-                            //Modificamos el PV del aliado
-                            aliados[seleccionarAliado - 1].setPVTemp(nuevoPV);
-                            if (aliados[seleccionarAliado - 1].getPVOriginal() < aliados[seleccionarAliado - 1].getPVTemp()) {
-                                //Recuperamos los PV originales del Caballero Luz
-                                aliados[seleccionarAliado - 1].setPVTemp(aliados[seleccionarAliado - 1].getPVOriginal());
+                            //SeleccionarAliadoParaRecuperarVida(aliados);
+                            usarPocionMayor(seleccionarAliado);
+                            if (seleccionarAliado == -1) {
+                                varios.pintarCyanBrillante("No se ha utilizado el objeto");
+                                return;
+                            } else {
+                                jugador.usarObjeto(objetoSeleccionado);
+                                return;
                             }
-                            //Mostramos informacion al jugador
-                            varios.pintarCyanBrillante(aliados[seleccionarAliado - 1] + "Ha recuperado " + nuevoPV + " puntos de vida");
-                            //Restamos el objeto del inventario del Jugador
-                            jugador.usarObjeto(objetoSeleccionado);
-                            return;
-                        } else {
-                            varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
-                            objetoEncontrado = false;
                         }
                     }
-
+                    varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
+                    objetoEncontrado = false;
                     break;
                 case 6:
                     for (int i = 0; i < objetos.length; i++) {
                         if (objetos[i] instanceof Velocidad) {
-                            varios.pintarAmarillo("Seleccione un Caballero de la Luz para aumentar velocidad:");
-                            //Recorremos el arreglo de aliados
-                            for (int j = 0; j < aliados.length; j++) {
-                                //Mostramos los aliados
-                                varios.pintarCyanBrillante((j + 1) + ".- " + aliados[j].getNombre() + " velocidad: " + aliados[j].getVelocidadTemp());
-                            }
-                            seleccionarAliado = Integer.parseInt(sc.nextLine());
                             objetoSeleccionado = objetos[i];
-                            //Sumamos la velocidad del Caballero Luz con el valor del metod Velocidad
-                            velocidadAliado = aliados[seleccionarAliado - 1].getVelocidadTemp() + varios.Velocidad();
-                            //Modificamos la velocidad del Caballero
-                            aliados[seleccionarAliado - 1].setVelocidadTemp(velocidadAliado);
-                            //Mostramos informacion sobre la velocidad modificada
-                            varios.pintarCyanBrillante("Velocidad de " + aliados[seleccionarAliado - 1].getNombre() + ": " + aliados[seleccionarAliado - 1].getVelocidadTemp());
-                            //Volvemos a reordenar los Caballeros Luz por su velocidad
-                            ordenarAliados();
-                            //Restamos el objeto del inventario del Jugador
-                            jugador.usarObjeto(objetoSeleccionado);
-                            return;
-                        } else {
-                            varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
-                            objetoEncontrado = false;
-                            continue;
+                            usarVelocidad();
+                            if (seleccionarAliado == -1) {
+                                varios.pintarCyanBrillante("No se ha utilizado el objeto");
+                                return;
+                            } else {
+                                //Volvemos a reordenar los Caballeros Luz por su velocidad
+                                ordenarAliados();
+                                //Restamos el objeto del inventario del Jugador
+                                jugador.usarObjeto(objetoSeleccionado);
+                                return;
+                            }
+
                         }
                     }
+                    varios.pintarRojoBrillante("Este objeto no esta en tu inventario. Elije otro");
+                    objetoEncontrado = false;
                     break;
 
                 default:
@@ -436,9 +436,27 @@ public class Batalla {
 
     }
 
-    //Metodo para mostrar los aliados en los menus
+    //Metodo para que el Caballero Luz ataque
+    private void CaballeroAtaca() {
+        //Realizamos los calculos necesarios
+        fuerzAliado = (int) (obtenerAliadoEnTurno().getFuerzaTemp());
+        defensaEnemigo = obtenerEnemigoEnTurno().getDefensa();
+        //Verificamos que la fuerza del Caballero de luz sea menor que la defensa del enemigo
+        if (fuerzAliado < defensaEnemigo) {
+            varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " no ha ocasionado daño");
+        } else {
+            //Comparamos la fuerza del Caballero de la luz con la defensa del enemigo
+            finalDamage = fuerzAliado - defensaEnemigo;
+            varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " ha hecho: " + finalDamage + " puntos de daño");
+            int nuevoPVenemigo = obtenerEnemigoEnTurno().getPV() - finalDamage;
+            obtenerEnemigoEnTurno().setPV(nuevoPVenemigo);
+            mostrarEstadisticas();
+        }
+    }
+
+    //Metodo para mostrar los aliados
     private int SeleccionarAliadoParaRecuperarVida(Aliado[] aliados) {
-        varios.pintarAmarillo("Seleccione un Caballero de la Luz para recuperar vida:");
+        varios.pintarAmarillo("Seleccione un Caballero de la Luz:");
         //Recorremos el arreglo de aliados
         for (int j = 0; j < aliados.length; j++) {
             //Mostramos los puntos de vida de los aliados
@@ -455,7 +473,7 @@ public class Batalla {
     }
 
     //Metodo para usar la Pocion
-    private void usarPocion(Objeto objeto, int seleccionarAliado) {
+    private void usarPocion(int seleccionarAliado) {
 
         //Variable para saber si se ha seleccionado un Caballero Luz con poca vida
         boolean aliadoValido = false;
@@ -490,7 +508,7 @@ public class Batalla {
     }
     //Metodo para utilizar Pocion Mayor
 
-    private void usarPocionMayor(Objeto objeto, int seleccionarAliado) {
+    private void usarPocionMayor(int seleccionarAliado) {
 
         //Variable para saber si se ha seleccionado un Caballero Luz con poca vida
         boolean aliadoValido = false;
@@ -524,8 +542,31 @@ public class Batalla {
         }
     }
 
+    //Metodo para usar Freno
+    private void usarFreno() {
+        varios.pintarAmarillo("Seleccione un Caballero de la Luz para disminuir velocidad:");
+        //Recorremos el arreglo de aliados
+        for (int j = 0; j < aliados.length; j++) {
+
+            //Mostramos la velocidad de los aliados
+            varios.pintarCyanBrillante((j + 1) + ".- " + aliados[j].getNombre() + " velocidad: " + aliados[j].getVelocidadTemp());
+        }
+        varios.pintarAmarilloBrillante("Para salir presione 0");
+        seleccionarAliado = Integer.parseInt(sc.nextLine());
+        seleccionarAliado--;
+        if (seleccionarAliado >= 0) {
+            //Restamos la velocidad del Caballero Luz con el valor del metod Freno
+            velocidadAliado = aliados[seleccionarAliado].getVelocidadTemp() - varios.Freno();
+            //Modificamos la velocidad del Caballero
+            aliados[seleccionarAliado].setVelocidadTemp(velocidadAliado);
+            //Mostramos informacion sobre la velocidad modificada
+            varios.pintarCyanBrillante("Velocidad de " + aliados[seleccionarAliado].getNombre() + " ha : " + aliados[seleccionarAliado].getVelocidadTemp());
+        }
+
+    }
+
     //Metodo para utilizar Pluma de Fenix
-    private void usarPlumaFenix(Objeto objeto, int seleccionarAliado) {
+    private void usarPlumaFenix(int seleccionarAliado) {
 
         //Variable para saber si se ha seleccionado un Caballero Luz con poca vida
         boolean aliadoValido = false;
@@ -550,6 +591,28 @@ public class Batalla {
                 aliadoValido = true;
             }
         }
+    }
+
+    private void usarVelocidad() {
+        varios.pintarAmarillo("Seleccione un Caballero de la Luz para aumentar velocidad:");
+        //Recorremos el arreglo de aliados
+        for (int j = 0; j < aliados.length; j++) {
+            //Mostramos los aliados
+            varios.pintarCyanBrillante((j + 1) + ".- " + aliados[j].getNombre() + " velocidad: " + aliados[j].getVelocidadTemp());
+        }
+        varios.pintarAmarilloBrillante("Para salir presione 0");
+        seleccionarAliado = Integer.parseInt(sc.nextLine());
+        seleccionarAliado--;
+        if (seleccionarAliado >= 0) {
+            //Sumamos la velocidad del Caballero Luz con el valor del metod Velocidad
+            velocidadAliado = aliados[seleccionarAliado - 1].getVelocidadTemp() + varios.Velocidad();
+            //Modificamos la velocidad del Caballero
+            aliados[seleccionarAliado - 1].setVelocidadTemp(velocidadAliado);
+            //Mostramos informacion sobre la velocidad modificada
+            varios.pintarCyanBrillante("Velocidad de " + aliados[seleccionarAliado - 1].getNombre() + ": " + aliados[seleccionarAliado - 1].getVelocidadTemp());
+
+        }
+
     }
 
     public void mostrarEstadisticas() {

@@ -105,5 +105,23 @@ public class Mago_Rojo extends Trabajo {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+@Override
+    public Magia[] getInventarioMagias() {
+        return inventarioMagias;
+    }
+@Override
+    public void setInventarioMagias(Magia[] inventarioMagias) {
+        this.inventarioMagias = inventarioMagias;
+    }
+@Override
+    public Arma[] getInventarioArmas() {
+        return inventarioArmas;
+    }
+@Override
+    public void setInventarioArmas(Arma[] inventarioArmas) {
+        this.inventarioArmas = inventarioArmas;
+    }
+
+
 
 }

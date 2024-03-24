@@ -2,6 +2,11 @@ package com.mycompany.rpg.Personaje;
 
 import com.mycompany.rpg.Trabajo.*;
 import com.mycompany.rpg.Arma.*;
+import com.mycompany.rpg.Arma.Baculo.*;
+import com.mycompany.rpg.Arma.Escudo.*;
+import com.mycompany.rpg.Arma.ArmaCorta.*;
+import com.mycompany.rpg.Arma.ArmaDosManos.*;
+import com.mycompany.rpg.Arma.ArmaUnaMano.*;
 import com.mycompany.rpg.Magias.Magia;
 
 /**
@@ -34,7 +39,7 @@ public class Aliado extends Personaje {
         this.numElementos = 0;
         iniciarEstadisticas();
         iniciarTemporales();
-        cambiarEstadisticasTemporal(trabajoInicial);
+        //cambiarEstadisticasTemporalTrabajo(trabajoInicial);
 
     }
 
@@ -58,7 +63,7 @@ public class Aliado extends Personaje {
         DefensaTemp = this.defensa;
         VelocidadTemp = this.velocidad;
         PVTemp = this.PV;
-        concentracionTemp =this.concentracion;
+        concentracionTemp = this.concentracion;
         espirituTemp = this.espiritu;
         PVOriginal = 0;
         VelocidadOriginal = 0;
@@ -83,7 +88,6 @@ public class Aliado extends Personaje {
             this.trabajo[posTrabajo] = trabajoNuevo;
         }
     }
-
 
     public void agregarObjeto(Magia magia, int cantidad) {
         for (int i = 0; i < cantidad; i++) {
@@ -113,12 +117,12 @@ public class Aliado extends Personaje {
 
     }
 
-    public void cambiarEstadisticasTemporal(Trabajo trabajo) {
+    public void cambiarEstadisticasTemporalTrabajo(Trabajo trabajo) {
         for (int i = 0; i < this.trabajo.length; i++) {
             if (this.trabajo[i] == null) {
 
             } else {
-                //Obtenemos los porcentajes que cambian las estadisticas
+                //Obtenemos los porcentajes de los personajes que cambian las estadisticas
                 double aumentoTempFuerza = trabajo.AumentarFuerza();
                 double aumentoTempDefensa = trabajo.AumentarDefensa();
                 double aumentoTempVelocidad = trabajo.AumentarVelocidad();
@@ -151,6 +155,79 @@ public class Aliado extends Personaje {
                     // Calcular los nuevos valores de los atributos según los porcentajes
                     DefensaTemp = (int) (defensa * (1 + aumentoTempDefensa));
                     PVTemp = (int) (PV * (1 + aumentoTempPV));
+                }
+            }
+        }
+
+    }
+
+    public void cambiarEstadisticasTemporalArma(Arma arma) {
+        Arma armaAliado = arma;
+
+        for (int i = 0; i < this.trabajo.length; i++) {
+            if (this.trabajo[i] == null) {
+
+            } else {
+                //Obtenemos los valores de las armas que cambian las estadisticas
+                int aumentoTempFuerza = arma.AumentarFuerza();
+                int aumentoTempDefensa = arma.AumentarDefensa();
+                int aumentoTempVelocidad = arma.AumentarVelocidad();
+                int disminuirTempVelocidad = arma.DisminuirVelocidad();
+                int aumentoTempPV = arma.AumentarPV();
+                int aumentoTempConcentracion = arma.AumentarConcentracion();
+
+                //Verificamos que tipo de trabajo es para aumentar las estadisticas
+                if (arma instanceof CuchilloCombate) {
+                    // Calcular los nuevos valores de los atributos
+                    VelocidadTemp = VelocidadTemp + aumentoTempVelocidad;
+                } else if (arma instanceof Daga) {
+                    // Calcular los nuevos valores de los atributos
+                    VelocidadTemp = VelocidadTemp + aumentoTempVelocidad;
+                } else if (arma instanceof Estilete) {
+                    // Calcular los nuevos valores de los atributos
+                    VelocidadTemp = VelocidadTemp + aumentoTempVelocidad;
+                } else if (arma instanceof Alabarda) {
+                    // Calcular los nuevos valores de los atributos
+                    FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                    VelocidadTemp = VelocidadTemp + disminuirTempVelocidad;
+                } else if (arma instanceof EspadaLarga) {
+                    // Calcular los nuevos valores de los atributos
+                    FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                    VelocidadTemp = VelocidadTemp + disminuirTempVelocidad;
+                } else if (arma instanceof Lanza) {
+                    // Calcular los nuevos valores de los atributos
+                    FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                    VelocidadTemp = VelocidadTemp + disminuirTempVelocidad;
+                } else if (arma instanceof Espada) {
+                    // Calcular los nuevos valores de los atributos
+                    FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                } else if (arma instanceof Hacha) {
+                    // Calcular los nuevos valores de los atributos
+                    FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                } else if (arma instanceof Maza) {
+                    // Calcular los nuevos valores de los atributos
+                    FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                } else if (arma instanceof Scientiae) {
+                    // Calcular los nuevos valores de los atributos
+                    concentracionTemp = concentracionTemp + aumentoTempConcentracion;
+                    PVTemp = PVTemp + aumentoTempPV;
+                } else if (arma instanceof Statera) {
+                    // Calcular los nuevos valores de los atributos
+                    concentracionTemp = concentracionTemp + aumentoTempConcentracion;
+                    PVTemp = PVTemp + aumentoTempPV;
+                } else if (arma instanceof Vivificantem) {
+                    // Calcular los nuevos valores de los atributos
+                    concentracionTemp = concentracionTemp + aumentoTempConcentracion;
+                    PVTemp = PVTemp + aumentoTempPV;
+                } else if (arma instanceof EscudoDragon) {
+                    // Calcular los nuevos valores de los atributos
+                    DefensaTemp = DefensaTemp + aumentoTempDefensa;
+                } else if (arma instanceof EscudoEncantado) {
+                    // Calcular los nuevos valores de los atributos
+                    DefensaTemp = DefensaTemp + aumentoTempDefensa;
+                } else if (arma instanceof EscudoHierro) {
+                    // Calcular los nuevos valores de los atributos
+                    DefensaTemp = DefensaTemp + aumentoTempDefensa;
                 }
             }
         }
