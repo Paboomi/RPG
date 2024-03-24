@@ -38,6 +38,7 @@ com/mycompany/rpg/Arma/ArmaUnaMano/Hacha.class
 com/mycompany/rpg/Varios.class
 com/mycompany/rpg/Magias/MagiaOscura/Hielo.class
 com/mycompany/rpg/Arma/Baculo/Scientiae.class
+com/mycompany/rpg/Magias/MagiaOscura/Meteoro.class
 com/mycompany/rpg/Arma/ArmaCorta/ArmaCorta.class
 com/mycompany/rpg/Magias/MagiaOscura/Rayo.class
 com/mycompany/rpg/Personaje/Enemigo_Hielo/Reina_Hielo.class
@@ -57,6 +58,7 @@ com/mycompany/rpg/Posada/Posada.class
 com/mycompany/rpg/Arma/ArmaUnaMano/Maza.class
 com/mycompany/rpg/Objetos/Pocion.class
 com/mycompany/rpg/Personaje/Enemigo.class
+com/mycompany/rpg/Magias/MagiaOscura/MagiaOscura.class
 com/mycompany/rpg/Personaje/Enemigo_Neutro/Garoozis.class
 com/mycompany/rpg/Arma/ArmaDosManos/Alabarda.class
 com/mycompany/rpg/Magias/MagiaBlanca/Divinidad.class
@@ -64,6 +66,7 @@ com/mycompany/rpg/Personaje/Enemigo_Hielo/Zerofyne.class
 com/mycompany/rpg/Magias/Magia.class
 com/mycompany/rpg/Arma/Baculo/Vivificantem.class
 com/mycompany/rpg/Tienda/Tienda.class
+com/mycompany/rpg/Magias/MagiaBlanca/MagiaBlanca.class
 com/mycompany/rpg/Personaje/Enemigo_Hielo/Caballero_Hielo.class
 com/mycompany/rpg/Mapas/Casillas/CasillaPosada.class
 com/mycompany/rpg/Personaje/Personaje.class

@@ -1,6 +1,7 @@
 package com.mycompany.rpg.Trabajo;
 
 import com.mycompany.rpg.Arma.Arma;
+import com.mycompany.rpg.Arma.Baculo.Scientiae;
 import com.mycompany.rpg.Magias.Magia;
 
 /**
@@ -20,6 +21,9 @@ public class Mago_Rojo extends Trabajo {
         this.nombre = "Mago Rojo";
         this.numElementosArma=0;
         this.numElementosMagia=0;
+        inventarioArmas = new Arma[1];
+        inventarioMagias = new Magia[1];
+        inventarioArmas[0] = new Scientiae();
     }
     
      //Metodo para agregar Magias desde la tienda

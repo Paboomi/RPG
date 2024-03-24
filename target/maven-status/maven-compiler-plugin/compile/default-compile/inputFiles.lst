@@ -20,6 +20,7 @@
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Trabajo/Guerrero.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/ArmaDosManos/Alabarda.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/Hielo.java
+/mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/Meteoro.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Varios.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/Arma.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Main.java
@@ -27,6 +28,7 @@
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/Rayo.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/Fuego.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Mapas/generarMapa.java
+/mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/MagiaOscura.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/ArmaCorta/ArmaCorta.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/ArmaUnaMano/Maza.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/Veneno.java
@@ -73,6 +75,7 @@
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/Escudo/EscudoEncantado.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Personaje/Enemigo_Fuego/Springan.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Personaje/Enemigo_Hielo/Zerofyne.java
+/mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaBlanca/MagiaBlanca.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/Escudo/EscudoDragon.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/ArmaUnaMano/Hacha.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Objetos/Velocidad.java

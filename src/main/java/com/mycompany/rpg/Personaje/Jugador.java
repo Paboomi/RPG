@@ -14,27 +14,29 @@ public class Jugador extends Personaje {
     Varios varios = new Varios();
     Objeto[] inventario;
     Aliado aliado[] = new Aliado[4];
-    Trabajo trabajos[];
+    Aliado trabajos[];
     int experiencia;
     int oro;
     private int numElementos;
-     private static Jugador jugador;
+    private static Jugador jugador;
 
     private Jugador() {
-        crearAliados();
         inventario = new Objeto[12];
-        numElementos=0;
+        numElementos = 0;
         crearInventario();
+        crearAliados();
         this.oro = 1000;
 
     }
-        public static Jugador getInstance() {
+
+    public static Jugador getInstance() {
         if (jugador == null) {
             jugador = new Jugador();
         }
         return jugador;
     }
-    //Almacenamos a los aliados
+
+//Almacenamos a los aliados
     public void almacenarAliados(Aliado aliados, int posAliado) {
         if (posAliado >= 0 && posAliado < this.aliado.length) {
             this.aliado[posAliado] = aliados;
@@ -56,8 +58,9 @@ public class Jugador extends Personaje {
         almacenarAliados(aliado4, 3);
 
     }
+
     //Metodo para agregar objetos al inventario
-    public void agregarObjeto(Objeto objeto, int cantidad){
+    public void agregarObjeto(Objeto objeto, int cantidad) {
         for (int i = 0; i < cantidad; i++) {
             //Verificamos que el inventario esta lleno
             if (numElementos == inventario.length) {
@@ -67,33 +70,32 @@ public class Jugador extends Personaje {
             //agregamos el nuevo objeto al inventario
             inventario[numElementos] = objeto;
             numElementos++;
-            
+
         }
     }
+
     //Metodo para ampliar capacidad del inventario
-    private void ampliarInventario(){
+    private void ampliarInventario() {
         //doblamos el inventario
         Objeto[] nuevoInventario = new Objeto[inventario.length * 2];
-        
+
         //pasamos los elementos al nuevo inventario
         for (int i = 0; i < inventario.length; i++) {
             nuevoInventario[i] = inventario[i];
-            
+
         }
         //asignamos el nuevo inventario al original
         inventario = nuevoInventario;
-        
-        
+
     }
-    
-    public void crearInventario(){
+
+    public void crearInventario() {
         agregarObjeto(new Pocion(), 8);
         agregarObjeto(new TiendaAcampar(), 2);
         agregarObjeto(new PlumaFenix(), 2);
     }
-    
-    
-     public void mostrarInventario() {
+
+    public void mostrarInventario() {
         int cantPocion = 0;
         int cantPocionMayor = 0;
         int cantPlumaFenix = 0;
@@ -108,7 +110,7 @@ public class Jugador extends Personaje {
                 cantPlumaFenix++;
             } else if (inventario[i] instanceof TiendaAcampar) {
                 cantTiendaAcampar++;
-            }else if (inventario[i] instanceof PocionMayor){
+            } else if (inventario[i] instanceof PocionMayor) {
                 cantPocionMayor++;
             }
         }
@@ -118,7 +120,8 @@ public class Jugador extends Personaje {
         System.out.println("Pluma Fenix: " + cantPlumaFenix);
         System.out.println("Tienda Acampar: " + cantTiendaAcampar);
     }
-public void usarObjeto(Objeto objeto) {
+
+    public void usarObjeto(Objeto objeto) {
         // Busca el objeto en el inventario
         for (int i = 0; i < inventario.length; i++) {
             if (inventario[i] != null && inventario[i] == objeto) {
@@ -139,8 +142,6 @@ public void usarObjeto(Objeto objeto) {
         }
         System.out.println("No tienes " + objeto.getNombre() + " en el inventario.");
     }
-    
-    
 
     public Aliado[] getAliado() {
         return aliado;
@@ -165,5 +166,5 @@ public void usarObjeto(Objeto objeto) {
     public void setOro(int oro) {
         this.oro = oro;
     }
-    
+
 }

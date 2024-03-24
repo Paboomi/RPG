@@ -1,6 +1,8 @@
 package com.mycompany.rpg.Batalla;
 
 import com.mycompany.rpg.Arma.Arma;
+import com.mycompany.rpg.Arma.ArmaUnaMano.ArmaUnaMano;
+import com.mycompany.rpg.Arma.Escudo.Escudo;
 import com.mycompany.rpg.Magias.MagiaBlanca.Coraza;
 import com.mycompany.rpg.Objetos.Freno;
 import com.mycompany.rpg.Objetos.Objeto;
@@ -16,6 +18,7 @@ import com.mycompany.rpg.Personaje.Personaje;
 import com.mycompany.rpg.Trabajo.Mago_Blanco;
 import com.mycompany.rpg.Trabajo.Mago_Oscuro;
 import com.mycompany.rpg.Trabajo.Mago_Rojo;
+import com.mycompany.rpg.Trabajo.Paladin;
 import com.mycompany.rpg.Trabajo.Trabajo;
 import com.mycompany.rpg.Varios;
 import java.util.Random;
@@ -73,23 +76,22 @@ public class Batalla {
         int turnoJugador = 0;
         int turnoEnemigo = 0;
         boolean turnoInicial = rand.nextBoolean();
-
         varios.pintarBlanco(limpiarPantalla + "\n\n\nLa batalla empezara pronto");
-        SeleccionarTrabajoInicio();
+        SeleccionarEquipamentoInicial();
         ordenarAliados();
         if (turnoInicial) {
-            varios.pintarBlanco("\n\nLoas Caballeros de Luz inician");
+            varios.pintarBlanco("\n\nLos Caballeros de Luz inician");
             do {
-
-                //imprimirAliadoEnTurno();
                 if (obtenerAliadoEnTurno().getPV() <= 0) {
                     varios.pintarRojoBrillante(obtenerAliadoEnTurno().getNombre() + " esta exhausto");
                     cambiarTurnoAliados();
                 }
-                imprimirEnemigoEnTurno();
                 imprimirAliadoEnTurno();
+                imprimirEnemigoEnTurno();
                 mostrarEstadisticas();
+                AtacarAliado();
                 cambiarTurnoAliados();
+                cambiarTurnoEnemigos();
                 turnoJugador++;
             } while (turnoJugador < 3);
 
@@ -101,10 +103,12 @@ public class Batalla {
                 if (obtenerEnemigoEnTurno().getPV() <= 0) {
                     cambiarTurnoEnemigos();
                 }
-                imprimirAliadoEnTurno();
                 imprimirEnemigoEnTurno();
+                imprimirAliadoEnTurno();
                 mostrarEstadisticas();
+                AtacarAliado();
                 cambiarTurnoAliados();
+                cambiarTurnoEnemigos();
                 turnoEnemigo++;
             } while (turnoEnemigo < 3);
 
@@ -112,7 +116,7 @@ public class Batalla {
 
     }
 
-    private void SeleccionarTrabajoInicio() {
+    private void SeleccionarEquipamentoInicial() {
         for (int i = 0; i < aliados.length; i++) {
             trabajos = aliados[i].getTrabajo();
             varios.pintarAmarilloBrillante("\n\nSeleccione un trabajo para " + aliados[i].getNombre());
@@ -134,34 +138,75 @@ public class Batalla {
                 varios.pintarRojoBrillante("Opción inválida. Seleccione nuevamente.");
                 continue; // Permite que el usuario seleccione nuevamente
             }
-            //Asignamos el trabajo seleccionado a nuestra variable de tipo Trabajo
+            //Asignamos el trabajo seleccionado a nuestra variable de tipo Aliado
             trabajoSeleccionado = trabajos[op];
+            //Asignamos el trabajo Activo para este aliado
+            aliados[i].setTrabajoActivo(trabajoSeleccionado);
             //CAMBIAMOS LAS ESTADISTICAS DEL ALIADO SEGUN EL TRABAJO ELEGIDO PARA LA PELEA
             aliados[i].cambiarEstadisticasTemporalTrabajo(trabajoSeleccionado);
 
             /*----------------------------------------------------------------------------------*/
-            //Le pedimos al Caballero que seleccione el arma que usara
-            varios.pintarAmarilloBrillante("\nSeleccione el arma a utilizar");
             Arma armas[] = trabajoSeleccionado.getInventarioArmas();
             Arma armaSeleccionada;
-            varios.pintarAmarilloBrillante("Seleccione un báculo");
-            for (int k = 0; k < armas.length; k++) {
-                if (armas[k] == null) {
-                    varios.pintarRojoBrillante((k + 1) + ".- No hay armas asignadas");
+            Arma escudoSeleccionado;
+            int opArma = 0;
+            int opEscudo = 0;
+            boolean tieneEscudos = false;
+            //Le pedimos al Caballero que seleccione el arma que usara
+            varios.pintarAmarilloBrillante("\nSeleccione el arma a utilizar");
+            //Verificamos si el trabajo seleccionado es un Paladin
+            if (trabajoSeleccionado instanceof Paladin) {
+                for (int k = 0; k < armas.length; k++) {
+                    if (armas[k] == null) {
+                        varios.pintarRojoBrillante((k + 1) + ".- No hay armas asignadas");
+                    } else if (armas[k] instanceof ArmaUnaMano) {
+                        varios.pintarCyanBrillante((k + 1) + ".- " + armas[k].getNombre());
+                    }
+
+                }
+                opArma = Integer.parseInt(sc.nextLine());
+                opArma--;
+                armaSeleccionada = armas[opArma];
+                varios.pintarAmarilloBrillante("Selecciones el escudo que quiere utilizar");
+                for (int n = 0; n < armas.length; n++) {
+                    if (armas[n] instanceof Escudo) {
+                        varios.pintarCyanBrillante((n + 1) + ".- " + armas[n].getNombre());
+                        tieneEscudos = true;
+                    } else {
+                        varios.pintarRojoBrillante("No tienes escudos en tu inventario");
+                    }
+                }
+                if (tieneEscudos) {
+                    opEscudo = Integer.parseInt(sc.nextLine());
+                    opEscudo--;
+                    escudoSeleccionado = armas[opEscudo];
+                    aliados[i].EstadisticasTemporalPaladin(trabajoSeleccionado, armaSeleccionada, escudoSeleccionado);
+                    //Obtenemos los atributos del Caballero para usar los objetos
+                    obtenerAtributosIniciales(aliados[i]);
                 } else {
-                    varios.pintarCyanBrillante((k + 1) + ".- " + armas[i].getNombre());
+                    aliados[i].EstidisticasTemporalPaladinSinEscudo(trabajoSeleccionado, armaSeleccionada);
+                    //Obtenemos los atributos del Caballero para usar los objetos
+                    obtenerAtributosIniciales(aliados[i]);
                 }
 
-            }
+            } else {
+                for (int j = 0; j < armas.length; j++) {
+                    if (armas[j] == null) {
+                        varios.pintarRojoBrillante((j + 1) + ".- No hay armas asignadas");
+                    } else {
+                        varios.pintarCyanBrillante((j + 1) + ".- " + armas[j].getNombre());
+                    }
 
-            int opArma = Integer.parseInt(sc.nextLine());
-            opArma--;
-            if (opArma >= 0 && opArma <= armas.length) {
-                armaSeleccionada = armas[opArma];
-                aliados[i].cambiarEstadisticasTemporalArma(armaSeleccionada);
+                }
+                opArma = Integer.parseInt(sc.nextLine());
+                opArma--;
+                if (opArma >= 0 && opArma <= armas.length) {
+                    armaSeleccionada = armas[opArma];
+                    aliados[i].cambiarEstadisticasTemporalArma(armaSeleccionada, trabajoSeleccionado);
+                }
+                //Obtenemos los atributos del Caballero para usar los objetos
+                obtenerAtributosIniciales(aliados[i]);
             }
-            //Obtenemos los atributos del Caballero para usar los objetos
-            obtenerAtributosIniciales(aliados[i]);
 
         }
     }
@@ -183,7 +228,7 @@ public class Batalla {
         opArma--;
         if (opArma >= 0 && opArma <= armas.length) {
             armaSeleccionada = armas[opArma];
-            obtenerAliadoEnTurno().cambiarEstadisticasTemporalArma(armaSeleccionada);
+            obtenerAliadoEnTurno().cambiarEstadisticasTemporalArma(armaSeleccionada, trabajoSeleccionado);
 
         }
 
@@ -255,21 +300,20 @@ public class Batalla {
 
 //Obtenemos los valores de los atributos originales de los Caballeros Luz
     public void obtenerAtributosIniciales(Aliado aliado) {
-        aliado.setPVOriginal(obtenerAliadoEnTurno().getPVTemp());
-        aliado.setVelocidadOriginal(obtenerAliadoEnTurno().getVelocidadTemp());
+        aliado.setPVOriginal(aliado.getPVTemp());
+        aliado.setVelocidadOriginal(aliado.getVelocidadTemp());
     }
 
     //Metodo para que los aliados ataquen
     public void AtacarAliado() {
         //Verificamos si el trabajo seleccionado es un mago
-        if ((trabajoSeleccionado instanceof Mago_Blanco) || (trabajoSeleccionado instanceof Mago_Rojo) || (trabajoSeleccionado instanceof Mago_Oscuro)) {
+        if ((obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Blanco) || (obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Rojo) || (obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Oscuro)) {
             //Mostramos las opciones para el mago
             varios.menuMago();
             op = Integer.parseInt(sc.nextLine());
             switch (op) {
                 case 1:
-                    //Mostrar los baculos disponibles en el inventario del Mago de ese Caballero
-                    //usarBaculo(trabajoSeleccionado);
+                    CaballeroAtaca();
 
                     break;
                 case 2:
@@ -293,7 +337,10 @@ public class Batalla {
             op = Integer.parseInt(sc.nextLine());
             switch (op) {
                 case 1:
-
+                    CaballeroAtaca();
+                    break;
+                case 2:
+                    UsarObjetos();
                     break;
                 default:
                     throw new AssertionError();
@@ -380,7 +427,7 @@ public class Batalla {
                                 ordenarAliados();
                                 //Restamos el objeto del inventario del Jugador
                                 jugador.usarObjeto(objetoSeleccionado);
-                                return;
+                                objetoEncontrado = true;
                             }
 
                         }
@@ -400,7 +447,7 @@ public class Batalla {
                                 return;
                             } else {
                                 jugador.usarObjeto(objetoSeleccionado);
-                                return;
+                                objetoEncontrado = true;
                             }
                         }
                     }
@@ -616,7 +663,7 @@ public class Batalla {
     }
 
     public void mostrarEstadisticas() {
-        varios.pintarVerdeBrillante("Puntos de vida de " + obtenerAliadoEnTurno().getNombre() + ": " + obtenerAliadoEnTurno().getPV());
+        varios.pintarVerdeBrillante("Puntos de vida de " + obtenerAliadoEnTurno().getNombre() + ": " + obtenerAliadoEnTurno().getPVTemp());
         varios.pintarVerdeBrillante("Puntos de vida de " + obtenerEnemigoEnTurno().getNombre() + ": " + obtenerEnemigoEnTurno().getPV());
 
     }

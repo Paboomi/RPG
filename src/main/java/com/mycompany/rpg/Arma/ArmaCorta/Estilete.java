@@ -8,7 +8,7 @@ public class Estilete extends ArmaCorta{
     private final int aumentarVelocidad=10;
     
     public Estilete() {
-        nombre = "Daga";
+        nombre = "Estilete";
     }
 @Override
     public int AumentarVelocidad() {

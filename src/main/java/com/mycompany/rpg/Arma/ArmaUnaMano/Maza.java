@@ -6,7 +6,7 @@ package com.mycompany.rpg.Arma.ArmaUnaMano;
  */
 public class Maza extends ArmaUnaMano {
 
-    private final int aumentarFuerza = 20;
+    private final int aumentarFuerza = 15;
 
     public Maza() {
         nombre = "Maza";

@@ -6,6 +6,6 @@ import com.mycompany.rpg.Magias.Magia;
  *
  * @author saien
  */
-public class Divinidad extends MagiaBlanca{
+public class MagiaBlanca extends Magia{
     
 }

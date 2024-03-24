@@ -19,6 +19,7 @@ public class Aliado extends Personaje {
     private Trabajo[] trabajo;
     Arma armas[];
     Magia[] inventarioMagias;
+    Trabajo trabajoActivo;
     private int numElementos;
     //Variables temporales al utilizar un trabajo
     private int FuerzaTemp;
@@ -39,7 +40,6 @@ public class Aliado extends Personaje {
         this.numElementos = 0;
         iniciarEstadisticas();
         iniciarTemporales();
-        //cambiarEstadisticasTemporalTrabajo(trabajoInicial);
 
     }
 
@@ -161,8 +161,44 @@ public class Aliado extends Personaje {
 
     }
 
-    public void cambiarEstadisticasTemporalArma(Arma arma) {
+    public void EstadisticasTemporalPaladin(Trabajo trabajo, Arma arma, Arma escudo) {
         Arma armaAliado = arma;
+        Arma escudoAliado = escudo;
+        Trabajo trabajoActivo = trabajo;
+        //Obtenemos los valores de las armas que cambian las estadisticas
+        int aumentoTempFuerza = armaAliado.AumentarFuerza();
+        int aumentoTempDefensa = escudoAliado.AumentarDefensa();
+        //Dado que el paladin puede usar un escudo y un arma de una mano verificamos el trabajo activo
+        if (trabajoActivo instanceof Paladin) {
+            Arma[] armas = trabajo.getInventarioArmas();
+            for (int i = 0; i < armas.length; i++) {
+                if (armas[i] instanceof ArmaUnaMano) {
+                    FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                    break;
+                }
+            }
+            for (int j = 0; j < armas.length; j++) {
+                if (armas[j] instanceof Escudo) {
+                    DefensaTemp = DefensaTemp + aumentoTempDefensa;
+                }
+            }
+
+        }
+    }
+
+    public void EstidisticasTemporalPaladinSinEscudo(Trabajo trabajo, Arma arma) {
+        Arma armaAliado = arma;
+        Trabajo trabajoActivo = trabajo;
+         int aumentoTempFuerza = armaAliado.AumentarFuerza();
+        if (trabajoActivo instanceof Paladin) {
+            FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+        }
+
+    }
+
+    public void cambiarEstadisticasTemporalArma(Arma arma, Trabajo trabajo) {
+        Arma armaAliado = arma;
+        Trabajo trabajoActivo = trabajo;
 
         for (int i = 0; i < this.trabajo.length; i++) {
             if (this.trabajo[i] == null) {
@@ -176,7 +212,7 @@ public class Aliado extends Personaje {
                 int aumentoTempPV = arma.AumentarPV();
                 int aumentoTempConcentracion = arma.AumentarConcentracion();
 
-                //Verificamos que tipo de trabajo es para aumentar las estadisticas
+                //Verificamos que tipo de arma es para aumentar las estadisticas
                 if (arma instanceof CuchilloCombate) {
                     // Calcular los nuevos valores de los atributos
                     VelocidadTemp = VelocidadTemp + aumentoTempVelocidad;
@@ -199,12 +235,69 @@ public class Aliado extends Personaje {
                     FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
                     VelocidadTemp = VelocidadTemp + disminuirTempVelocidad;
                 } else if (arma instanceof Espada) {
+                    //Verificamos si el trabajo del Caballero Luz es de tipo Guerrero
+                    if (trabajo instanceof Guerrero) {
+                        int cantArma = 0;
+                        Arma[] armas = trabajo.getInventarioArmas();
+                        //Analizamos si tiene mas de una espada en su inventario
+                        for (int j = 0; j < armas.length; j++) {
+                            if (armas[j] instanceof Espada) {
+                                cantArma++;
+                            }
+                        }
+                        //Si es cierto 
+                        if (cantArma >= 2) {
+                            //Duplicamos el valor del aumento de Fuerza
+                            FuerzaTemp = (FuerzaTemp + (aumentoTempFuerza * 2));
+                        } else {
+                            //Modificamos la fuerza de forma normal
+                            FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                        }
+                    }
                     // Calcular los nuevos valores de los atributos
                     FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
                 } else if (arma instanceof Hacha) {
+                    //Verificamos si el trabajo del Caballero Luz es de tipo Guerrero
+                    if (trabajo instanceof Guerrero) {
+                        int cantArma = 0;
+                        Arma[] armas = trabajo.getInventarioArmas();
+                        //Analizamos si tiene mas de una espada en su inventario
+                        for (int j = 0; j < armas.length; j++) {
+                            if (armas[j] instanceof Hacha) {
+                                cantArma++;
+                            }
+                        }
+                        //Si es cierto 
+                        if (cantArma >= 2) {
+                            //Duplicamos el valor del aumento de Fuerza
+                            FuerzaTemp = (FuerzaTemp + (aumentoTempFuerza * 2));
+                        } else {
+                            //Modificamos la fuerza de forma normal
+                            FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                        }
+                    }
                     // Calcular los nuevos valores de los atributos
                     FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
                 } else if (arma instanceof Maza) {
+                    //Verificamos si el trabajo del Caballero Luz es de tipo Guerrero
+                    if (trabajo instanceof Guerrero) {
+                        int cantArma = 0;
+                        Arma[] armas = trabajo.getInventarioArmas();
+                        //Analizamos si tiene mas de una espada en su inventario
+                        for (int j = 0; j < armas.length; j++) {
+                            if (armas[j] instanceof Espada) {
+                                cantArma++;
+                            }
+                        }
+                        //Si es cierto 
+                        if (cantArma >= 2) {
+                            //Duplicamos el valor del aumento de Fuerza
+                            FuerzaTemp = (FuerzaTemp + (aumentoTempFuerza * 2));
+                        } else {
+                            //Modificamos la fuerza de forma normal
+                            FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
+                        }
+                    }
                     // Calcular los nuevos valores de los atributos
                     FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
                 } else if (arma instanceof Scientiae) {
@@ -233,7 +326,18 @@ public class Aliado extends Personaje {
         }
 
     }
+    
 //GETTERS Y SETTERS
+
+    public Trabajo getTrabajoActivo() {
+        return trabajoActivo;
+    }
+
+    public void setTrabajoActivo(Trabajo trabajoActivo) {
+        this.trabajoActivo = trabajoActivo;
+    }
+  
+    
 
     @Override
     public String getNombre() {

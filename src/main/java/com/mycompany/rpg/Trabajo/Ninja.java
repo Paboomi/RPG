@@ -1,31 +1,34 @@
 package com.mycompany.rpg.Trabajo;
 
 import com.mycompany.rpg.Arma.Arma;
+import com.mycompany.rpg.Arma.ArmaCorta.Estilete;
 
 /**
  *
  * @author saien
  */
-public class Ninja extends Trabajo{
-    
-    Arma[] arma;
+public class Ninja extends Trabajo {
+
+    Arma[] inventarioArmas;
     boolean subioNivel = false;
-   
-    
-    public Ninja(){
+
+    public Ninja() {
         this.nombre = "Ninja";
+        inventarioArmas = new Arma[1];
+        inventarioArmas[0] = new Estilete();
     }
-    
+
     //Metodos para aumentar estadisticas
     @Override
-    public double AumentarVelocidad(){
+    public double AumentarVelocidad() {
         return 0.35;
     }
+
     @Override
-    public double DisminuirDefensa(){
+    public double DisminuirDefensa() {
         return 0.20;
     }
-    
+
     //GETTERS Y SETTERS
     public void setsubioNivel(boolean subionivel) {
         this.subioNivel = subionivel;
@@ -34,17 +37,29 @@ public class Ninja extends Trabajo{
     public boolean EstaActivo() {
         return (subioNivel) ? true : false;
     }
-    
-    public int cantArmas(){
+
+    public int cantArmas() {
         return 2;
     }
-@Override
+
+    @Override
     public String getNombre() {
         return nombre;
     }
-@Override
+
+    @Override
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    @Override
+    public Arma[] getInventarioArmas() {
+        return inventarioArmas;
+    }
+
+    @Override
+    public void setInventarioArmas(Arma[] inventarioArmas) {
+        this.inventarioArmas = inventarioArmas;
     }
 
 }

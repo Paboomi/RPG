@@ -1,7 +1,9 @@
 package com.mycompany.rpg.Trabajo;
 
 import com.mycompany.rpg.Arma.Arma;
+import com.mycompany.rpg.Arma.Baculo.Scientiae;
 import com.mycompany.rpg.Magias.Magia;
+import com.mycompany.rpg.Magias.MagiaOscura.Meteoro;
 
 /**
  *
@@ -20,7 +22,12 @@ public class Mago_Oscuro extends Trabajo {
         this.nombre = "Mago Oscuro";
         this.numElementosArma = 0;
         this.numElementosMagia = 0;
+        inventarioArmas = new Arma[1];
+        inventarioMagias = new Magia[1];
+        inventarioArmas[0] = new Scientiae();
+        inventarioMagias[0] = new Meteoro();
     }
+
 
     //Metodo para agregar Magias desde la tienda
     public void agregarMagia(Magia magia, int cantidad) {
@@ -112,6 +119,15 @@ public class Mago_Oscuro extends Trabajo {
 @Override
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+        @Override
+    public Arma[] getInventarioArmas() {
+        return inventarioArmas;
+    }
+
+    @Override
+    public void setInventarioArmas(Arma[] inventarioArmas) {
+        this.inventarioArmas = inventarioArmas;
     }
 
 }

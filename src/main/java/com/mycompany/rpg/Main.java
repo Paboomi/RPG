@@ -43,7 +43,7 @@ public class Main {
 //        System.out.println("\n\n\n\n\n\n");
 //        jugador.agregarObjeto(new PocionMayor(), 3);
 //       jugador.mostrarInventario();
-//        Trabajo trabajo = new Guerrero();
+//        Aliado trabajo = new Guerrero();
 //        Aliado aliado = new Aliado("Vaan", trabajo);
 //        aliado.agregarTrabajo(new Paladin());
 //        aliado.mostrarTrabajos();
