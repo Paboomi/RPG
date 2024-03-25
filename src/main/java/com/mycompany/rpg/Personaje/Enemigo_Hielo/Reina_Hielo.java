@@ -6,14 +6,17 @@ package com.mycompany.rpg.Personaje.Enemigo_Hielo;
  */
 public class Reina_Hielo extends Enemigo_Hielo {
 //Es la mas equilibrida de los enemigos de tipo hielo y es la mas fuerte
+
     private String nombre;
+    private String logo = "\uD83D\uDC79";
 
     public Reina_Hielo(int nivel) {
         super(nivel);
         nombre = "Reina Hielo";
         generarEstadisticas();
     }
-    private void generarEstadisticas(){
+
+    private void generarEstadisticas() {
         switch (this.nivel) {
             case 10:
                 this.fuerza = 10;
@@ -60,7 +63,6 @@ public class Reina_Hielo extends Enemigo_Hielo {
         }
     }
 
-
     //GETTERS Y SETTERS
     public String getNombre() {
         return nombre;
@@ -69,6 +71,7 @@ public class Reina_Hielo extends Enemigo_Hielo {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     @Override
     public void setId(int id) {
         super.setId(id);
@@ -77,6 +80,17 @@ public class Reina_Hielo extends Enemigo_Hielo {
     @Override
     public int getId() {
         return super.getId();
+    }
+
+    @Override
+    public String toString() {
+        return logo + " Enemigo " + logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PV + "\n"
+                + "Fuerza: " + fuerza + "\n"
+                + "Defensa: " + defensa + "\n"
+                + "Concentración: " + concentracion + "\n"
+                + "Espíritu: " + espiritu + "\n";
     }
 
 }

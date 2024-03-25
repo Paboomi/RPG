@@ -21,7 +21,7 @@ public class Guerrero extends Trabajo {
         inventarioArmas[0] = new Espada();
 
     }
-
+@Override
     public void agregarArma(Arma arma, int cantidad) {
         for (int i = 0; i < cantidad; i++) {
             //Verificamos que el inventario esta lleno

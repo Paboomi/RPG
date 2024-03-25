@@ -9,6 +9,7 @@ public class Springan extends Enemigo_Fuego {
 
     //Es el que mas ataque fisico tiene
     private String nombre;
+    private String logo = "\uD83D\uDC79";
 
     public Springan(int nivel) {
         super(nivel);
@@ -31,7 +32,7 @@ public class Springan extends Enemigo_Fuego {
                 this.defensa = 10;
                 this.concentracion = 10;
                 this.espiritu = 5;
-                this.velocidad =5;
+                this.velocidad = 5;
                 this.PV = 110;
                 break;
             case 30:
@@ -137,6 +138,17 @@ public class Springan extends Enemigo_Fuego {
 
     public void setNivel(int nivel) {
         this.nivel = nivel;
+    }
+
+    @Override
+    public String toString() {
+        return logo + " Enemigo " + logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PV + "\n"
+                + "Fuerza: " + fuerza + "\n"
+                + "Defensa: " + defensa + "\n"
+                + "Concentración: " + concentracion + "\n"
+                + "Espíritu: " + espiritu + "\n";
     }
 
 }

@@ -3,7 +3,6 @@ com/mycompany/rpg/Personaje/Enemigo_Fuego/Enemigo_Fuego.class
 com/mycompany/rpg/Personaje/Jugador.class
 com/mycompany/rpg/Objetos/Objeto.class
 com/mycompany/rpg/Arma/ArmaCorta/CuchilloCombate.class
-com/mycompany/rpg/Personaje/Caballeros_Oscuridad.class
 com/mycompany/rpg/Arma/ArmaDosManos/Lanza.class
 com/mycompany/rpg/Mapas/Casillas/CasillaPasto.class
 com/mycompany/rpg/Trabajo/Trabajo.class
@@ -26,12 +25,14 @@ com/mycompany/rpg/Arma/Escudo/EscudoDragon.class
 com/mycompany/rpg/Main.class
 com/mycompany/rpg/Trabajo/Mago_Blanco.class
 com/mycompany/rpg/Personaje/Enemigo_Neutro/Lancero_Negro.class
+com/mycompany/rpg/Magias/MagiaBlanca/MagiaEscudo.class
 com/mycompany/rpg/Personaje/Enemigo_Hielo/Enemigo_Hielo.class
 com/mycompany/rpg/Magias/MagiaBlanca/Cura.class
 com/mycompany/rpg/Arma/ArmaUnaMano/Espada.class
 com/mycompany/rpg/Magias/MagiaOscura/Veneno.class
 com/mycompany/rpg/Arma/Escudo/EscudoEncantado.class
 com/mycompany/rpg/Trabajo/Mago_Rojo.class
+com/mycompany/rpg/Personaje/CaballeroOscuro.class
 com/mycompany/rpg/Trabajo/Guerrero.class
 com/mycompany/rpg/Arma/Escudo/EscudoHierro.class
 com/mycompany/rpg/Arma/ArmaUnaMano/Hacha.class
@@ -48,8 +49,8 @@ com/mycompany/rpg/Arma/ArmaUnaMano/ArmaUnaMano.class
 com/mycompany/rpg/Magias/MagiaBlanca/Revivir.class
 com/mycompany/rpg/Objetos/PlumaFenix.class
 com/mycompany/rpg/Objetos/PocionMayor.class
+com/mycompany/rpg/Batalla/BatallaCaballerosOscuros.class
 com/mycompany/rpg/Personaje/Enemigo_Fuego/Flamvell.class
-com/mycompany/rpg/Magias/MagiaBlanca/Escudo.class
 com/mycompany/rpg/Mapas/Casillas/CasillaCiudad.class
 com/mycompany/rpg/Personaje/Enemigo_Fuego/Springan.class
 com/mycompany/rpg/Arma/Baculo/Baculo.class

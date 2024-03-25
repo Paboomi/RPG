@@ -6,6 +6,8 @@ package com.mycompany.rpg.Magias;
  */
 public class Magia {
     
+    protected String nombre;
+    
     public int recuperarPV(){
         return 0;
     }
@@ -14,7 +16,7 @@ public class Magia {
         return false;
     }
     
-    public int aumentarEspiritu(){ //aumenta ademas de 1 a 5 puntos de concentracion
+    public int aumentarEspiritu(){ 
         return 0;
     }
     
@@ -22,7 +24,24 @@ public class Magia {
         return 0;
     }
     
-    public int hacerDamage(){
+    public int Damage(){
         return 0;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public boolean PerderTurno() {
+        return false;
+    }
+    
+    public int generarTurnos(){
+        return 0;
+    }
+    
 }

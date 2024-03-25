@@ -28,6 +28,13 @@ public class Aliado extends Personaje {
     private int DefensaTemp;
     private int VelocidadTemp;
     private int PVTemp;
+    private int contadorEscudo = 0;
+    private int contadorCoraza = 0;
+    private boolean EscudoActivo;
+    private boolean CorazaActiva;
+    private int DefensaOriginal;
+    private int EspirituOriginal;
+    private int aumentoDefensa;
     //Variables al utilizar los Objetos en la clase batalla
     private int PVOriginal;
     private int VelocidadOriginal;
@@ -47,7 +54,7 @@ public class Aliado extends Personaje {
         //Constructor para otras acciones
     }
 
-    public void iniciarEstadisticas() {
+    private void iniciarEstadisticas() {
         this.PV = 100;
         this.fuerza = 65;
         this.defensa = 60;
@@ -58,7 +65,7 @@ public class Aliado extends Personaje {
         this.experiencia = 0;
     }
 
-    private void iniciarTemporales() {
+    public void iniciarTemporales() {
         FuerzaTemp = this.fuerza;
         DefensaTemp = this.defensa;
         VelocidadTemp = this.velocidad;
@@ -67,6 +74,66 @@ public class Aliado extends Personaje {
         espirituTemp = this.espiritu;
         PVOriginal = 0;
         VelocidadOriginal = 0;
+    }
+
+    //Metodo para aplicar la magia de Escudo
+    public void AplicarEscudo(Magia magia, Aliado magoUso) {
+        contadorEscudo = 0;
+        DefensaOriginal = 0;
+        //Este es el mago que ha usado la magia Escudo
+        Aliado activaEscudo = magoUso;
+        //Usamos esto para obtener los metodos de la magia Escudo
+        Magia magiaActiva = magia;
+        DefensaOriginal = getDefensaTemp();
+        contadorEscudo = (int) (magiaActiva.generarTurnos() * (1 + activaEscudo.getConcentracionTemp() / 100));
+        aumentoDefensa = magiaActiva.aumentarDefensa();
+        setPVTemp(getDefensaTemp() + aumentoDefensa);
+        EscudoActivo = true;
+    }
+
+    //Metodo para aplicar la magia Coraza
+    public void AplicarCoraza(Magia magia, Aliado magoUso) {
+        contadorCoraza = 0;
+        EspirituOriginal = 0;
+        //Este es el mago que ha usado la magia Escudo
+        Aliado activaEscudo = magoUso;
+        //Usamos esto para obtener los metodos de la magia Escudo
+        Magia magiaActiva = magia;
+        EspirituOriginal = getEspirituTemp();
+        contadorCoraza = (int) (magiaActiva.generarTurnos() * (1 + activaEscudo.getConcentracionTemp() / 100));
+        aumentoDefensa = magiaActiva.aumentarEspiritu();
+        setEspirituTemp(getEspirituTemp() + aumentoDefensa);
+        CorazaActiva = true;
+    }
+
+    //Contador para Escudo
+    public void reducirContadorEscudo() {
+        if (EscudoActivo) {
+            if (contadorEscudo > 0) {
+                contadorEscudo--;
+
+                if (contadorEscudo == 0) {
+                    setDefensaTemp(DefensaOriginal);
+                    EscudoActivo = false;
+                }
+            }
+        }
+
+    }
+
+
+    //Contador para Coraza
+    public void reducirContadorCoraza() {
+        if (CorazaActiva) {
+            if (contadorCoraza > 0) {
+                contadorCoraza--;
+                if (contadorCoraza == 0) {
+                    setEspirituTemp(EspirituOriginal);
+                    CorazaActiva = false;
+                }
+            }
+        }
+
     }
 
     public void agregarTrabajo(Trabajo trabaJonuevo) {
@@ -189,7 +256,7 @@ public class Aliado extends Personaje {
     public void EstidisticasTemporalPaladinSinEscudo(Trabajo trabajo, Arma arma) {
         Arma armaAliado = arma;
         Trabajo trabajoActivo = trabajo;
-         int aumentoTempFuerza = armaAliado.AumentarFuerza();
+        int aumentoTempFuerza = armaAliado.AumentarFuerza();
         if (trabajoActivo instanceof Paladin) {
             FuerzaTemp = FuerzaTemp + aumentoTempFuerza;
         }
@@ -197,9 +264,7 @@ public class Aliado extends Personaje {
     }
 
     public void cambiarEstadisticasTemporalArma(Arma arma, Trabajo trabajo) {
-        Arma armaAliado = arma;
-        Trabajo trabajoActivo = trabajo;
-
+       
         for (int i = 0; i < this.trabajo.length; i++) {
             if (this.trabajo[i] == null) {
 
@@ -326,9 +391,8 @@ public class Aliado extends Personaje {
         }
 
     }
-    
-//GETTERS Y SETTERS
 
+//GETTERS Y SETTERS
     public Trabajo getTrabajoActivo() {
         return trabajoActivo;
     }
@@ -336,8 +400,6 @@ public class Aliado extends Personaje {
     public void setTrabajoActivo(Trabajo trabajoActivo) {
         this.trabajoActivo = trabajoActivo;
     }
-  
-    
 
     @Override
     public String getNombre() {
@@ -491,6 +553,22 @@ public class Aliado extends Personaje {
 
     public void setVelocidadOriginal(int VelocidadOriginal) {
         this.VelocidadOriginal = VelocidadOriginal;
+    }
+
+    public int getConcentracionTemp() {
+        return concentracionTemp;
+    }
+
+    public void setConcentracionTemp(int concentracionTemp) {
+        this.concentracionTemp = concentracionTemp;
+    }
+
+    public int getEspirituTemp() {
+        return espirituTemp;
+    }
+
+    public void setEspirituTemp(int espirituTemp) {
+        this.espirituTemp = espirituTemp;
     }
 
 }

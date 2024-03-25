@@ -100,8 +100,7 @@ public class Varios {
         System.out.println("1.- Atacar");
         System.out.println("2.- Usar Objeto");
         System.out.println("3.- Usar Magia");
-        System.out.println("4.- Usar Habilidad especial");
-        System.out.println("5.- Saltar Turno" + RESET);
+        System.out.println("4.- Saltar Turno" + RESET);
     }
 //Menu para los trabajos que no son magos
 

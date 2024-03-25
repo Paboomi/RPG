@@ -6,7 +6,9 @@ package com.mycompany.rpg.Personaje.Enemigo_Hielo;
  */
 public class Caballero_Hielo extends Enemigo_Hielo {
 //El ataque fisico es mayor que su ataque magico
+
     private String nombre;
+    private String logo = "\uD83D\uDC79";
 
     public Caballero_Hielo(int nivel) {
         super(nivel);
@@ -79,15 +81,26 @@ public class Caballero_Hielo extends Enemigo_Hielo {
     public int getId() {
         return super.getId();
     }
+
     @Override
     public int getVelocidad() {
         return velocidad;
     }
+
     @Override
     public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return logo + " Enemigo " + logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PV + "\n"
+                + "Fuerza: " + fuerza + "\n"
+                + "Defensa: " + defensa + "\n"
+                + "Concentración: " + concentracion + "\n"
+                + "Espíritu: " + espiritu + "\n";
+    }
 
 }

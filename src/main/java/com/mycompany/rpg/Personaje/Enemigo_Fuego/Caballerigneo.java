@@ -8,6 +8,7 @@ public class Caballerigneo extends Enemigo_Fuego {
 
 //El ataque fisico de Caballerigneo es mayor que su ataque magico 
     private String nombre;
+    private String logo = "\uD83D\uDC79";
 
     //Constructor
     public Caballerigneo(int nivel) {
@@ -110,6 +111,17 @@ public class Caballerigneo extends Enemigo_Fuego {
 
     public void setPV(int PV) {
         this.PV = PV;
+    }
+    
+   @Override
+    public String toString() {
+        return logo+" Enemigo "+logo+"\n" +
+               "Nivel: " + nivel + "\n" +
+               "PV: " + PV + "\n" +
+               "Fuerza: " + fuerza + "\n" +
+               "Defensa: " + defensa + "\n" +
+               "Concentración: " + concentracion + "\n" +
+               "Espíritu: " + espiritu + "\n";
     }
 
     /**

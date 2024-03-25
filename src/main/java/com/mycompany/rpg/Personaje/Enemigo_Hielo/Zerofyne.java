@@ -6,7 +6,9 @@ package com.mycompany.rpg.Personaje.Enemigo_Hielo;
  */
 public class Zerofyne extends Enemigo_Hielo {
 //Es debil respecto a ataque fisico y resistencia pero fuerte en el uso de las magias
+
     private String nombre;
+    private String logo = "\uD83D\uDC79";
 
     public Zerofyne(int nivel) {
         super(nivel);
@@ -21,7 +23,7 @@ public class Zerofyne extends Enemigo_Hielo {
                 this.defensa = 10;
                 this.concentracion = 15;
                 this.espiritu = 15;
-                this.velocidad =10;
+                this.velocidad = 10;
                 this.PV = 100;
                 break;
             case 20:
@@ -80,4 +82,14 @@ public class Zerofyne extends Enemigo_Hielo {
         return super.getId();
     }
 
+    @Override
+    public String toString() {
+        return logo + " Enemigo " + logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PV + "\n"
+                + "Fuerza: " + fuerza + "\n"
+                + "Defensa: " + defensa + "\n"
+                + "Concentración: " + concentracion + "\n"
+                + "Espíritu: " + espiritu + "\n";
+    }
 }

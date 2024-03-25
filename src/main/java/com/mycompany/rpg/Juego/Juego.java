@@ -7,7 +7,6 @@ import com.mycompany.rpg.Mapas.Casillas.CasillaPasto;
 import com.mycompany.rpg.Mapas.Casillas.CasillaPosada;
 import com.mycompany.rpg.Mapas.Casillas.CasillaTienda;
 import com.mycompany.rpg.Mapas.generarMapa;
-import com.mycompany.rpg.Personaje.Enemigo;
 import com.mycompany.rpg.Personaje.Jugador;
 import com.mycompany.rpg.Varios;
 import java.util.Scanner;
@@ -31,7 +30,6 @@ public class Juego {
     String posada = new String("\uD83C\uDFE5");
     String pasto = new String("\uD83C\uDF42");
     String logoJugador = new String("\uD83D\uDC66");
-    String logoEnemigo = new String("\uD83D\uDC7E");
     //Variables para generar personajes
     private int cantEnemigos;
     private int posX;
@@ -104,21 +102,24 @@ public class Juego {
                         Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
                         if (casillaNueva instanceof CasillaTienda) {
                             System.out.println("Aqui deberia ir la tienda");
-                            // Puedes agregar lógica específica para la tienda aquí
+                       
                         } else if (casillaNueva instanceof CasillaPasto) {
-                            // Puedes agregar lógica específica para el pasto aquí
+                           
                         } else if (casillaNueva instanceof CasillaPosada) {
                             System.out.println("Aqui deberia ir la posada");
-                            // Puedes agregar lógica específica para la posada aquí
+                           
                         } else if (casillaNueva instanceof CasillaCiudad) {
                             System.out.println("Aqui deberian tirarse riata");
-                            // Puedes agregar lógica específica para la ciudad aquí
+                            //mandamos a los caballeros luz a la batalla
+                            CasillaCiudad ciudad = new CasillaCiudad();
+                            ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                           
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
                             CasillaEnemigo enemigo = new CasillaEnemigo();
                             enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
-                            // Puedes agregar lógica específica para el enemigo aquí
+                            
                         }
 
                         // Actualizamos la posición del jugador en el mapa
@@ -145,21 +146,23 @@ public class Juego {
                         Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
                         if (casillaNueva instanceof CasillaTienda) {
                             System.out.println("Aqui deberia ir la tienda");
-                            // Puedes agregar lógica específica para la tienda aquí
+                           
                         } else if (casillaNueva instanceof CasillaPasto) {
-                            // Puedes agregar lógica específica para el pasto aquí
+                            
                         } else if (casillaNueva instanceof CasillaPosada) {
                             System.out.println("Aqui deberia ir la posada");
-                            // Puedes agregar lógica específica para la posada aquí
+                         
                         } else if (casillaNueva instanceof CasillaCiudad) {
                             System.out.println("Aqui deberian tirarse riata");
-                            // Puedes agregar lógica específica para la ciudad aquí
+                            CasillaCiudad ciudad = new CasillaCiudad();
+                            ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                           
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
                             CasillaEnemigo enemigo = new CasillaEnemigo();
                             enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
-                            // Puedes agregar lógica específica para el enemigo aquí
+                           
                         }
 
                         // Actualizamos la posición del jugador en el mapa
@@ -185,21 +188,23 @@ public class Juego {
                         Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
                         if (casillaNueva instanceof CasillaTienda) {
                             System.out.println("Aqui deberia ir la tienda");
-                            // Puedes agregar lógica específica para la tienda aquí
+                            
                         } else if (casillaNueva instanceof CasillaPasto) {
-                            // Puedes agregar lógica específica para el pasto aquí
+                            
                         } else if (casillaNueva instanceof CasillaPosada) {
                             System.out.println("Aqui deberia ir la posada");
-                            // Puedes agregar lógica específica para la posada aquí
+                           
                         } else if (casillaNueva instanceof CasillaCiudad) {
                             System.out.println("Aqui deberian tirarse riata");
-                            // Puedes agregar lógica específica para la ciudad aquí
+                            CasillaCiudad ciudad = new CasillaCiudad();
+                            ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
                             CasillaEnemigo enemigo = new CasillaEnemigo();
                             enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
-                            // Puedes agregar lógica específica para el enemigo aquí
+                           
                         }
 
                         // Actualizamos la posición del jugador en el mapa
@@ -223,21 +228,23 @@ public class Juego {
                         Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
                         if (casillaNueva instanceof CasillaTienda) {
                             System.out.println("Aqui deberia ir la tienda");
-                            // Puedes agregar lógica específica para la tienda aquí
+                            
                         } else if (casillaNueva instanceof CasillaPasto) {
-                            // Puedes agregar lógica específica para el pasto aquí
+                           
                         } else if (casillaNueva instanceof CasillaPosada) {
                             System.out.println("Aqui deberia ir la posada");
-                            // Puedes agregar lógica específica para la posada aquí
+                          
                         } else if (casillaNueva instanceof CasillaCiudad) {
                             System.out.println("Aqui deberian tirarse riata");
-                            // Puedes agregar lógica específica para la ciudad aquí
+                            CasillaCiudad ciudad = new CasillaCiudad();
+                            ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());                   
+                        
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
-                            //mandamos a los caballeros luz a la batalla
+                           
                             CasillaEnemigo enemigo = new CasillaEnemigo();
                             enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
-                            // Puedes agregar lógica específica para el enemigo aquí
+                            
                         }
 
                         // Actualizamos la posición del jugador en el mapa
@@ -255,9 +262,9 @@ public class Juego {
                     salir = true;
                     break;
                 default:
-                    throw new AssertionError();
+                    varios.pintarRojoBrillante("Seleccione una direccion valida");
             }
-        } while (salir == false);
+        } while (!salir);
 
     }
 

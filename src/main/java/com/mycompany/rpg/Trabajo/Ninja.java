@@ -11,11 +11,41 @@ public class Ninja extends Trabajo {
 
     Arma[] inventarioArmas;
     boolean subioNivel = false;
+    private int numElementos;
 
     public Ninja() {
         this.nombre = "Ninja";
+        this.numElementos = 0;
         inventarioArmas = new Arma[1];
         inventarioArmas[0] = new Estilete();
+    }
+
+    @Override
+    public void agregarArma(Arma arma, int cantidad) {
+        for (int i = 0; i < cantidad; i++) {
+            //Verificamos que el inventario esta lleno
+            if (numElementos == inventarioArmas.length) {
+                //si asi es lo ampliamos
+                ampliarInventarioArmas();
+            }
+            //agregamos el nuevo objeto al inventario
+            inventarioArmas[numElementos] = arma;
+            numElementos++;
+        }
+    }
+
+    private void ampliarInventarioArmas() {
+        //doblamos el inventario
+        Arma[] nuevoInventario = new Arma[inventarioArmas.length * 2];
+
+        //pasamos los elementos al nuevo inventario
+        for (int i = 0; i < inventarioArmas.length; i++) {
+            nuevoInventario[i] = inventarioArmas[i];
+
+        }
+        //asignamos el nuevo inventario al original
+        inventarioArmas = nuevoInventario;
+
     }
 
     //Metodos para aumentar estadisticas

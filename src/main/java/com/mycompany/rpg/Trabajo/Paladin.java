@@ -11,14 +11,46 @@ public class Paladin extends Trabajo {
 
     Arma[] inventarioArmas;
     boolean subioNivel = false;
+    private int numElementos;
 
     public Paladin() {
         this.nombre = "Paladin";
+        this.numElementos = 0;
         inventarioArmas = new Arma[1];
         inventarioArmas[0] = new Espada();
     }
-//METODOS PARA CAMBIAR ESTADISTICAS
 
+    //METODO PARA AGREGAR ARMAS AL INVENTARIO
+    @Override
+    public void agregarArma(Arma arma, int cantidad) {
+        for (int i = 0; i < cantidad; i++) {
+            //Verificamos que el inventario esta lleno
+            if (numElementos == inventarioArmas.length) {
+                //si asi es lo ampliamos
+                ampliarInventarioArmas();
+            }
+            //agregamos el nuevo objeto al inventario
+            inventarioArmas[numElementos] = arma;
+            numElementos++;
+        }
+    }
+//Metodo para ampliar el inventario
+
+    private void ampliarInventarioArmas() {
+        //doblamos el inventario
+        Arma[] nuevoInventario = new Arma[inventarioArmas.length * 2];
+
+        //pasamos los elementos al nuevo inventario
+        for (int i = 0; i < inventarioArmas.length; i++) {
+            nuevoInventario[i] = inventarioArmas[i];
+
+        }
+        //asignamos el nuevo inventario al original
+        inventarioArmas = nuevoInventario;
+
+    }
+
+//METODOS PARA CAMBIAR ESTADISTICAS
     @Override
     public double AumentarDefensa() {
         return 0.25;

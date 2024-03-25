@@ -8,9 +8,11 @@ import com.mycompany.rpg.Magias.Magia;
  * @author saien
  */
 public class Trabajo {
-protected String nombre;
+
+    protected String nombre;
     protected Magia[] inventarioMagias;
     protected Arma[] inventarioArmas;
+
     public void Menu() {
 
     }
@@ -38,19 +40,29 @@ protected String nombre;
     public double AumentarConcentracion() {
         return 0;
     }
-    
-    public double AumentarEspiritu(){
-        return 0;
-    }
-    public double AumentarVelocidad(){
-        return 0;
-    }
-    public double DisminuirVelocidad(){
-        return 0;
-    }
-    
-    
 
+    public double AumentarEspiritu() {
+        return 0;
+    }
+
+    public double AumentarVelocidad() {
+        return 0;
+    }
+
+    public double DisminuirVelocidad() {
+        return 0;
+    }
+    public void usarMagias(Magia magia){
+        
+    }
+    //METODO PARA AGREGAR ARMA
+    public void agregarArma(Arma arma, int cantidad){
+        
+    }
+    //METODO PARA AGREGAR MAGIA
+    public void agregarMagia(Magia magia, int cantidad){
+        
+    }
     public String getNombre() {
         return nombre;
     }
@@ -74,8 +86,5 @@ protected String nombre;
     public void setInventarioArmas(Arma[] inventarioArmas) {
         this.inventarioArmas = inventarioArmas;
     }
-
-
-    
 
 }

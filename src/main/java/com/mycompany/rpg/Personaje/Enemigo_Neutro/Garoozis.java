@@ -7,13 +7,15 @@ package com.mycompany.rpg.Personaje.Enemigo_Neutro;
 public class Garoozis extends Enemigo_Neutro {
 
     private String nombre;
+    private String logo = "\uD83D\uDC79";
 
     public Garoozis(int nivel) {
         super(nivel);
         nombre = "Garoozis";
         generarEstadisticas();
     }
-    private void generarEstadisticas(){
+
+    private void generarEstadisticas() {
         switch (this.nivel) {
             case 10:
                 this.fuerza = 10;
@@ -74,4 +76,13 @@ public class Garoozis extends Enemigo_Neutro {
         return super.getId();
     }
 
+    @Override
+    public String toString() {
+        return logo + " Enemigo " + logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PV + "\n"
+                + "Fuerza: " + fuerza + "\n"
+                + "Defensa: " + defensa + "\n"
+                + "Espíritu: " + espiritu + "\n";
+    }
 }

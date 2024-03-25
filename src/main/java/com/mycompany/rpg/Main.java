@@ -1,20 +1,6 @@
 package com.mycompany.rpg;
 
-import com.mycompany.rpg.Batalla.Batalla;
 import com.mycompany.rpg.Juego.Juego;
-import com.mycompany.rpg.Mapas.generarMapa;
-import com.mycompany.rpg.Objetos.PocionMayor;
-import com.mycompany.rpg.Personaje.Aliado;
-import com.mycompany.rpg.Personaje.Enemigo;
-import com.mycompany.rpg.Personaje.Enemigo_Fuego.Caballerigneo;
-import com.mycompany.rpg.Personaje.Enemigo_Fuego.Springan;
-import com.mycompany.rpg.Personaje.Enemigo_Hielo.Enemigo_Hielo;
-import com.mycompany.rpg.Personaje.Enemigo_Hielo.Zerofyne;
-import com.mycompany.rpg.Personaje.Enemigo_Neutro.Garoozis;
-import com.mycompany.rpg.Personaje.Jugador;
-import com.mycompany.rpg.Personaje.Personaje;
-import com.mycompany.rpg.Trabajo.*;
-
 /**
  *
  * @author saien

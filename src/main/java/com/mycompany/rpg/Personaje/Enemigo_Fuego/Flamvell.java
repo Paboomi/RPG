@@ -7,16 +7,16 @@ package com.mycompany.rpg.Personaje.Enemigo_Fuego;
 public class Flamvell extends Enemigo_Fuego {
 
     //El ataque fisico de Flamvell es menor que su ataque magico
-    
     private String nombre;
+    private String logo = "\uD83D\uDC79";
 
     public Flamvell(int nivel) {
         super(nivel);
         nombre = "Flamvell";
         generarEstadisticas();
     }
-    
-     private void generarEstadisticas(){
+
+    private void generarEstadisticas() {
         switch (this.nivel) {
             case 10:
                 this.fuerza = 10;
@@ -62,17 +62,16 @@ public class Flamvell extends Enemigo_Fuego {
                 throw new AssertionError();
         }
     }
-     
-    //GETTERS Y SETTERS LOCALES
 
-         public String getNombre() {
+    //GETTERS Y SETTERS LOCALES
+    public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     public int getFuerza() {
         return fuerza;
     }
@@ -120,8 +119,6 @@ public class Flamvell extends Enemigo_Fuego {
     public void setPV(int PV) {
         this.PV = PV;
     }
-    
-    
 
 //Getters y Setters globales
     @Override
@@ -140,6 +137,17 @@ public class Flamvell extends Enemigo_Fuego {
 
     public void setNivel(int nivel) {
         this.nivel = nivel;
+    }
+
+    @Override
+    public String toString() {
+        return logo + " Enemigo " + logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PV + "\n"
+                + "Fuerza: " + fuerza + "\n"
+                + "Defensa: " + defensa + "\n"
+                + "Concentración: " + concentracion + "\n"
+                + "Espíritu: " + espiritu + "\n";
     }
 
 }

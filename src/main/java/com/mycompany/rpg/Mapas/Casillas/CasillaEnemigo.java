@@ -32,7 +32,7 @@ public class CasillaEnemigo extends Casilla {
     }
 
     public CasillaEnemigo() {
-        varios = new Varios();
+        varios = new Varios(); 
         this.cantEnemigos = varios.numEnemigos(); //Generamos la cantidad de enemigos de forma aleatoria
         this.enemigos = new Enemigo[cantEnemigos];
         almacenarEnemigos();

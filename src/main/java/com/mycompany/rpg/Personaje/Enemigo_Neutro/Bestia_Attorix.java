@@ -5,14 +5,16 @@ package com.mycompany.rpg.Personaje.Enemigo_Neutro;
  * @author saien
  */
 public class Bestia_Attorix extends Enemigo_Neutro {
+
     private String nombre;
+    private String logo = "\uD83D\uDC79";
 
     public Bestia_Attorix(int nivel) {
         super(nivel);
         nombre = "Bestia Attorix";
         generarEstadisticas();
     }
-    
+
     private void generarEstadisticas() {
         switch (this.nivel) {
             case 10:
@@ -54,6 +56,7 @@ public class Bestia_Attorix extends Enemigo_Neutro {
                 System.out.println("Nivel no disponible");
         }
     }
+
     //GETTERS Y SETTERS
     public String getNombre() {
         return nombre;
@@ -73,4 +76,13 @@ public class Bestia_Attorix extends Enemigo_Neutro {
         return super.getId();
     }
 
+    @Override
+    public String toString() {
+        return logo + " Enemigo " + logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PV + "\n"
+                + "Fuerza: " + fuerza + "\n"
+                + "Defensa: " + defensa + "\n"
+                + "Espíritu: " + espiritu + "\n";
+    }
 }

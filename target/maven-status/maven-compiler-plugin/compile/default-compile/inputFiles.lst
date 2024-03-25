@@ -12,7 +12,6 @@
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaBlanca/Divinidad.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/Baculo/Statera.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaBlanca/Cura.java
-/mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Personaje/Caballeros_Oscuridad.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/Baculo/Scientiae.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/Escudo/EscudoHierro.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Trabajo/Trabajo.java
@@ -24,7 +23,6 @@
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Varios.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/Arma.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Main.java
-/mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaBlanca/Escudo.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/Rayo.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/Fuego.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Mapas/generarMapa.java
@@ -34,9 +32,11 @@
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaOscura/Veneno.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Objetos/Pocion.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Personaje/Enemigo.java
+/mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Batalla/BatallaCaballerosOscuros.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Mapas/Casillas/CasillaEnemigo.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Trabajo/Paladin.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/ArmaDosManos/Lanza.java
+/mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaBlanca/MagiaEscudo.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Objetos/PocionMayor.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Trabajo/Ninja.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Objetos/Objeto.java
@@ -53,6 +53,7 @@
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/ArmaCorta/Estilete.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Arma/ArmaDosManos/EspadaLarga.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Mapas/Mapa.java
+/mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Personaje/CaballeroOscuro.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Objetos/TiendaAcampar.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Personaje/Enemigo_Fuego/Enemigo_Fuego.java
 /mnt/datos/JAVA/PROYECTO1 IPC1 2024/RPG/src/main/java/com/mycompany/rpg/Magias/MagiaBlanca/Coraza.java

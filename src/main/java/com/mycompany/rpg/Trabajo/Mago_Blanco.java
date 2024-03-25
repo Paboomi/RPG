@@ -28,6 +28,7 @@ public class Mago_Blanco extends Trabajo {
         inventarioArmas[0] = new Scientiae();
     }
 
+    @Override
     public void agregarMagia(Magia magia, int cantidad) {
         numElementosMagia = 0;
         for (int i = 0; i < cantidad; i++) {
@@ -57,6 +58,7 @@ public class Mago_Blanco extends Trabajo {
 
     }
 
+    @Override
     public void agregarArma(Arma arma, int cantidad) {
         numElementosArma = 0;
         for (int i = 0; i < cantidad; i++) {
@@ -84,6 +86,32 @@ public class Mago_Blanco extends Trabajo {
         //asignamos el nuevo inventario al original
         inventarioArmas = nuevoInventario;
 
+    }
+
+    @Override
+    //Metodo para eliminar una magia que se ha usado en la batalla
+    public void usarMagias(Magia magia) {
+        // Busca el objeto en el inventario
+        for (int i = 0; i < inventarioMagias.length; i++) {
+            if (inventarioMagias[i] != null && inventarioMagias[i] == magia) {
+                // Verifica si hay suficientes objetos en el inventario
+                if (numElementosMagia > 0) {
+                    // Elimina el objeto del inventario
+                    for (int j = i; j < numElementosMagia - 1; j++) {
+                        //Movemos la posicion actual a una posicion adelante dejando el elemento usado al final
+                        inventarioMagias[j] = inventarioMagias[j + 1];
+                    }
+                    // Elimina la última referencia que es el elemento usado
+                    inventarioMagias[numElementosMagia - 1] = null;
+                    numElementosMagia--;
+                    return; // Termina el método después de usar el objeto
+                } else {
+                    System.out.println("No tienes suficientes " + magia.getNombre() + " en el inventario.");
+                    return;
+                }
+            }
+        }
+        System.out.println("No tienes " + magia.getNombre() + " en el inventario.");
     }
 
     //Metodos para aumentar estadisitcas a la hora de equipar el trabajo
