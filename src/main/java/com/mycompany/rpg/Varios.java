@@ -1,3 +1,4 @@
+
 package com.mycompany.rpg;
 
 import com.mycompany.rpg.Mapas.generarMapa;
@@ -7,14 +8,17 @@ import com.mycompany.rpg.Trabajo.Mago_Blanco;
 import com.mycompany.rpg.Trabajo.Mago_Oscuro;
 import com.mycompany.rpg.Trabajo.Ninja;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
  * @author saien
  */
+
 public class Varios {
 
     Random rand = new Random();
+Scanner sc = new Scanner(System.in);
 
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
@@ -122,6 +126,8 @@ public class Varios {
         System.out.println("5.- Pocion Mayor");
         System.out.println("6.- Velocidad"+RESET);
     }
+    
+    
 
     //metodo para modificar velocidad de aliados
     public int Velocidad() {

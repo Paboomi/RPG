@@ -157,12 +157,11 @@ public class Juego {
                         // Comprobamos qué tipo de casilla hay en la nueva posición
                         Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
                         if (casillaNueva instanceof CasillaTienda) {
-                            System.out.println("Aqui deberia ir la tienda");
-
+                            CasillaTienda tienda = new CasillaTienda();
+                            tienda.Menu();
                         } else if (casillaNueva instanceof CasillaPasto) {
 
                         } else if (casillaNueva instanceof CasillaPosada) {
-                            System.out.println("Aqui deberia ir la posada");
 
                         } else if (casillaNueva instanceof CasillaCiudad) {
                             //mandamos a los caballeros luz a la batalla
@@ -175,14 +174,12 @@ public class Juego {
                             }
 
                         } else if (casillaNueva instanceof CasillaEnemigo) {
-                            System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
-                            //CasillaEnemigo enemigo = new CasillaEnemigo();
+                            enemigo = (CasillaEnemigo) casillaNueva;
                             //Verificamos que la ciudad no esta reconquistada
                             if (!enemigo.isDerrotados()) {
                                 enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
                             } else {
-                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
                             }
                         }
 
@@ -208,12 +205,10 @@ public class Juego {
                         // Comprobamos qué tipo de casilla hay en la nueva posición
                         Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
                         if (casillaNueva instanceof CasillaTienda) {
-                            System.out.println("Aqui deberia ir la tienda");
 
                         } else if (casillaNueva instanceof CasillaPasto) {
 
                         } else if (casillaNueva instanceof CasillaPosada) {
-                            System.out.println("Aqui deberia ir la posada");
 
                         } else if (casillaNueva instanceof CasillaCiudad) {
                             //mandamos a los caballeros luz a la batalla
@@ -232,7 +227,6 @@ public class Juego {
                             if (!enemigo.isDerrotados()) {
                                 enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
                             } else {
-                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
                             }
 
                         }
@@ -257,12 +251,10 @@ public class Juego {
                         // Comprobamos qué tipo de casilla hay en la nueva posición
                         Casilla casillaNueva = mapa.getCasilla(tempX, tempY);
                         if (casillaNueva instanceof CasillaTienda) {
-                            System.out.println("Aqui deberia ir la tienda");
 
                         } else if (casillaNueva instanceof CasillaPasto) {
 
                         } else if (casillaNueva instanceof CasillaPosada) {
-                            System.out.println("Aqui deberia ir la posada");
 
                         } else if (casillaNueva instanceof CasillaCiudad) {
                             //mandamos a los caballeros luz a la batalla
@@ -275,14 +267,12 @@ public class Juego {
                             }
 
                         } else if (casillaNueva instanceof CasillaEnemigo) {
-                            System.out.println("Aqui deberian tirarse riata");
                             //CasillaEnemigo enemigo = new CasillaEnemigo();
                             enemigo = (CasillaEnemigo) casillaNueva; //Obtenemos la misma referencia que la para esta casilla
                             //Verificamos que la ciudad no esta reconquistada
                             if (!enemigo.isDerrotados()) {
                                 enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
                             } else {
-                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
                             }
                         }
 
