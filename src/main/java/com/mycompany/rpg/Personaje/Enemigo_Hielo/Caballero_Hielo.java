@@ -94,7 +94,7 @@ public class Caballero_Hielo extends Enemigo_Hielo {
 
     @Override
     public String toString() {
-        return logo + " Enemigo " + logo + "\n"
+        return logo +" "+nombre+" "+ logo + "\n"
                 + "Nivel: " + nivel + "\n"
                 + "PV: " + PV + "\n"
                 + "Fuerza: " + fuerza + "\n"

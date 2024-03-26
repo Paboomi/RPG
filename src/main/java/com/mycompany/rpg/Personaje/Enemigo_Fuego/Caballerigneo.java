@@ -32,7 +32,7 @@ public class Caballerigneo extends Enemigo_Fuego {
                 this.defensa = 10;
                 this.concentracion = 15;
                 this.espiritu = 5;
-                this.velocidad=5;
+                this.velocidad = 5;
                 this.PV = 110;
                 break;
             case 30:
@@ -112,16 +112,16 @@ public class Caballerigneo extends Enemigo_Fuego {
     public void setPV(int PV) {
         this.PV = PV;
     }
-    
-   @Override
+
+    @Override
     public String toString() {
-        return logo+" Enemigo "+logo+"\n" +
-               "Nivel: " + nivel + "\n" +
-               "PV: " + PV + "\n" +
-               "Fuerza: " + fuerza + "\n" +
-               "Defensa: " + defensa + "\n" +
-               "Concentración: " + concentracion + "\n" +
-               "Espíritu: " + espiritu + "\n";
+        return logo + " " + nombre + " " + logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PV + "\n"
+                + "Fuerza: " + fuerza + "\n"
+                + "Defensa: " + defensa + "\n"
+                + "Concentración: " + concentracion + "\n"
+                + "Espíritu: " + espiritu + "\n";
     }
 
     /**

@@ -8,6 +8,7 @@ import com.mycompany.rpg.Arma.ArmaCorta.*;
 import com.mycompany.rpg.Arma.ArmaDosManos.*;
 import com.mycompany.rpg.Arma.ArmaUnaMano.*;
 import com.mycompany.rpg.Magias.Magia;
+import com.mycompany.rpg.Varios;
 
 /**
  *
@@ -16,10 +17,12 @@ import com.mycompany.rpg.Magias.Magia;
 public class Aliado extends Personaje {
 
     private String nombre;
+     String logo= new String("\uD83D\uDC66");
     private Trabajo[] trabajo;
     Arma armas[];
     Magia[] inventarioMagias;
     Trabajo trabajoActivo;
+    Varios varios;
     private int numElementos;
     //Variables temporales al utilizar un trabajo
     private int FuerzaTemp;
@@ -35,6 +38,7 @@ public class Aliado extends Personaje {
     private int DefensaOriginal;
     private int EspirituOriginal;
     private int aumentoDefensa;
+    private int aumentoEspiritu;
     //Variables al utilizar los Objetos en la clase batalla
     private int PVOriginal;
     private int VelocidadOriginal;
@@ -45,6 +49,7 @@ public class Aliado extends Personaje {
         this.trabajo[0] = trabajoInicial;
         this.inventarioMagias = new Magia[1];
         this.numElementos = 0;
+        varios = new Varios();
         iniciarEstadisticas();
         iniciarTemporales();
 
@@ -87,7 +92,8 @@ public class Aliado extends Personaje {
         DefensaOriginal = getDefensaTemp();
         contadorEscudo = (int) (magiaActiva.generarTurnos() * (1 + activaEscudo.getConcentracionTemp() / 100));
         aumentoDefensa = magiaActiva.aumentarDefensa();
-        setPVTemp(getDefensaTemp() + aumentoDefensa);
+        setDefensaTemp(getDefensaTemp() + aumentoDefensa);
+        varios.pintarVerdeBrillante(getNombre() + " ha recibido " + aumentoDefensa + " puntos de defensa");
         EscudoActivo = true;
     }
 
@@ -101,8 +107,9 @@ public class Aliado extends Personaje {
         Magia magiaActiva = magia;
         EspirituOriginal = getEspirituTemp();
         contadorCoraza = (int) (magiaActiva.generarTurnos() * (1 + activaEscudo.getConcentracionTemp() / 100));
-        aumentoDefensa = magiaActiva.aumentarEspiritu();
-        setEspirituTemp(getEspirituTemp() + aumentoDefensa);
+        aumentoEspiritu = magiaActiva.aumentarEspiritu();
+        setEspirituTemp(getEspirituTemp() + aumentoEspiritu);
+        varios.pintarVerdeBrillante(getNombre() + " ha recibido" + aumentoEspiritu + " puntos de espiritu");
         CorazaActiva = true;
     }
 
@@ -569,6 +576,16 @@ public class Aliado extends Personaje {
 
     public void setEspirituTemp(int espirituTemp) {
         this.espirituTemp = espirituTemp;
+    }
+        @Override
+    public String toString() {
+        return logo +" "+nombre+" "+ logo + "\n"
+                + "Nivel: " + nivel + "\n"
+                + "PV: " + PVTemp + "\n"
+                + "Fuerza: " + FuerzaTemp + "\n"
+                + "Defensa: " + DefensaTemp + "\n"
+                + "Concentración: " + concentracionTemp + "\n"
+                + "Espíritu: " + espirituTemp + "\n";
     }
 
 }

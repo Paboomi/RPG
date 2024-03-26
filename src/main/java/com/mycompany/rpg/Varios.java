@@ -85,9 +85,9 @@ public class Varios {
 //Instrucciones para movimientos
 
     public void instructionMov() {
-        System.out.println(BRIGHT_YELLOW + "Instrucciones para realizar movimientos:");
+        System.out.println(BRIGHT_YELLOW + "\nInstrucciones para realizar movimientos:");
         System.out.println("Se movera una casilla a la vez al momento de ingresar la dirección y presionar enter");
-        System.out.println("\n\nDirecciones disponibles:" + RESET);
+        System.out.println("\nDirecciones disponibles:" + RESET);
         System.out.println(BRIGHT_GREEN + "Arriba - W");
         System.out.println("Abajo - S");
         System.out.println("Derecha - D");

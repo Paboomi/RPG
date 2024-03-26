@@ -45,19 +45,20 @@ public class BatallaCaballerosOscuros {
     Magia magiaSeleccionada;
     Trabajo[] trabajos;
 
-    private int indiceEnemigoEnTurno;
+    private int indiceCaballeroEnTurno;
     private int indiceAliadoEnTurno;
     private int op;
     private int fuerzAliado = 0;
     private int defensaAliado = 0;
     private int velocidadAliado = 0;
-    private int defensaEnemigo = 0;
-    private int fuerzaEnemigo = 0;
+    private int defensaCaballero = 0;
+    private int fuerzaCaballero = 0;
     private int finalDamage = 0;
     private int nuevoPV = 0;
     private int concentracionAliado = 0;
     private int espirituAliado = 0;
-    private int concentracionEnemigo = 0;
+    private int espirituCaballero = 0;
+    private int concentracionCaballero = 0;
     private int seleccionarAliado = 0;
     private String limpiarPantalla = "\033c";
 
@@ -68,7 +69,7 @@ public class BatallaCaballerosOscuros {
         this.caballeros = caballeros;
         this.objetos = objeto;
         indiceAliadoEnTurno = 0;
-        indiceEnemigoEnTurno = 0;
+        indiceCaballeroEnTurno = 0;
         ordenarAliados();
         ordenarEnemigos();
         IniciarPelea();
@@ -80,9 +81,18 @@ public class BatallaCaballerosOscuros {
 
     //Iniciamos la pelea
     public void IniciarPelea() {
-        int turnoJugador = 0;
-        int turnoEnemigo = 0;
         boolean turnoInicial = rand.nextBoolean();
+        int aliadosCansados = 0;
+
+        for (Aliado aliado : aliados) {
+            if (aliado.getPVTemp() < 0) {
+                aliadosCansados++;
+            }
+        }
+        if (aliadosCansados == aliados.length) {
+            varios.pintarCyanBrillante("Los Caballeros Luz estan Exhaustos, no pueden pelear");
+            return;
+        }
         varios.pintarBlanco(limpiarPantalla + "\n\n\nLa batalla empezara pronto");
         SeleccionarEquipamentoInicial();
         ordenarAliados();
@@ -95,29 +105,28 @@ public class BatallaCaballerosOscuros {
                 }
                 imprimirAliadoEnTurno();
                 imprimirCaballeroEnTurno();
-                mostrarEstadisticas();
+                mostrarPuntosVida();
                 AtacarAliado();
+                CaballeroAtacar();
                 cambiarTurnoAliados();
                 cambiarTurnoEnemigos();
-                turnoJugador++;
-            } while (turnoJugador < 3);
+
+            } while (obtenerPVAliados() != 0 || obtenerPVCaballero() != 0);
 
         } else {
             varios.pintarBlanco("\n\nEl equipo enemigo inicia");
             do {
-
-                //imprimirAliadoEnTurno();
                 if (obtenerCaballeroEnTurno().getPV() <= 0) {
                     cambiarTurnoEnemigos();
                 }
                 imprimirCaballeroEnTurno();
                 imprimirAliadoEnTurno();
-                mostrarEstadisticas();
+                mostrarPuntosVida();
+                CaballeroAtacar();
                 AtacarAliado();
                 cambiarTurnoAliados();
                 cambiarTurnoEnemigos();
-                turnoEnemigo++;
-            } while (turnoEnemigo < 3);
+            } while (obtenerPVAliados() != 0 || obtenerPVCaballero() != 0);
 
         }
 
@@ -283,23 +292,28 @@ public class BatallaCaballerosOscuros {
 //Metodo para cambiar el turno del enemigo
 
     private void cambiarTurnoEnemigos() {
-        if (indiceEnemigoEnTurno < caballeros.length - 1) {
-            indiceEnemigoEnTurno++;
+        if (indiceCaballeroEnTurno < caballeros.length - 1) {
+            indiceCaballeroEnTurno++;
         } else {
-            indiceEnemigoEnTurno = 0;
+            indiceCaballeroEnTurno = 0;
         }
     }
 
     private void imprimirAliadoEnTurno() {
 
-        varios.pintarPurpura("\nJugador en turno: " + obtenerAliadoEnTurno().getNombre());
+        varios.pintarMagentaBrillante("\nJugador en turno: " + obtenerAliadoEnTurno().getNombre());
 
     }
 
     private void imprimirCaballeroEnTurno() {
 
-        varios.pintarPurpura("\nCaballero en turno: " + obtenerCaballeroEnTurno().getNombre());
+        varios.pintarMagentaBrillante("\nCaballero en turno: " + obtenerCaballeroEnTurno().getNombre() + "\n");
 
+    }
+
+    private void mostrarEstadisticas() {
+        obtenerAliadoEnTurno().toString();
+        obtenerCaballeroEnTurno().toString();
     }
 
     public void accionesAliado() {
@@ -327,7 +341,7 @@ public class BatallaCaballerosOscuros {
             op = Integer.parseInt(sc.nextLine());
             switch (op) {
                 case 1:
-                    CaballeroAtacaFisico();
+                    AliadoAtacaFisico();
 
                     break;
                 case 2:
@@ -349,7 +363,7 @@ public class BatallaCaballerosOscuros {
             op = Integer.parseInt(sc.nextLine());
             switch (op) {
                 case 1:
-                    CaballeroAtacaFisico();
+                    AliadoAtacaFisico();
                     break;
                 case 2:
                     UsarObjetos();
@@ -358,7 +372,7 @@ public class BatallaCaballerosOscuros {
                     varios.pintarVerdeBrillante("Sin acciones este turno");
                     break;
                 default:
-                   varios.pintarRojoBrillante("Opcion invalida");
+                    varios.pintarRojoBrillante("Opcion invalida");
             }
         }
 
@@ -517,9 +531,16 @@ public class BatallaCaballerosOscuros {
     //Metodo para mostrar y seleccionar la Magia a usar
     private void MostrarMagias(Trabajo trabajo) {
         Magia[] magiasDisponibles = trabajo.getInventarioMagias();
+        //Verificamos que el inventario no este vacio
+        if (magiasDisponibles == null) {
+            varios.pintarRojoBrillante("El inventario esta vacio");
+            return;
+        }
         //Recorremos el inventario de magias de ese Caballero
         for (int i = 0; i < magiasDisponibles.length; i++) {
-
+            if (magiasDisponibles[i] == null) {
+                varios.pintarRojoBrillante((i + 1) + ".- Sin magia asiganadas");
+            }
             varios.pintarCyanBrillante((i + 1) + ".- " + magiasDisponibles[i].getNombre());
         }
         int opMagia = Integer.parseInt(sc.nextLine());
@@ -528,32 +549,40 @@ public class BatallaCaballerosOscuros {
     }
 
     //Metodo para que el enemigo ataque
-    private void EnemigoAtacar() {
+    private void CaballeroAtacar() {
         boolean ataqueFisico;
         ataqueFisico = rand.nextBoolean();
         if (ataqueFisico) {
-            EnemigoAtacaFisico();
+            CaballeroAtacaFisico();
         } else {
-            EnemigoAtacarMagia();
+            CaballeroAtacarMagia();
         }
     }
 
-    //Metodo para que el Caballero Luz ataque
-    private void CaballeroAtacaFisico() {
+    //Metodo para que el Caballero Luz ataque fisicamente
+    private void AliadoAtacaFisico() {
         finalDamage = 0;
         //Obtenemos las estadisticas necesarias
         fuerzAliado = (int) (obtenerAliadoEnTurno().getFuerzaTemp());
-        defensaEnemigo = obtenerCaballeroEnTurno().getDefensa();
+        defensaCaballero = obtenerCaballeroEnTurno().getDefensa();
         //Verificamos que la fuerza del Caballero de luz sea menor que la defensa del enemigo
-        if (fuerzAliado <= defensaEnemigo) {
+        if (fuerzAliado <= defensaCaballero) {
             varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " no ha ocasionado daño");
         } else {
             //Realizamos el calculo de daño
-            finalDamage = fuerzAliado - defensaEnemigo;
+            finalDamage = fuerzAliado - defensaCaballero;
             varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " ha hecho: " + finalDamage + " puntos de daño");
             int nuevoPVenemigo = obtenerCaballeroEnTurno().getPV() - finalDamage;
-            obtenerCaballeroEnTurno().setPV(nuevoPVenemigo);
-            mostrarEstadisticas();
+            if (nuevoPVenemigo < 0) {
+                obtenerCaballeroEnTurno().setPV(0);
+                varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha sido derrotado");
+
+            } else {
+                obtenerCaballeroEnTurno().setPV(nuevoPVenemigo);
+                varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha recibido " + finalDamage + " puntos daño");
+                mostrarPuntosVida();
+            }
+
         }
     }
 
@@ -566,58 +595,94 @@ public class BatallaCaballerosOscuros {
         //Si la magia es hielo
         if (magiaActiva instanceof Hielo) {
             concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
-            espirituAliado = obtenerCaballeroEnTurno().getEspiritu();
+            espirituCaballero = obtenerCaballeroEnTurno().getEspiritu();
             //Calculamos el daño de la magia
             int damageMagia = magiaActiva.Damage() * (1 + concentracionAliado / 100);
-            finalDamage = (int) ((damageMagia) - espirituAliado);
+            finalDamage = (int) ((damageMagia) - espirituCaballero);
             int nuevoPVEnemigo = (int) (obtenerCaballeroEnTurno().getPV() - finalDamage);
-            //Asignamos el nuevo PV al Enemigo
-            obtenerCaballeroEnTurno().setPV(nuevoPVEnemigo);
-            //Restamos la magia usada del inventario
-            trabajoActivo.usarMagias(magiaActiva);
+            if (nuevoPVEnemigo <= 0) {
+                //Asignamos el nuevo PV al Enemigo
+                obtenerCaballeroEnTurno().setPV(0);
+                //Restamos la magia usada del inventario
+                trabajoActivo.usarMagias(magiaActiva);
+                varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha sido derrotado");
+            } else {
+                //Asignamos el nuevo PV al Enemigo
+                obtenerCaballeroEnTurno().setPV(nuevoPVEnemigo);
+                //Restamos la magia usada del inventario
+                trabajoActivo.usarMagias(magiaActiva);
+                varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha recibido " + (finalDamage + (finalDamage * 0.2)) + " puntos daño");
+
+            }
+            mostrarPuntosVida();
             //Si la magia es fuego
         } else if (magiaActiva instanceof Fuego) {
             concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
-            espirituAliado = obtenerCaballeroEnTurno().getEspiritu();
+            espirituCaballero = obtenerCaballeroEnTurno().getEspiritu();
             //Calculamos el daño de la magia
             int damageMagia = magiaActiva.Damage() * (1 + concentracionAliado / 100);
-            finalDamage = (int) ((damageMagia) - espirituAliado);
+            finalDamage = (int) ((damageMagia) - espirituCaballero);
             int nuevoPVCaballero = (int) (obtenerCaballeroEnTurno().getPV() - finalDamage);
-            //Asignamos el nuevo PV al Enemigo
-            obtenerCaballeroEnTurno().setPV(nuevoPVCaballero);
-            //Restamos la magia usada del inventario
-            trabajoActivo.usarMagias(magiaActiva);
+            if (nuevoPVCaballero <= 0) {
+                //Asignamos el nuevo PV al Enemigo
+                obtenerCaballeroEnTurno().setPV(0);
+                //Restamos la magia usada del inventario
+                trabajoActivo.usarMagias(magiaActiva);
+                varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha sido derrotado");
+
+            } else {
+                //Asignamos el nuevo PV al Enemigo
+                obtenerCaballeroEnTurno().setPV(nuevoPVCaballero);
+                //Restamos la magia usada del inventario
+                trabajoActivo.usarMagias(magiaActiva);
+                varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha recibido " + (finalDamage + (finalDamage * 0.2)) + " puntos daño");
+
+            }
+            mostrarPuntosVida();
         } else if (magiaActiva instanceof Divinidad) {
             int damageTotal = 0;
+            int damage = magiaActiva.Damage();
             //Como hace danio a todos los enemigos entonces recorremos el arreglo y vemos si tienen vida
             for (int n = 0; n < caballeros.length; n++) {
-
+                //Verificamos que los Caballeros Oscuridad tengan vida
                 if (caballeros[n].getPV() > 0) {
                     concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
-                    espirituAliado = caballeros[n].getEspiritu();
-                    //Calculamos el daño de la magia
-                    int damage = magiaActiva.Damage() * (1 + concentracionAliado / 100);
-                    finalDamage = (int) (damage - espirituAliado);
-                    int nuevoPVCaballero = (int) (caballeros[n].getPV() - finalDamage);
-                    //Asignamos el nuevo PV al Enemigo
-                    obtenerCaballeroEnTurno().setPV(nuevoPVCaballero);
-                    damageTotal = damageTotal + finalDamage;
-                }
+                    espirituCaballero = caballeros[n].getEspiritu();
+                    if (concentracionAliado > espirituCaballero) {
+                        //Calculamos el daño de la magia
+                        damage = damage * (1 + concentracionAliado / 100);
+                        finalDamage = (int) (damage - espirituCaballero);
+                        int nuevoPVCaballero = (int) (caballeros[n].getPV() - finalDamage);
+                        if (nuevoPVCaballero <= 0) {
+                            //Asignamos el nuevo PV al Enemigo
+                            caballeros[n].setPV(0);
+                            varios.pintarVerdeBrillante(caballeros[n].getNombre() + " ha sido derrotado");
 
+                        } else {
+                            //Asignamos el nuevo PV al Enemigo
+                            caballeros[n].setPV(nuevoPVCaballero);
+                            varios.pintarVerdeBrillante(caballeros[n].getNombre() + " recibe " + finalDamage + " puntos de daño");
+                        }
+                        damageTotal = damageTotal + finalDamage;
+                    } else {
+                        varios.pintarRojoBrillante(caballeros[n].getNombre() + " no recibe daño");
+                    }
+
+                }
             }
-            //Aplicamos el 40% del daño hecho a los enemigos
+            //Aplicamos el 40% del daño hecho a los enemigos y los pasamos a PV
             int aliadosVivos = 0;
-            for (int i = 0; i < aliados.length; i++) {
-                if (aliados[i].getPVTemp() > 0) {
+            for (Aliado aliado : aliados) {
+                if (aliado.getPVTemp() > 0) {
                     aliadosVivos++;
                 }
-
             }
+            int cantCurar = 0;
             if (aliadosVivos > 0) {
                 //Calculamos el 40% del danio hecho
                 int damageHecho = (int) (damageTotal * 0.4);
                 //Calculamos los PV que recupera cada aliado
-                int cantCurar = damageHecho / aliadosVivos;
+                cantCurar = damageHecho / aliadosVivos;
 
                 //Aplicamos los nuevos PV
                 for (Aliado aliado : aliados) {
@@ -626,17 +691,39 @@ public class BatallaCaballerosOscuros {
                         aliado.setPVTemp(PVInicio + cantCurar);
                     }
                 }
+                varios.pintarVerdeBrillante("Los aliados reciben " + cantCurar + " puntos de vida");
             }
+            /*-------------------------------------------------------------------------------------*/
         } else if (magiaActiva instanceof Meteoro) {
-            concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
-            espirituAliado = obtenerCaballeroEnTurno().getEspiritu();
-            //Calculamos el daño de la magia
-            int damageMagia = magiaActiva.Damage() * (1 + concentracionAliado / 100);
-            //Aplicamos el 20% mas de daño
-            finalDamage = (int) ((damageMagia) - espirituAliado);
-            int nuevoPVEnemigo = (int) (obtenerCaballeroEnTurno().getPV() - finalDamage);
-            //Asignamos el nuevo PV al Enemigo
-            obtenerCaballeroEnTurno().setPV(nuevoPVEnemigo);
+            int damageMagia = magiaActiva.Damage();
+            for (int i = 0; i < caballeros.length; i++) {
+                if (caballeros[i].getPV() > 0) {
+                    concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
+                    espirituCaballero = caballeros[i].getEspiritu();
+                    if (concentracionAliado > espirituCaballero) {
+                        //Calculamos el daño de la magia
+                        damageMagia = damageMagia * (1 + concentracionAliado / 100);
+                        finalDamage = (int) ((damageMagia) - espirituCaballero);
+                        int nuevoPVEnemigo = (int) (caballeros[i].getPV() - finalDamage);
+                        if (nuevoPVEnemigo <= 0) {
+                            //Asignamos el nuevo PV al Enemigo
+                            caballeros[i].setPV(0);
+                            varios.pintarVerdeBrillante(caballeros[i].getNombre() + " ha sido derrotado");
+
+                        } else {
+                            //Asignamos el nuevo PV al Enemigo
+                            caballeros[i].setPV(nuevoPVEnemigo);
+                            varios.pintarVerdeBrillante(caballeros[i].getNombre() + "recibe: " + finalDamage + " puntos de daño");
+                        }
+                        mostrarPuntosVida();
+                    } else {
+                        varios.pintarRojoBrillante(caballeros[i].getNombre() + " no recibe daño");
+                    }
+
+                }
+
+            }
+
 
             /*-------------------------------------------------*/
             //Aplicamos el perder turno para el enemigo
@@ -645,22 +732,41 @@ public class BatallaCaballerosOscuros {
                 //Obtenemos el tamanio del arreglo
                 int cantAliados = caballeros.length;
                 //Si el indice del enemigo en turno ya es el ultimo entonces el primer enemigo pierde el turno
-                if (indiceEnemigoEnTurno == cantAliados) {
-                    indiceEnemigoEnTurno = 1;
+                if (indiceCaballeroEnTurno == cantAliados) {
+                    indiceCaballeroEnTurno = 1;
                 } else { // De lo contrario aumentamos en 1 el indice
-                    indiceEnemigoEnTurno++;
+                    indiceCaballeroEnTurno++;
                 }
+                varios.pintarVerdeBrillante("El equipo de Caballeros pierde un turno");
             }
         } else if (magiaActiva instanceof MagiaOscura) {
             concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
-            espirituAliado = obtenerCaballeroEnTurno().getEspiritu();
-            //Calculamos el daño de la magia
-            int damageMagia = magiaActiva.Damage() * (1 + concentracionAliado / 100);
-            //Aplicamos daño
-            finalDamage = (int) ((damageMagia) - espirituAliado);
-            int nuevoPVEnemigo = (int) (obtenerCaballeroEnTurno().getPV() - finalDamage);
-            //Asignamos el nuevo PV al Enemigo
-            obtenerCaballeroEnTurno().setPV(nuevoPVEnemigo);
+            espirituCaballero = obtenerCaballeroEnTurno().getEspiritu();
+            if (concentracionAliado > espirituCaballero) {
+                //Calculamos el daño de la magia
+                int damageMagia = magiaActiva.Damage() * (1 + concentracionAliado / 100);
+                //Aplicamos daño
+                finalDamage = (int) ((damageMagia) - espirituCaballero);
+                int nuevoPVEnemigo = (int) (obtenerCaballeroEnTurno().getPV() - finalDamage);
+                if (nuevoPVEnemigo < 0) {
+                    obtenerCaballeroEnTurno().setPV(0);
+                    //Restamos la magia usada del inventario
+                    trabajoActivo.usarMagias(magiaActiva);
+                    varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha sido derrotado");
+
+                } else {
+                    //Asignamos el nuevo PV al Enemigo
+                    obtenerCaballeroEnTurno().setPV(nuevoPVEnemigo);
+                    //Restamos la magia usada del inventario
+                    trabajoActivo.usarMagias(magiaActiva);
+                    varios.pintarVerdeBrillante(obtenerCaballeroEnTurno() + " recibe " + finalDamage + " puntos de daño");
+                }
+                mostrarPuntosVida();
+
+            } else {
+                varios.pintarRojoBrillante(obtenerCaballeroEnTurno() + " no recibe daño");
+            }
+            /*---------------------------------------------------------------------------------*/
         } else if (magiaActiva instanceof MagiaEscudo) {
             boolean aliadoValido = false;
             int opAliado;
@@ -684,7 +790,7 @@ public class BatallaCaballerosOscuros {
                     varios.pintarRojoBrillante("Elija una opcion valida");
                 }
             } while (!aliadoValido);
-
+            /*------------------------------------------------------------------*/
         } else if (magiaActiva instanceof Coraza) {
             boolean aliadoValido = false;
             int opAliado;
@@ -708,6 +814,7 @@ public class BatallaCaballerosOscuros {
                     varios.pintarRojoBrillante("Elija una opcion valida");
                 }
             } while (!aliadoValido);
+            /*--------------------------------------------------------------------*/
         } else if (magiaActiva instanceof Revivir) {
             seleccionarAliado = 0;
             //Variable para saber si se ha seleccionado un Caballero Luz con poca vida
@@ -729,6 +836,7 @@ public class BatallaCaballerosOscuros {
                 trabajoActivo.usarMagias(magiaActiva);
                 aliadoValido = true;
             }
+            /*--------------------------------------------------------------------*/
         } else if (magiaActiva instanceof Cura) {
             seleccionarAliado = 0;
             //Variable para saber si se ha seleccionado un Caballero Luz con poca vida
@@ -753,36 +861,51 @@ public class BatallaCaballerosOscuros {
         }
     }
 
-    //Calcular el daño que hace el enemigo con ataque fisico
-    private void EnemigoAtacaFisico() {
+    //Calcular el daño que hace el Caballero Oscuro con ataque fisico
+    private void CaballeroAtacaFisico() {
         finalDamage = 0;
-        fuerzaEnemigo = obtenerCaballeroEnTurno().getFuerza();
+        fuerzaCaballero = obtenerCaballeroEnTurno().getFuerza();
         defensaAliado = (int) (obtenerAliadoEnTurno().getDefensaTemp());
         //Verificamos si la defensa del Caballero luz es mayor que la fuerza del enemigo
-        if (defensaAliado >= fuerzaEnemigo) {
+        if (defensaAliado >= fuerzaCaballero) {
             varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " no ha recibido daño");
         } else {
             //Realizamos el calculo de daño
-            finalDamage = fuerzaEnemigo - defensaAliado;
+            finalDamage = fuerzaCaballero - defensaAliado;
             varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha hecho: " + finalDamage + " puntos de daño");
             int nuevoPVAliado = obtenerAliadoEnTurno().getPVTemp() - finalDamage;
-            obtenerAliadoEnTurno().setPVTemp(nuevoPVAliado);
-            mostrarEstadisticas();
+            //Evitamos que la vida sea negativa
+            if (nuevoPVAliado < 0) {
+                obtenerAliadoEnTurno().setPVTemp(0);
+                varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " ha sido derrotado");
+            } else {
+
+                obtenerAliadoEnTurno().setPVTemp(nuevoPVAliado);
+            }
+            mostrarPuntosVida();
         }
     }
 
     //Calcular el daño que hace el enemigo con ataque Magico
-    private void EnemigoAtacarMagia() {
-        concentracionEnemigo = obtenerCaballeroEnTurno().getConcentracion();
+    private void CaballeroAtacarMagia() {
+        concentracionCaballero = obtenerCaballeroEnTurno().getConcentracion();
         espirituAliado = (int) obtenerAliadoEnTurno().getEspiritu();
-        if (concentracionEnemigo <= espirituAliado) {
+        if (concentracionCaballero <= espirituAliado) {
             varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " no ha recibido daño");
         } else {
             //Realizamos calculo de daño
-            finalDamage = concentracionEnemigo - espirituAliado;
+            finalDamage = concentracionCaballero - espirituAliado;
             varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().getNombre() + " ha hecho: " + finalDamage + " puntos de daño");
             int nuevoPVAliado = obtenerAliadoEnTurno().getPVTemp() - finalDamage;
-            obtenerAliadoEnTurno().setPVTemp(nuevoPVAliado);
+            //Evitamos que la vida sea negativa
+            if (nuevoPVAliado <= 0) {
+                obtenerAliadoEnTurno().setPVTemp(0);
+                varios.pintarVerdeBrillante(obtenerAliadoEnTurno().getNombre() + " ha sido derrotado");
+            } else {
+
+                obtenerAliadoEnTurno().setPVTemp(nuevoPVAliado);
+            }
+            mostrarPuntosVida();
 
         }
     }
@@ -932,7 +1055,7 @@ public class BatallaCaballerosOscuros {
             //Modificamos la velocidad del Caballero
             aliados[seleccionarAliado].setVelocidadTemp(velocidadAliado);
             //Mostramos informacion sobre la velocidad modificada
-            varios.pintarCyanBrillante("Velocidad de " + aliados[seleccionarAliado].getNombre() + " ha : " + aliados[seleccionarAliado].getVelocidadTemp());
+            varios.pintarCyanBrillante("Velocidad de " + aliados[seleccionarAliado].getNombre() + ": " + aliados[seleccionarAliado].getVelocidadTemp());
         }
 
     }
@@ -964,7 +1087,7 @@ public class BatallaCaballerosOscuros {
             }
         }
     }
-
+//Metodo para usar la magia de Velocidad
     private void usarVelocidad() {
         varios.pintarAmarillo("Seleccione un Caballero de la Luz para aumentar velocidad:");
         //Recorremos el arreglo de aliados
@@ -987,7 +1110,7 @@ public class BatallaCaballerosOscuros {
 
     }
 
-    public void mostrarEstadisticas() {
+    public void mostrarPuntosVida() {
         varios.pintarVerdeBrillante("Puntos de vida de " + obtenerAliadoEnTurno().getNombre() + ": " + obtenerAliadoEnTurno().getPVTemp());
         varios.pintarVerdeBrillante("Puntos de vida de " + obtenerCaballeroEnTurno().getNombre() + ": " + obtenerCaballeroEnTurno().getPV());
 
@@ -999,13 +1122,6 @@ public class BatallaCaballerosOscuros {
             pvAliados = pvAliados + aliado.getPV();
         }
         return pvAliados;
-    }
-
-    private void MostrarAliados() {
-        for (int i = 0; i < aliados.length; i++) {
-            varios.pintarVerdeBrillante((i + 1) + ".- " + aliados[i].getNombre());
-
-        }
     }
 
     public int obtenerPVCaballero() {
@@ -1022,7 +1138,7 @@ public class BatallaCaballerosOscuros {
     }
 
     private CaballeroOscuro obtenerCaballeroEnTurno() {
-        return caballeros[indiceEnemigoEnTurno];
+        return caballeros[indiceCaballeroEnTurno];
     }
 
     public Aliado[] getAliados() {

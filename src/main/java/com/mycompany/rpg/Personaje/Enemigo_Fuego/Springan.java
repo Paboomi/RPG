@@ -142,7 +142,7 @@ public class Springan extends Enemigo_Fuego {
 
     @Override
     public String toString() {
-        return logo + " Enemigo " + logo + "\n"
+        return logo +" "+nombre+" "+ logo + "\n"
                 + "Nivel: " + nivel + "\n"
                 + "PV: " + PV + "\n"
                 + "Fuerza: " + fuerza + "\n"
