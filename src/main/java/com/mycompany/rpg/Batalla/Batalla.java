@@ -814,23 +814,29 @@ public class Batalla {
                 if (enemigos[i].getPV() > 0) {
                     concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
                     espirituEnemigo = enemigos[i].getEspiritu();
+                    double damageBucle = 0;
                     if (concentracionAliado > espirituEnemigo) {
-                        //Calculamos el danio por la magia
                         //Calculamos el daño de la magia
-                        damageMagia = damageMagia * (1 + concentracionAliado / 100);
-                        finalDamage = (int) ((damageMagia) - espirituEnemigo);
-                        int nuevoPVEnemigo = (int) (enemigos[i].getPV() - finalDamage);
-                        varios.pintarVerdeBrillante(enemigos[i].getNombre() + "recibe: " + finalDamage + " puntos de daño");
-                        if (nuevoPVEnemigo <= 0) {
-                            enemigos[i].setPV(0);
-                            varios.pintarVerdeBrillante(enemigos[i].getNombre() + " ha sido derrotado");
-                        } else {
-                            //Asignamos el nuevo PV al Enemigo
-                            enemigos[i].setPV(nuevoPVEnemigo);
-                            varios.pintarVerdeBrillante(enemigos[i].getNombre() + "recibe: " + finalDamage + " puntos de daño");
+                        double factorConcentracion = (1 + concentracionAliado / 100);
+                        damageBucle = damageMagia * factorConcentracion;
+                        if (damageBucle <= espirituEnemigo) {
+                            varios.pintarRojoBrillante(enemigos[i].getNombre() + " no recibe daño");
 
+                        } else {
+                            finalDamage = (int) ((damageMagia) - espirituEnemigo);
+                            int nuevoPVEnemigo = (int) (enemigos[i].getPV() - finalDamage);
+                            varios.pintarVerdeBrillante(enemigos[i].getNombre() + "recibe: " + finalDamage + " puntos de daño");
+                            if (nuevoPVEnemigo <= 0) {
+                                enemigos[i].setPV(0);
+                                varios.pintarVerdeBrillante(enemigos[i].getNombre() + " ha sido derrotado");
+                            } else {
+                                //Asignamos el nuevo PV al Enemigo
+                                enemigos[i].setPV(nuevoPVEnemigo);
+                                varios.pintarVerdeBrillante(enemigos[i].getNombre() + "recibe: " + finalDamage + " puntos de daño");
+
+                            }
                         }
-                        mostrarPuntosVida();
+
                     } else {
                         varios.pintarRojoBrillante(enemigos[i].getNombre() + " no recibe daño");
                     }

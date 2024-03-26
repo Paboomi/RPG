@@ -163,33 +163,7 @@ public class Aliado extends Personaje {
         }
     }
 
-    public void agregarObjeto(Magia magia, int cantidad) {
-        for (int i = 0; i < cantidad; i++) {
-            //Verificamos que el inventario esta lleno
-            if (numElementos == inventarioMagias.length) {
-                //si asi es lo ampliamos
-                ampliarInventario();
-            }
-            //agregamos el nuevo objeto al inventario
-            inventarioMagias[numElementos] = magia;
-            numElementos++;
-
-        }
-    }
-
-    private void ampliarInventario() {
-        //doblamos el inventario
-        Magia[] nuevoInventario = new Magia[inventarioMagias.length * 2];
-
-        //pasamos los elementos al nuevo inventario
-        for (int i = 0; i < inventarioMagias.length; i++) {
-            nuevoInventario[i] = inventarioMagias[i];
-
-        }
-        //asignamos el nuevo inventario al original
-        inventarioMagias = nuevoInventario;
-
-    }
+ 
 
     public void cambiarEstadisticasTemporalTrabajo(Trabajo trabajo) {
         for (int i = 0; i < this.trabajo.length; i++) {

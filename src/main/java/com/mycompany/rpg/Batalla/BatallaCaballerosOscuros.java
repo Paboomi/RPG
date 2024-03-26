@@ -114,7 +114,7 @@ public class BatallaCaballerosOscuros {
             } while (obtenerPVAliados() > 0 && obtenerPVCaballero() > 0);
 
         } else {
-            varios.pintarBlanco("\n\nEl equipo enemigo inicia");
+            varios.pintarBlanco("\n\nEl Caballeros Oscuridad inician");
             do {
                 if (obtenerCaballeroEnTurno().getPV() <= 0) {
                     cambiarTurnoEnemigos();
@@ -763,22 +763,28 @@ public class BatallaCaballerosOscuros {
                 if (caballeros[i].getPV() > 0) {
                     concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
                     espirituCaballero = caballeros[i].getEspiritu();
+                    double damageBucle = 0;
                     if (concentracionAliado > espirituCaballero) {
                         //Calculamos el daño de la magia
-                        damageMagia = damageMagia * (1 + concentracionAliado / 100);
-                        finalDamage = (int) ((damageMagia) - espirituCaballero);
-                        int nuevoPVEnemigo = (int) (caballeros[i].getPV() - finalDamage);
-                        if (nuevoPVEnemigo <= 0) {
-                            //Asignamos el nuevo PV al Enemigo
-                            caballeros[i].setPV(0);
-                            varios.pintarVerdeBrillante(caballeros[i].getNombre() + " ha sido derrotado");
+                        double factorConcentracion = (1 + concentracionAliado / 100);
+                        damageBucle = damageMagia * factorConcentracion;
+                        if (damageBucle <= espirituCaballero) {
+                            varios.pintarRojoBrillante(caballeros[i].getNombre() + " no recibe daño");
 
                         } else {
-                            //Asignamos el nuevo PV al Enemigo
-                            caballeros[i].setPV(nuevoPVEnemigo);
-                            varios.pintarVerdeBrillante(caballeros[i].getNombre() + "recibe: " + finalDamage + " puntos de daño");
+                            finalDamage = (int) ((damageMagia) - espirituCaballero);
+                            int nuevoPVEnemigo = (int) (caballeros[i].getPV() - finalDamage);
+                            if (nuevoPVEnemigo <= 0) {
+                                //Asignamos el nuevo PV al Enemigo
+                                caballeros[i].setPV(0);
+                                varios.pintarVerdeBrillante(caballeros[i].getNombre() + " ha sido derrotado");
+
+                            } else {
+                                //Asignamos el nuevo PV al Enemigo
+                                caballeros[i].setPV(nuevoPVEnemigo);
+                                varios.pintarVerdeBrillante(caballeros[i].getNombre() + "recibe: " + finalDamage + " puntos de daño");
+                            }
                         }
-                        mostrarPuntosVida();
                     } else {
                         varios.pintarRojoBrillante(caballeros[i].getNombre() + " no recibe daño");
                     }
