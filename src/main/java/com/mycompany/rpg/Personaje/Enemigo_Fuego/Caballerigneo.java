@@ -26,6 +26,7 @@ public class Caballerigneo extends Enemigo_Fuego {
                 this.espiritu = 5;
                 this.velocidad = 5;
                 this.PV = 100;
+                this.experiencia = 5;
                 break;
             case 20:
                 this.fuerza = 15;
@@ -34,6 +35,7 @@ public class Caballerigneo extends Enemigo_Fuego {
                 this.espiritu = 5;
                 this.velocidad = 5;
                 this.PV = 110;
+                this.experiencia = 20;
                 break;
             case 30:
                 this.fuerza = 20;
@@ -42,6 +44,7 @@ public class Caballerigneo extends Enemigo_Fuego {
                 this.espiritu = 10;
                 this.velocidad = 10;
                 this.PV = 120;
+                this.experiencia = 35;
                 break;
             case 40:
                 this.fuerza = 20;
@@ -50,6 +53,7 @@ public class Caballerigneo extends Enemigo_Fuego {
                 this.espiritu = 10;
                 this.velocidad = 10;
                 this.PV = 135;
+                this.experiencia = 45;
                 break;
             case 50:
                 this.fuerza = 25;
@@ -58,6 +62,7 @@ public class Caballerigneo extends Enemigo_Fuego {
                 this.espiritu = 15;
                 this.velocidad = 15;
                 this.PV = 150;
+                this.experiencia = 50;
                 break;
             default:
                 throw new AssertionError();

@@ -19,12 +19,13 @@ public class Caballero_Hielo extends Enemigo_Hielo {
     private void generarEstadisticas() {
         switch (this.nivel) {
             case 10:
-                this.fuerza = 10;
+                this.fuerza = 15;
                 this.defensa = 10;
                 this.concentracion = 15;
                 this.espiritu = 5;
                 this.velocidad = 10;
                 this.PV = 100;
+                this.experiencia = 5;
                 break;
             case 20:
                 this.fuerza = 15;
@@ -32,15 +33,17 @@ public class Caballero_Hielo extends Enemigo_Hielo {
                 this.concentracion = 20;
                 this.espiritu = 10;
                 this.velocidad = 10;
-                this.PV = 100;
+                this.PV = 115;
+                this.experiencia = 5;
                 break;
             case 30:
-                this.fuerza = 20;
+                this.fuerza = 25;
                 this.defensa = 20;
                 this.concentracion = 25;
                 this.espiritu = 15;
                 this.velocidad = 15;
-                this.PV = 110;
+                this.PV = 120;
+                this.experiencia = 10;
                 break;
             case 40:
                 this.fuerza = 25;
@@ -48,7 +51,8 @@ public class Caballero_Hielo extends Enemigo_Hielo {
                 this.concentracion = 25;
                 this.espiritu = 25;
                 this.velocidad = 15;
-                this.PV = 115;
+                this.PV = 135;
+                this.experiencia = 10;
                 break;
             case 50:
                 this.fuerza = 30;
@@ -56,7 +60,8 @@ public class Caballero_Hielo extends Enemigo_Hielo {
                 this.concentracion = 30;
                 this.espiritu = 35;
                 this.velocidad = 20;
-                this.PV = 120;
+                this.PV = 150;
+                this.experiencia = 15;
                 break;
             default:
                 throw new AssertionError();
@@ -90,6 +95,16 @@ public class Caballero_Hielo extends Enemigo_Hielo {
     @Override
     public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
+    }
+
+    @Override
+    public int getExperiencia() {
+        return experiencia;
+    }
+
+    @Override
+    public void setExperiencia(int experiencia) {
+        this.experiencia = experiencia;
     }
 
     @Override

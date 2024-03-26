@@ -19,38 +19,43 @@ public class Bestia_Attorix extends Enemigo_Neutro {
         switch (this.nivel) {
             case 10:
                 this.fuerza = 10;
-                this.defensa = 10;
+                this.defensa = 20;
                 this.espiritu = 5;
                 this.velocidad = 10;
                 this.PV = 100;
+                this.experiencia = 5;
                 break;
             case 20:
                 this.fuerza = 10;
-                this.defensa = 15;
+                this.defensa = 25;
                 this.espiritu = 10;
                 this.velocidad = 10;
                 this.PV = 110;
+                this.experiencia = 10;
                 break;
             case 30:
-                this.fuerza = 15;
-                this.defensa = 15;
+                this.fuerza = 20;
+                this.defensa = 30;
                 this.espiritu = 10;
                 this.velocidad = 15;
                 this.PV = 120;
+                this.experiencia = 15;
                 break;
             case 40:
-                this.fuerza = 20;
-                this.defensa = 20;
+                this.fuerza = 25;
+                this.defensa = 35;
                 this.espiritu = 15;
                 this.velocidad = 15;
-                this.PV = 125;
+                this.PV = 135;
+                this.experiencia = 20;
                 break;
             case 50:
-                this.fuerza = 20;
-                this.defensa = 25;
+                this.fuerza = 30;
+                this.defensa = 45;
                 this.espiritu = 20;
                 this.velocidad = 20;
-                this.PV = 130;
+                this.PV = 150;
+                this.experiencia = 25;
                 break;
             default:
                 System.out.println("Nivel no disponible");

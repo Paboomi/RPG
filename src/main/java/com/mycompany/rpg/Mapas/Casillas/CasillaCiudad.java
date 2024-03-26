@@ -31,22 +31,24 @@ public class CasillaCiudad extends Casilla {
     };
     Random rand = new Random();
     CaballeroOscuro[] caballeros;
+    boolean ciudadReconquistada = false;
 
     //Constructor para generar el mapa
     public CasillaCiudad(int id, String logo) {
         super(id, logo);
+        this.caballeros = new CaballeroOscuro[4];
+        almacenarCaballeros();
     }
 
     //Constructor para usar en la Batalla
     public CasillaCiudad() {
-        this.caballeros = new CaballeroOscuro[4];
-        almacenarCaballeros();
+        
     }
 
     //Creamos una instancia de batalla y enviamos a los caballeros luz, los enemigos y el inventario
     public void enviarPersonajesBatalla(Aliado[] aliados, Objeto[] objetos) {
         BatallaCaballerosOscuros batalla = new BatallaCaballerosOscuros(aliados, caballeros, objetos);
-
+        setCiudadReconquistada(batalla.isReconquistada());
     }
 
     public Trabajo generarTrabajo() {
@@ -98,6 +100,14 @@ public class CasillaCiudad extends Casilla {
 
     public void setCaballeros(CaballeroOscuro[] caballeros) {
         this.caballeros = caballeros;
+    }
+
+    public boolean isCiudadReconquistada() {
+        return ciudadReconquistada;
+    }
+
+    public void setCiudadReconquistada(boolean ciudadReconquistada) {
+        this.ciudadReconquistada = ciudadReconquistada;
     }
     
     

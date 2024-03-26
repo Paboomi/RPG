@@ -59,7 +59,7 @@ public class Aliado extends Personaje {
         //Constructor para otras acciones
     }
 
-    private void iniciarEstadisticas() {
+    public void iniciarEstadisticas() {
         this.PV = 100;
         this.fuerza = 65;
         this.defensa = 60;

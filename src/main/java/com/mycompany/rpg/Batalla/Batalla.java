@@ -46,7 +46,7 @@ public class Batalla {
 
     private String felicidades = "\uD83C\uDF89";
     private boolean magiaEscogida;
-    private boolean ciudadReconquistada = false;
+    private boolean Derrotados = false;
     private int indiceEnemigoEnTurno;
     private int indiceAliadoEnTurno;
     private int op;
@@ -125,21 +125,24 @@ public class Batalla {
         } else {
             varios.pintarBlanco("\n\nEl equipo enemigo inicia\n\n");
             do {
-
-                //imprimirAliadoEnTurno();
                 if (obtenerEnemigoEnTurno().getPV() <= 0) {
                     cambiarTurnoEnemigos();
                 } else if (obtenerAliadoEnTurno().getPVTemp() <= 0) {
                     cambiarTurnoAliados();
                 }
+                System.out.println("\n\n");
                 imprimirEnemigoEnTurno();
                 imprimirAliadoEnTurno();
                 System.out.println();
                 mostrarPuntosVida();
-                System.out.println();
-                EnemigoAtacar();
-                System.out.println("\n");
-                AtacarAliado();
+                if (obtenerEnemigoEnTurno().getPV() > 0 && obtenerAliadoEnTurno().getPVTemp() > 0) {
+                    System.out.println();
+                    EnemigoAtacar();
+                }
+                if (obtenerAliadoEnTurno().getPVTemp() > 0 && obtenerEnemigoEnTurno().getPV() > 0) {
+                    System.out.println("\n");
+                    AtacarAliado();
+                }
                 cambiarTurnoAliados();
                 cambiarTurnoEnemigos();
             } while (obtenerPVAliados() > 0 && obtenerPVEnemigos() > 0);
@@ -148,10 +151,14 @@ public class Batalla {
         if (obtenerPVEnemigos() == 0) {
             System.out.println("\n\n");
             varios.pintarVerdeBrillante(felicidades + "Los Caballeros Luz han vencido!" + felicidades);
-            setCiudadReconquistada(true);
+            obtenerOro();
+            obtenerExperiencia();
+            ReiniciarEstats();
+            setDerrotados(true);
         } else {
             varios.pintarRojoBrillante("Las Caballeros Luz han perdido");
-            setCiudadReconquistada(false);
+            ReducirPV();
+            setDerrotados(false);
         }
     }
 
@@ -298,8 +305,52 @@ public class Batalla {
             }
         }
     }
-//Metodo para cambiar turno de los Caballeros Luz
 
+    //Reiniciar Estadisticas aliados
+    private void ReiniciarEstats() {
+        for (Aliado aliado : aliados) {
+            aliado.iniciarEstadisticas();
+            aliado.iniciarTemporales();
+        }
+    }
+
+    //Metodo para cambiar el PV si pierden
+    private void ReducirPV() {
+        for (Aliado aliado : aliados) {
+            aliado.setPV(1);
+        }
+    }
+
+    //Metodo para calcular la experiencia
+    private void obtenerExperiencia() {
+        int experiencia = 0;
+        int aliadosVivos = 0;
+        int experienciaResultante = 0;
+        for (Enemigo enemigo : enemigos) {
+            experiencia = experiencia + enemigo.getExperiencia();
+        }
+        for (Aliado aliado : aliados) {
+            if (aliado.getPVTemp() > 0) {
+                aliadosVivos++;
+            }
+        }
+        experienciaResultante = experiencia / aliadosVivos;
+        for (Aliado aliado : aliados) {
+            if (aliado.getPVTemp() > 0) {
+                aliado.setExperiencia(experienciaResultante);
+            }
+        }
+    }
+
+    //Metodo para obtener oro
+    private void obtenerOro() {
+        int oroBase = 200;
+        int oroResultante = 0;
+        oroResultante = (int) (oroBase + (jugador.getNivel() * 0.2 * oroBase));
+        jugador.setOro(jugador.getOro() + oroResultante);
+    }
+
+//Metodo para cambiar turno de los Caballeros Luz
     private void cambiarTurnoAliados() {
         if (indiceAliadoEnTurno < aliados.length - 1) {
             indiceAliadoEnTurno++;
@@ -312,8 +363,8 @@ public class Batalla {
             aliado.reducirContadorCoraza();
         }
     }
-//Metodo para cambiar el turno del enemigo
 
+//Metodo para cambiar el turno del enemigo
     private void cambiarTurnoEnemigos() {
         if (indiceEnemigoEnTurno < enemigos.length - 1) {
             indiceEnemigoEnTurno++;
@@ -710,17 +761,21 @@ public class Batalla {
                         //Calculamos el daño de la magia
                         double factorConcentracion = 1 + (double) concentracionAliado / 100;
                         damageBucle = (damage * factorConcentracion);
-                        finalDamage = (int) (damageBucle - espirituEnemigo);
-                        int nuevoPVEnemigo = (int) (enemigos[n].getPV() - finalDamage);
-                        if (nuevoPVEnemigo <= 0) {
-                            enemigos[n].setPV(0);
-                            varios.pintarVerdeBrillante(enemigos[n].getNombre() + " ha sido derrotado");
+                        if (damageBucle <= espirituEnemigo) {
+                            varios.pintarRojoBrillante(enemigos[n].getNombre() + " no recibe daño");
                         } else {
-                            //Asignamos el nuevo PV al Enemigo
-                            enemigos[n].setPV(nuevoPVEnemigo);
-                            varios.pintarVerdeBrillante(enemigos[n].getNombre() + " recibe: " + finalDamage + " puntos de daño");
+                            finalDamage = (int) (damageBucle - espirituEnemigo);
+                            int nuevoPVEnemigo = (int) (enemigos[n].getPV() - finalDamage);
+                            if (nuevoPVEnemigo <= 0) {
+                                enemigos[n].setPV(0);
+                                varios.pintarVerdeBrillante(enemigos[n].getNombre() + " ha sido derrotado");
+                            } else {
+                                //Asignamos el nuevo PV al Enemigo
+                                enemigos[n].setPV(nuevoPVEnemigo);
+                                varios.pintarVerdeBrillante(enemigos[n].getNombre() + " recibe: " + finalDamage + " puntos de daño");
+                            }
+                            damageTotal = damageTotal + finalDamage;
                         }
-                        damageTotal = damageTotal + finalDamage;
 
                     } else {
                         varios.pintarRojoBrillante(enemigos[n].getNombre() + " no recibe daño");
@@ -1167,7 +1222,7 @@ public class Batalla {
     }
 
     public void mostrarPuntosVida() {
-        varios.pintarVerdeBrillante("Puntos de vida de " + obtenerAliadoEnTurno().getNombre() + ": " + obtenerAliadoEnTurno().getPVTemp());
+        varios.pintarVerdeBrillante("\nPuntos de vida de " + obtenerAliadoEnTurno().getNombre() + ": " + obtenerAliadoEnTurno().getPVTemp());
         varios.pintarVerdeBrillante("Puntos de vida de " + obtenerEnemigoEnTurno().getNombre() + ": " + obtenerEnemigoEnTurno().getPV());
 
     }
@@ -1213,12 +1268,12 @@ public class Batalla {
         this.enemigos = enemigos;
     }
 
-    public boolean isCiudadReconquistada() {
-        return ciudadReconquistada;
+    public boolean isDerrotados() {
+        return Derrotados;
     }
 
-    public void setCiudadReconquistada(boolean ciudadReconquistada) {
-        this.ciudadReconquistada = ciudadReconquistada;
+    public void setDerrotados(boolean Derrotados) {
+        this.Derrotados = Derrotados;
     }
 
 }

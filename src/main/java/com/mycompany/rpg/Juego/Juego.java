@@ -7,19 +7,8 @@ import com.mycompany.rpg.Mapas.Casillas.CasillaPasto;
 import com.mycompany.rpg.Mapas.Casillas.CasillaPosada;
 import com.mycompany.rpg.Mapas.Casillas.CasillaTienda;
 import com.mycompany.rpg.Mapas.generarMapa;
-import com.mycompany.rpg.Personaje.Enemigo;
-import com.mycompany.rpg.Personaje.Enemigo_Fuego.Caballerigneo;
-import com.mycompany.rpg.Personaje.Enemigo_Fuego.Flamvell;
-import com.mycompany.rpg.Personaje.Enemigo_Fuego.Springan;
-import com.mycompany.rpg.Personaje.Enemigo_Hielo.Caballero_Hielo;
-import com.mycompany.rpg.Personaje.Enemigo_Hielo.Reina_Hielo;
-import com.mycompany.rpg.Personaje.Enemigo_Hielo.Zerofyne;
-import com.mycompany.rpg.Personaje.Enemigo_Neutro.Bestia_Attorix;
-import com.mycompany.rpg.Personaje.Enemigo_Neutro.Garoozis;
-import com.mycompany.rpg.Personaje.Enemigo_Neutro.Lancero_Negro;
 import com.mycompany.rpg.Personaje.Jugador;
 import com.mycompany.rpg.Varios;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -31,15 +20,14 @@ public class Juego {
     generarMapa mapa;
     Varios varios;
     Scanner sc = new Scanner(System.in);
-    Random rand = new Random();
-    Enemigo[] enemigos;
-    CasillaEnemigo enemigo;
     //Agregados para batalla
     Jugador jugador;
     //CasillaEnemigo enemigo;
+    CasillaEnemigo enemigo;
+    CasillaCiudad ciudad;
 
     //Logos objetos
-    String ciudad = new String("\uD83C\uDFF0");
+    String logCiudad = new String("\uD83C\uDFF0");
     String tienda = new String("\uD83C\uDFEA");
     String posada = new String("\uD83C\uDFE5");
     String pasto = new String("\uD83C\uDF42");
@@ -57,9 +45,6 @@ public class Juego {
         mapa = new generarMapa();
         varios = new Varios();
         jugador = Jugador.getInstance();
-        enemigo = new CasillaEnemigo();
-        this.cantEnemigos = varios.numEnemigos(); //Generamos la cantidad de enemigos de forma aleatoria
-        this.enemigos = new Enemigo[cantEnemigos];
         //enemigo = new CasillaEnemigo();
         //Llamamos a las funcionalidades
         generarPersonajes();
@@ -126,17 +111,26 @@ public class Juego {
                             System.out.println("Aqui deberia ir la posada");
 
                         } else if (casillaNueva instanceof CasillaCiudad) {
-                            System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
-                            CasillaCiudad ciudad = new CasillaCiudad();
-                            ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            ciudad = (CasillaCiudad) casillaNueva;
+                            //Verificamos que la ciudad no esta reconquistada
+                            if (!ciudad.isCiudadReconquistada()) {
+                                ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            } else {
+                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
+                            }
 
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
                             //CasillaEnemigo enemigo = new CasillaEnemigo();
-                            almacenarEnemigos();
-                            enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario(), getEnemigos());
+                            enemigo = (CasillaEnemigo) casillaNueva;
+                            //Verificamos que la ciudad no esta reconquistada
+                            if (!enemigo.isDerrotados()) {
+                                enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            } else {
+                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
+                            }
 
                         }
 
@@ -171,16 +165,25 @@ public class Juego {
                             System.out.println("Aqui deberia ir la posada");
 
                         } else if (casillaNueva instanceof CasillaCiudad) {
-                            System.out.println("Aqui deberian tirarse riata");
-                            CasillaCiudad ciudad = new CasillaCiudad();
-                            ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            //mandamos a los caballeros luz a la batalla
+                            ciudad = (CasillaCiudad) casillaNueva;
+                            //Verificamos que la ciudad no esta reconquistada
+                            if (!ciudad.isCiudadReconquistada()) {
+                                ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            } else {
+                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
+                            }
 
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
-
-                            enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario(), getEnemigos());
-
+                            //CasillaEnemigo enemigo = new CasillaEnemigo();
+                            //Verificamos que la ciudad no esta reconquistada
+                            if (!enemigo.isDerrotados()) {
+                                enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            } else {
+                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
+                            }
                         }
 
                         // Actualizamos la posición del jugador en el mapa
@@ -213,15 +216,24 @@ public class Juego {
                             System.out.println("Aqui deberia ir la posada");
 
                         } else if (casillaNueva instanceof CasillaCiudad) {
-                            System.out.println("Aqui deberian tirarse riata");
-                            CasillaCiudad ciudad = new CasillaCiudad();
-                            ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            //mandamos a los caballeros luz a la batalla
+                            ciudad = (CasillaCiudad) casillaNueva;
+                            //Verificamos que la ciudad no esta reconquistada
+                            if (!ciudad.isCiudadReconquistada()) {
+                                ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            } else {
+                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
+                            }
 
                         } else if (casillaNueva instanceof CasillaEnemigo) {
-                            System.out.println("Aqui deberian tirarse riata");
                             //mandamos a los caballeros luz a la batalla
-                            //CasillaEnemigo enemigo = new CasillaEnemigo();
-                            enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario(), getEnemigos());
+                            enemigo = (CasillaEnemigo) casillaNueva;
+                            //Verificamos que los enemigos no hayan sido derrotados antes
+                            if (!enemigo.isDerrotados()) {
+                                enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            } else {
+                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
+                            }
 
                         }
 
@@ -253,16 +265,25 @@ public class Juego {
                             System.out.println("Aqui deberia ir la posada");
 
                         } else if (casillaNueva instanceof CasillaCiudad) {
-                            System.out.println("Aqui deberian tirarse riata");
-                            CasillaCiudad ciudad = new CasillaCiudad();
-                            ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            //mandamos a los caballeros luz a la batalla
+                            ciudad = (CasillaCiudad) casillaNueva;
+                            //Verificamos que la ciudad no esta reconquistada
+                            if (!ciudad.isCiudadReconquistada()) {
+                                ciudad.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            } else {
+                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
+                            }
 
                         } else if (casillaNueva instanceof CasillaEnemigo) {
                             System.out.println("Aqui deberian tirarse riata");
-
                             //CasillaEnemigo enemigo = new CasillaEnemigo();
-                            enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario(), getEnemigos());
-
+                            enemigo = (CasillaEnemigo) casillaNueva; //Obtenemos la misma referencia que la para esta casilla
+                            //Verificamos que la ciudad no esta reconquistada
+                            if (!enemigo.isDerrotados()) {
+                                enemigo.enviarPersonajesBatalla(jugador.getAliado(), jugador.getInventario());
+                            } else {
+                                varios.pintarVerdeBrillante("La ciudad ya ha sido Reconquistada");
+                            }
                         }
 
                         // Actualizamos la posición del jugador en el mapa
@@ -300,66 +321,11 @@ public class Juego {
             mapa.setCasilla(posada, posX, posY);
         }
         if (mapa.getCasilla(x, y) instanceof CasillaCiudad) {
-            mapa.setCasilla(ciudad, posX, posY);
+            mapa.setCasilla(logCiudad, posX, posY);
         }
         if (mapa.getCasilla(x, y) instanceof CasillaEnemigo) {
             mapa.setCasilla(pasto, x, y);
         }
-    }
-
-    //Generamos una instancia de enemigo aleatorio con un nivel de forma aleatoria
-    public Enemigo generarEnemigos() {
-        int nivel = rand.nextInt(5) * 10 + 10;
-        int op = rand.nextInt(9);
-        switch (op) {
-
-            case 0:
-                return new Caballerigneo(nivel);
-
-            case 1:
-                return new Flamvell(nivel);
-
-            case 2:
-                return new Springan(nivel);
-
-            case 3:
-                return new Caballero_Hielo(nivel);
-
-            case 4:
-                return new Zerofyne(nivel);
-
-            case 5:
-                return new Reina_Hielo(nivel);
-
-            case 6:
-                return new Garoozis(nivel);
-
-            case 7:
-                return new Bestia_Attorix(nivel);
-            case 8:
-                return new Lancero_Negro(nivel);
-
-            default:
-                return null;
-
-        }
-    }
-
-    //Guardamos los enemigos generados y que seran enviados a la Batalla
-    public void almacenarEnemigos() {
-
-        for (int i = 0; i < cantEnemigos; i++) {
-            Enemigo enemigo = generarEnemigos();
-            enemigos[i] = enemigo;
-        }
-    }
-
-    public Enemigo[] getEnemigos() {
-        return enemigos;
-    }
-
-    public void setEnemigos(Enemigo[] enemigos) {
-        this.enemigos = enemigos;
     }
 
 }

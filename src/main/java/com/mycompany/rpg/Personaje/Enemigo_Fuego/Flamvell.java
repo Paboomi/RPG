@@ -6,7 +6,6 @@ package com.mycompany.rpg.Personaje.Enemigo_Fuego;
  */
 public class Flamvell extends Enemigo_Fuego {
 
-    //El ataque fisico de Flamvell es menor que su ataque magico
     private String nombre;
     private String logo = "\uD83D\uDC79";
 
@@ -25,6 +24,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.espiritu = 10;
                 this.velocidad = 5;
                 this.PV = 100;
+                this.experiencia = 15;
                 break;
             case 20:
                 this.fuerza = 10;
@@ -33,6 +33,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.espiritu = 15;
                 this.velocidad = 10;
                 this.PV = 110;
+                this.experiencia = 15;
                 break;
             case 30:
                 this.fuerza = 15;
@@ -41,6 +42,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.espiritu = 15;
                 this.velocidad = 15;
                 this.PV = 110;
+                this.experiencia = 15;
                 break;
             case 40:
                 this.fuerza = 20;
@@ -49,6 +51,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.espiritu = 20;
                 this.velocidad = 20;
                 this.PV = 125;
+                this.experiencia = 25;
                 break;
             case 50:
                 this.fuerza = 25;
@@ -57,6 +60,7 @@ public class Flamvell extends Enemigo_Fuego {
                 this.espiritu = 25;
                 this.velocidad = 25;
                 this.PV = 130;
+                this.experiencia = 35;
                 break;
             default:
                 throw new AssertionError();
@@ -131,12 +135,24 @@ public class Flamvell extends Enemigo_Fuego {
         return super.getId();
     }
 
+    @Override
     public int getNivel() {
         return nivel;
     }
 
+    @Override
     public void setNivel(int nivel) {
         this.nivel = nivel;
+    }
+
+    @Override
+    public int getExperiencia() {
+        return experiencia;
+    }
+
+    @Override
+    public void setExperiencia(int experiencia) {
+        this.experiencia = experiencia;
     }
 
     @Override
