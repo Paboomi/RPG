@@ -58,6 +58,7 @@ com/mycompany/rpg/Batalla/Batalla.class
 com/mycompany/rpg/Posada/Posada.class
 com/mycompany/rpg/Arma/ArmaUnaMano/Maza.class
 com/mycompany/rpg/Objetos/Pocion.class
+com/mycompany/rpg/Partida/Partida.class
 com/mycompany/rpg/Personaje/Enemigo.class
 com/mycompany/rpg/Magias/MagiaOscura/MagiaOscura.class
 com/mycompany/rpg/Personaje/Enemigo_Neutro/Garoozis.class

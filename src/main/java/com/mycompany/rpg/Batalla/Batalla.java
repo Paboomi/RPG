@@ -45,7 +45,8 @@ public class Batalla {
     Trabajo[] trabajos;
 
     private String felicidades = "\uD83C\uDF89";
-    private boolean ciudadReconquistada=false;
+    private boolean magiaEscogida;
+    private boolean ciudadReconquistada = false;
     private int indiceEnemigoEnTurno;
     private int indiceAliadoEnTurno;
     private int op;
@@ -98,47 +99,57 @@ public class Batalla {
         varios.pintarBlanco(limpiarPantalla + "\n\n\nLa batalla empezara pronto");
         SeleccionarEquipamentoInicial();
         ordenarAliados();
-        mostrarEstadisticasAliado();
-        mostrarEstadisticasEnemigo();
+        // mostrarEstadisticasAliado();
+        //mostrarEstadisticasEnemigo();
         if (turnoInicial) {
-            varios.pintarBlanco("\n\nLos Caballeros de Luz inician");
+            varios.pintarBlanco("\n\nLos Caballeros de Luz inician\n\n");
             do {
-                if (obtenerAliadoEnTurno().getPV() <= 0) {
+                if (obtenerAliadoEnTurno().getPVTemp() <= 0) {
                     varios.pintarRojoBrillante(obtenerAliadoEnTurno().getNombre() + " esta exhausto");
                     cambiarTurnoAliados();
+                } else if (obtenerEnemigoEnTurno().getPV() <= 0) {
+                    cambiarTurnoEnemigos();
                 }
                 imprimirAliadoEnTurno();
                 imprimirEnemigoEnTurno();
+                System.out.println();
                 mostrarPuntosVida();
+                System.out.println("\n\n");
                 AtacarAliado();
+                System.out.println("\n");
                 EnemigoAtacar();
                 cambiarTurnoAliados();
                 cambiarTurnoEnemigos();
-            } while (obtenerPVAliados() != 0 || obtenerPVEnemigos() != 0);
+            } while (obtenerPVAliados() > 0 && obtenerPVEnemigos() > 0);
 
         } else {
-            varios.pintarBlanco("\n\nEl equipo enemigo inicia");
+            varios.pintarBlanco("\n\nEl equipo enemigo inicia\n\n");
             do {
 
                 //imprimirAliadoEnTurno();
                 if (obtenerEnemigoEnTurno().getPV() <= 0) {
                     cambiarTurnoEnemigos();
+                } else if (obtenerAliadoEnTurno().getPVTemp() <= 0) {
+                    cambiarTurnoAliados();
                 }
                 imprimirEnemigoEnTurno();
                 imprimirAliadoEnTurno();
+                System.out.println();
                 mostrarPuntosVida();
+                System.out.println();
                 EnemigoAtacar();
+                System.out.println("\n");
                 AtacarAliado();
                 cambiarTurnoAliados();
                 cambiarTurnoEnemigos();
-            } while (obtenerPVAliados() != 0 || obtenerPVEnemigos() != 0);
+            } while (obtenerPVAliados() > 0 && obtenerPVEnemigos() > 0);
 
         }
         if (obtenerPVEnemigos() == 0) {
             System.out.println("\n\n");
-            varios.pintarVerdeBrillante(felicidades+"Los Caballeros Luz han vencido!" + felicidades);
+            varios.pintarVerdeBrillante(felicidades + "Los Caballeros Luz han vencido!" + felicidades);
             setCiudadReconquistada(true);
-        }else{
+        } else {
             varios.pintarRojoBrillante("Las Caballeros Luz han perdido");
             setCiudadReconquistada(false);
         }
@@ -319,7 +330,7 @@ public class Batalla {
 
     private void imprimirEnemigoEnTurno() {
 
-        varios.pintarPurpura("\nEnemigo en turno: " + obtenerEnemigoEnTurno().getNombre());
+        varios.pintarPurpura("Enemigo en turno: " + obtenerEnemigoEnTurno().getNombre());
 
     }
 
@@ -360,46 +371,57 @@ public class Batalla {
 
     //Metodo para que los aliados ataquen
     public void AtacarAliado() {
-        //Verificamos si el trabajo seleccionado es un mago
-        if ((obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Blanco) || (obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Rojo) || (obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Oscuro)) {
-            //Mostramos las opciones para el mago
-            varios.menuMago();
-            op = Integer.parseInt(sc.nextLine());
-            switch (op) {
-                case 1:
-                    CaballeroAtacaFisico();
-
-                    break;
-                case 2:
-                    UsarObjetos();
-                    break;
-                case 3:
-                    MostrarMagias(obtenerAliadoEnTurno().getTrabajoActivo());
-                    UsarMagias(magiaSeleccionada);
-
-                    break;
-                case 4:
-                    //Si quiere atacar con baculo
-                    //int fuerzAliado = obtenerAliadoEnTurno().getFuerza();
-                    //int defensaEnemigo = obtenerEnemigoEnTurno().getDefensa();
-
-                    break;
-                default:
-                    varios.pintarRojoBrillante("Opcion invalida");
-            }
+        if (obtenerAliadoEnTurno().getPVTemp() <= 0) {
+            //No se realiza ninguna accion
         } else {
-            varios.menuAliado();
-            op = Integer.parseInt(sc.nextLine());
-            switch (op) {
-                case 1:
-                    CaballeroAtacaFisico();
-                    break;
-                case 2:
-                    UsarObjetos();
-                    break;
-                default:
-                    throw new AssertionError();
+            //Verificamos si el trabajo seleccionado es un mago
+            if ((obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Blanco) || (obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Rojo) || (obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Oscuro)) {
+                varios.pintarAmarilloBrillante("Ataca: ");
+                varios.pintarAmarilloBrillante(obtenerAliadoEnTurno().toString());
+                System.out.println();
+                //Mostramos las opciones para el mago
+                varios.menuMago();
+                op = Integer.parseInt(sc.nextLine());
+                switch (op) {
+                    case 1:
+                        CaballeroAtacaFisico();
+
+                        break;
+                    case 2:
+                        UsarObjetos();
+                        break;
+                    case 3:
+                        MostrarMagias(obtenerAliadoEnTurno().getTrabajoActivo());
+                        if (magiaEscogida) {
+
+                            UsarMagias(magiaSeleccionada);
+                        }
+
+                        break;
+                    case 4:
+                        varios.pintarRojoBrillante("Sin acciones este turno");
+
+                        break;
+                    default:
+                        varios.pintarRojoBrillante("Opcion invalida");
+                }
+            } else {
+                varios.pintarAmarilloBrillante("Ataca: ");
+                varios.pintarAmarilloBrillante(obtenerAliadoEnTurno().toString());
+                varios.menuAliado();
+                op = Integer.parseInt(sc.nextLine());
+                switch (op) {
+                    case 1:
+                        CaballeroAtacaFisico();
+                        break;
+                    case 2:
+                        UsarObjetos();
+                        break;
+                    default:
+                        varios.pintarRojoBrillante("Opcion no valida");
+                }
             }
+
         }
 
     }
@@ -560,6 +582,7 @@ public class Batalla {
         //Verificamos que el inventario no este vacio
         if (magiasDisponibles == null) {
             varios.pintarRojoBrillante("El inventario esta vacio");
+            magiaEscogida = false;
             return;
         }
         //Recorremos el inventario de magias de ese Caballero
@@ -572,17 +595,28 @@ public class Batalla {
         int opMagia = Integer.parseInt(sc.nextLine());
         opMagia--;
         magiaSeleccionada = magiasDisponibles[opMagia];
+        magiaEscogida = true;
     }
 
     //Metodo para que el enemigo ataque
     private void EnemigoAtacar() {
         boolean ataqueFisico;
         ataqueFisico = rand.nextBoolean();
-        if (ataqueFisico) {
-            EnemigoAtacaFisico();
+        if (obtenerEnemigoEnTurno().getPV() <= 0) {
+            //No se realiza acciones
         } else {
-            EnemigoAtacarMagia();
+            System.out.println("\n\n");
+            varios.pintarAmarilloBrillante("Ataca:");
+            varios.pintarVerdeBrillante(obtenerEnemigoEnTurno().toString());
+            if (ataqueFisico) {
+                varios.pintarVerdeBrillante("Enemigo usa ataque fisico");
+                EnemigoAtacaFisico();
+            } else {
+                varios.pintarVerdeBrillante("Enemigo usa ataque magico");
+                EnemigoAtacarMagia();
+            }
         }
+
     }
 
     //Metodo para que el Caballero Luz ataque
@@ -664,17 +698,19 @@ public class Batalla {
             //Magia Especial
         } else if (magiaActiva instanceof Divinidad) {
             int damageTotal = 0;
-            int damage = magiaActiva.Damage();
+            double damage = magiaActiva.Damage();
             //Como hace danio a todos los enemigos entonces recorremos el arreglo y vemos si tienen vida
             for (int n = 0; n < enemigos.length; n++) {
                 //Verificamos que los enemigos tengan vida
                 if (enemigos[n].getPV() > 0) {
                     concentracionAliado = obtenerAliadoEnTurno().getConcentracionTemp();
                     espirituEnemigo = enemigos[n].getEspiritu();
+                    double damageBucle = 0;
                     if (concentracionAliado > espirituEnemigo) {
                         //Calculamos el daño de la magia
-                        damage = damage * (1 + concentracionAliado / 100);
-                        finalDamage = (int) (damage - espirituAliado);
+                        double factorConcentracion = 1 + (double) concentracionAliado / 100;
+                        damageBucle = (damage * factorConcentracion);
+                        finalDamage = (int) (damageBucle - espirituEnemigo);
                         int nuevoPVEnemigo = (int) (enemigos[n].getPV() - finalDamage);
                         if (nuevoPVEnemigo <= 0) {
                             enemigos[n].setPV(0);
@@ -682,7 +718,7 @@ public class Batalla {
                         } else {
                             //Asignamos el nuevo PV al Enemigo
                             enemigos[n].setPV(nuevoPVEnemigo);
-                            varios.pintarVerdeBrillante(enemigos[n].getNombre() + "recibe: " + finalDamage + " puntos de daño");
+                            varios.pintarVerdeBrillante(enemigos[n].getNombre() + " recibe: " + finalDamage + " puntos de daño");
                         }
                         damageTotal = damageTotal + finalDamage;
 
@@ -772,7 +808,7 @@ public class Batalla {
                 //Aplicamos daño
                 finalDamage = (int) ((damageMagia) - espirituEnemigo);
                 int nuevoPVEnemigo = (int) (obtenerEnemigoEnTurno().getPV() - finalDamage);
-                varios.pintarVerdeBrillante(obtenerEnemigoEnTurno() + " recibe " + finalDamage + " puntos de daño");
+                varios.pintarVerdeBrillante(obtenerEnemigoEnTurno().getNombre() + " recibe " + finalDamage + " puntos de daño");
                 if (nuevoPVEnemigo <= 0) {
                     obtenerEnemigoEnTurno().setPV(0);
                     //Restamos la magia usada del inventario
@@ -1184,7 +1220,5 @@ public class Batalla {
     public void setCiudadReconquistada(boolean ciudadReconquistada) {
         this.ciudadReconquistada = ciudadReconquistada;
     }
-    
-    
 
 }

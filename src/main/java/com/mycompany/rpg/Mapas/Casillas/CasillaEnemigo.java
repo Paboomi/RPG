@@ -22,86 +22,54 @@ import java.util.Random;
  */
 public class CasillaEnemigo extends Casilla {
 
-    int cantEnemigos;
     Random rand = new Random();
     Varios varios;
-    Enemigo[] enemigos;
+    //Agregado
+    private boolean ciudadDisponible;
+    private String nuevoLogo = "\uD83C\uDF8F";
 
     public CasillaEnemigo(int id, String logo) {
         super(id, logo);
     }
 
     public CasillaEnemigo() {
-        varios = new Varios(); 
-        this.cantEnemigos = varios.numEnemigos(); //Generamos la cantidad de enemigos de forma aleatoria
-        this.enemigos = new Enemigo[cantEnemigos];
-        almacenarEnemigos();
+        varios = new Varios();
+        //Agregado
+        cambiarCiudadRecuperada();
 
     }
 
     //Creamos una instancia de batalla y enviamos a los caballeros luz, los enemigos y el inventario
-    public void enviarPersonajesBatalla(Aliado[] aliados, Objeto[] objetos) {
-        Batalla batalla = new Batalla(aliados, enemigos, objetos);
+    public void enviarPersonajesBatalla(Aliado[] aliados, Objeto[] objetos, Enemigo[] enemigos) {
+        if (!ciudadDisponible) {
+            Batalla batalla = new Batalla(aliados, enemigos, objetos);
+            //agregado
+            setCiudadDisponible(batalla.isCiudadReconquistada());
+        }else{
+            varios.pintarVerdeBrillante("Esta ciudad ya ha sido reconquista");
+        }
 
+    }
+    //agregado
+    private void cambiarCiudadRecuperada(){
+        if (!ciudadDisponible) {
+            
+        }else{
+            setLogo(nuevoLogo);
+        }
     }
 
     public String mostrarLogo() {
         return this.getLogo();
     }
 
-    //Generamos una instancia de enemigo aleatorio con un nivel de forma aleatoria
-    public Enemigo generarEnemigos() {
-        int nivel = rand.nextInt(5) * 10 + 10;
-        int op = rand.nextInt(9);
-        switch (op) {
 
-            case 0:
-                return new Caballerigneo(nivel);
-
-            case 1:
-                return new Flamvell(nivel);
-
-            case 2:
-                return new Springan(nivel);
-
-            case 3:
-                return new Caballero_Hielo(nivel);
-
-            case 4:
-                return new Zerofyne(nivel);
-
-            case 5:
-                return new Reina_Hielo(nivel);
-
-            case 6:
-                return new Garoozis(nivel);
-
-            case 7:
-                return new Bestia_Attorix(nivel);
-            case 8:
-                return new Lancero_Negro(nivel);
-
-            default:
-                return null;
-
-        }
+    public boolean isCiudadDisponible() {
+        return ciudadDisponible;
     }
 
-    //Guardamos los enemigos generados y que seran enviados a la Batalla
-    public void almacenarEnemigos() {
-
-        for (int i = 0; i < cantEnemigos; i++) {
-            Enemigo enemigo = generarEnemigos();
-            enemigos[i] = enemigo;
-        }
-    }
-
-    public Enemigo[] getEnemigos() {
-        return enemigos;
-    }
-
-    public void setEnemigos(Enemigo[] enemigos) {
-        this.enemigos = enemigos;
+    public void setCiudadDisponible(boolean ciudadDisponible) {
+        this.ciudadDisponible = ciudadDisponible;
     }
 
 }
