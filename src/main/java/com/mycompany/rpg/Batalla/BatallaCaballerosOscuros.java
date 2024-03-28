@@ -82,50 +82,163 @@ public class BatallaCaballerosOscuros {
     public void IniciarPelea() {
         boolean turnoInicial = rand.nextBoolean();
         int aliadosCansados = 0;
-
-        for (Aliado aliado : aliados) {
-            if (aliado.getPVTemp() < 0) {
-                aliadosCansados++;
-            }
-        }
-        if (aliadosCansados == aliados.length) {
-            varios.pintarCyanBrillante("Los Caballeros Luz estan Exhaustos, no pueden pelear");
-            return;
-        }
         varios.pintarBlanco(limpiarPantalla + "\n\n\nLa batalla empezara pronto");
         SeleccionarEquipamentoInicial();
         ordenarAliados();
+        System.out.println(limpiarPantalla);
         if (turnoInicial) {
             varios.pintarBlanco("\n\nLos Caballeros de Luz inician");
             do {
-                if (obtenerAliadoEnTurno().getPV() <= 0) {
-                    varios.pintarRojoBrillante(obtenerAliadoEnTurno().getNombre() + " esta exhausto");
-                    cambiarTurnoAliados();
+                if (obtenerPVAliados() == 0) {
+                    return;
                 }
-                imprimirAliadoEnTurno();
-                imprimirCaballeroEnTurno();
-                mostrarPuntosVida();
-                System.out.println("\n");
-                AtacarAliado();
-                CaballeroAtacar();
-                cambiarTurnoAliados();
-                cambiarTurnoEnemigos();
+                if (obtenerPVCaballero() == 0) {
+                    return;
+                }
+                //Turno de los Caballeros Luz
+                if (obtenerAliadoEnTurno().getPVTemp() > 0 && obtenerCaballeroEnTurno().getPV() > 0) {
+                }
+                if (obtenerAliadoEnTurno().getPVTemp() > 0 && obtenerCaballeroEnTurno().getPV() < 0) {
+                    for (int i = 0; i < caballeros.length; i++) {
+                        if (caballeros[i].getPV() > 0) {
+                            indiceCaballeroEnTurno = i;
+                            cambiarTurnoCaballeros();
+                            return;
+                        }
 
+                    }
+                }
+                if (obtenerAliadoEnTurno().getPVTemp() < 0 && obtenerCaballeroEnTurno().getPV() > 0) {
+                    for (int i = 0; i < aliados.length; i++) {
+                        if (aliados[i].getPVTemp() > 0) {
+                            indiceAliadoEnTurno = i;
+                            cambiarTurnoAliados();
+                            return;
+                        }
+
+                    }
+                }
+                System.out.println("\n");
+                imprimirCaballeroEnTurno();
+                imprimirAliadoEnTurno();
+                System.out.println();
+                mostrarPuntosVida();
+                AtacarAliado();
+
+                System.out.println("Presiones enter para continuar");
+
+                sc.nextLine();
+
+                //Turno de los Caballeros Oscuridad
+                if (obtenerCaballeroEnTurno().getPV() > 0 && obtenerAliadoEnTurno().getPVTemp() > 0) {
+                }
+                if (obtenerCaballeroEnTurno().getPV() < 0 && obtenerAliadoEnTurno().getPVTemp() > 0) {
+                    for (int i = 0; i < caballeros.length; i++) {
+                        if (caballeros[i].getPV() > 0) {
+                            indiceCaballeroEnTurno = i;
+                            cambiarTurnoCaballeros();
+                            return;
+                        }
+
+                    }
+                }
+                if (obtenerCaballeroEnTurno().getPV() > 0 && obtenerAliadoEnTurno().getPVTemp() < 0) {
+                    for (int i = 0; i < aliados.length; i++) {
+                        if (aliados[i].getPVTemp() > 0) {
+                            indiceAliadoEnTurno = i;
+                            cambiarTurnoAliados();
+                            return;
+                        }
+
+                    }
+                }
+                System.out.println("\n");
+                imprimirCaballeroEnTurno();
+                imprimirAliadoEnTurno();
+                System.out.println();
+                mostrarPuntosVida();
+                CaballeroAtacar();
+                System.out.println("\nPresione enter para continuar");
+                sc.nextLine();
+                cambiarTurnoAliados();
+                cambiarTurnoCaballeros();
             } while (obtenerPVAliados() > 0 && obtenerPVCaballero() > 0);
 
         } else {
             varios.pintarBlanco("\n\nEl Caballeros Oscuridad inician");
             do {
-                if (obtenerCaballeroEnTurno().getPV() <= 0) {
-                    cambiarTurnoEnemigos();
+                if (obtenerPVAliados() == 0) {
+                    return;
                 }
+                if (obtenerPVCaballero() == 0) {
+                    return;
+                }
+
+                //Turno de los Caballeros Oscuros
+                if (obtenerCaballeroEnTurno().getPV() > 0 && obtenerAliadoEnTurno().getPVTemp() > 0) {
+                }
+                if (obtenerCaballeroEnTurno().getPV() > 0 && obtenerAliadoEnTurno().getPVTemp() < 0) {
+                    for (int i = 0; i < aliados.length; i++) {
+                        if (aliados[i].getPVTemp() > 0) {
+                            indiceAliadoEnTurno = i;
+                            cambiarTurnoAliados();
+                            return;
+                        }
+
+                    }
+                }
+                if (obtenerCaballeroEnTurno().getPV() < 0 && obtenerAliadoEnTurno().getPVTemp() > 0) {
+                    for (int i = 0; i < caballeros.length; i++) {
+                        if (caballeros[i].getPV() > 0) {
+                            indiceCaballeroEnTurno = i;
+                            cambiarTurnoCaballeros();
+                            return;
+                        }
+
+                    }
+                }
+                System.out.println("\n");
                 imprimirCaballeroEnTurno();
                 imprimirAliadoEnTurno();
+                System.out.println();
                 mostrarPuntosVida();
                 CaballeroAtacar();
+                varios.pintarBlanco("Presione enter para continuar");
+                sc.nextLine();
+
+                //Turno de los Caballeros Luz
+                if (obtenerCaballeroEnTurno().getPV() > 0 && obtenerAliadoEnTurno().getPVTemp() > 0) {
+                }
+                if (obtenerCaballeroEnTurno().getPV() < 0 && obtenerAliadoEnTurno().getPVTemp() > 0) {
+                    for (int i = 0; i < caballeros.length; i++) {
+                        if (caballeros[i].getPV() > 0) {
+                            indiceCaballeroEnTurno = i;
+                            cambiarTurnoCaballeros();
+                            return;
+                        }
+
+                    }
+                }
+                if (obtenerCaballeroEnTurno().getPV() > 0 && obtenerAliadoEnTurno().getPVTemp() < 0) {
+                    for (int i = 0; i < aliados.length; i++) {
+                        if (aliados[i].getPVTemp() > 0) {
+                            indiceAliadoEnTurno = i;
+                            cambiarTurnoAliados();
+                            return;
+                        }
+
+                    }
+                }
+                System.out.println("\n");
+                imprimirCaballeroEnTurno();
+                imprimirAliadoEnTurno();
+                System.out.println();
+                mostrarPuntosVida();
                 AtacarAliado();
+                varios.pintarBlanco("Presione enter para continuar");
+                sc.nextLine();
                 cambiarTurnoAliados();
-                cambiarTurnoEnemigos();
+                cambiarTurnoCaballeros();
             } while (obtenerPVAliados() > 0 && obtenerPVCaballero() > 0);
 
         }
@@ -347,7 +460,7 @@ public class BatallaCaballerosOscuros {
     }
 //Metodo para cambiar el turno del enemigo
 
-    private void cambiarTurnoEnemigos() {
+    private void cambiarTurnoCaballeros() {
         if (indiceCaballeroEnTurno < caballeros.length - 1) {
             indiceCaballeroEnTurno++;
         } else {
@@ -392,6 +505,9 @@ public class BatallaCaballerosOscuros {
     public void AtacarAliado() {
         //Verificamos si el trabajo seleccionado es un mago
         if ((obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Blanco) || (obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Rojo) || (obtenerAliadoEnTurno().getTrabajoActivo() instanceof Mago_Oscuro)) {
+            varios.pintarAmarilloBrillante("\nAtaca: ");
+            varios.pintarAmarilloBrillante(obtenerAliadoEnTurno().toString());
+            System.out.println();
             //Mostramos las opciones para el mago
             varios.menuMago();
             op = Integer.parseInt(sc.nextLine());
@@ -415,8 +531,11 @@ public class BatallaCaballerosOscuros {
                     varios.pintarRojoBrillante("Opcion invalida");
             }
         } else {
+            varios.pintarAmarilloBrillante("\nAtaca: ");
+            varios.pintarAmarilloBrillante(obtenerAliadoEnTurno().toString());
             varios.menuAliado();
             op = Integer.parseInt(sc.nextLine());
+
             switch (op) {
                 case 1:
                     AliadoAtacaFisico();
@@ -608,11 +727,19 @@ public class BatallaCaballerosOscuros {
     private void CaballeroAtacar() {
         boolean ataqueFisico;
         ataqueFisico = rand.nextBoolean();
-        if (ataqueFisico) {
-            CaballeroAtacaFisico();
+        if (obtenerCaballeroEnTurno().getPV() <= 0) {
+
         } else {
-            CaballeroAtacarMagia();
+            System.out.println("\n\n");
+            varios.pintarAmarilloBrillante("Ataca:");
+            varios.pintarVerdeBrillante(obtenerCaballeroEnTurno().toString());
+            if (ataqueFisico) {
+                CaballeroAtacaFisico();
+            } else {
+                CaballeroAtacarMagia();
+            }
         }
+
     }
 
     //Metodo para que el Caballero Luz ataque fisicamente
@@ -1189,7 +1316,7 @@ public class BatallaCaballerosOscuros {
     public int obtenerPVAliados() {
         int pvAliados = 0;
         for (Aliado aliado : aliados) {
-            pvAliados = pvAliados + aliado.getPV();
+            pvAliados = pvAliados + aliado.getPVTemp();
         }
         return pvAliados;
     }

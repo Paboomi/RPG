@@ -38,11 +38,11 @@ public class CaballeroOscuro extends Personaje {
     }
 
     private void iniciarEstadisticas() {
-        this.PV = 200;
-        this.fuerza = 65;
-        this.defensa = 70;
+        this.PV = 150;
+        this.fuerza = 50;
+        this.defensa = 50;
         this.concentracion = 35;
-        this.espiritu = 35;
+        this.espiritu = 25;
         this.velocidad = 25;
         this.nivel = 50;
         this.experiencia = 100;
